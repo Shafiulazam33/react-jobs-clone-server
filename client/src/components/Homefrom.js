@@ -1,7 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect} from 'react'
+import { useHistory} from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Link,
+    useParams,
+    useRouteMatch
+  } from "react-router-dom";
+  
 const production=[{description:"Dhaka,Bangladesh"},{description:"onunhandledrejection,USA"}]
 const quicklocations = ["San Francisco", "New York", "US", "London", "Berlin", "Singapore"]
-export default function Homefrom() {
+ function Homefrom() {
+    let history = useHistory();
+    let { path, url } = useRouteMatch();
     const [state, setState] = useState({ searchword: "", remote: false, quicklocation: "" });
     const myChangeHandler = (event) => {
         let nam = event.target.name;
@@ -22,9 +34,12 @@ export default function Homefrom() {
         setState({ ...state, quicklocation:quicklocations[index]});
 
     }
-    const SearchHandler=(e)=>{
-        if (e.key === 'Enter') {
-            console.log('do validate');
+    const SearchHandler=(event)=>{
+        if (event.key === 'Enter') {
+console.log(history);
+
+history.push(`/location/ss`)
+
           }
     }
     return (
@@ -36,7 +51,16 @@ export default function Homefrom() {
             <ul>{quicklocations.map((word,index) =>
                 <li key={index} onClick={()=>SearchQuicklocation(index)}>{word}</li>
             )}</ul>
-
+            
+      <Switch>
+        <Route exact path={path}>
+          <h3>Please select a topic.</h3>
+        </Route>
+        <Route path={`/location/:search`}>
+          <h1>ok janu</h1>
+        </Route>
+      </Switch>
         </div>
     )
 }
+export default Homefrom;
