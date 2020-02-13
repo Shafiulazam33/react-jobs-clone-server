@@ -38,7 +38,7 @@ const quicklocations = ["San Francisco", "New York", "US", "London", "Berlin", "
         if (event.key === 'Enter') {
 console.log(history);
 
-history.push(`/location/ss`)
+history.push(`/location/${state.searchword}`)
 
           }
     }
