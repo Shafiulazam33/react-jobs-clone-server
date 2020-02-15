@@ -94,18 +94,15 @@ module.exports = {
         if (!validate.isValid) {
             return res.status(400).json(validate.error)
         }
-        
-        profile.findOne({ currentEmail })
-            // Use Populate for transaction
-            .then(user => {
-                if (!user) {
-                    return resourceError(res, 'User Not Found')
-                }
-                
+        profile.findOneAndUpdate({email:currentEmail }, { email:newEmail }, {new: true})
+        .then(result => { 
+            res.status(200).json({
+                message: 'Updated Successfully',
+                transaction: result
             })
-            .catch(error => serverError(res, error))
-
-        // Generate Token and Response Back
+        })
+        .catch(error => serverError(res, error))
+       
     },
     updatePassword(req, res) {
         let { currentPassword,newPassword,confirmPassword } = req.body

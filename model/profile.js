@@ -12,10 +12,10 @@ const profileSchema = new Schema({
         required: true
     },
     
-    jobposts: {
+    companies: {
         type: [{
             type: Schema.Types.ObjectId,
-            ref: 'Jobpost'
+            ref: 'Company'
         }]
     }
 })

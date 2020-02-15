@@ -1,26 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-
-
-
 const jobpostSchema = new Schema({
-company_name: {
-    type: String,
-    required: true
+company: {
+    type: Schema.Types.ObjectId,
+    ref: 'Company'
 },
- website: {
-    type: String,
-    required: true
-},
-  logo_url: {
-    type: String,
-    required: true
-},
-   short_description: {
-    type: String,
-    required: true
-},
+
     job_title: {
         type: String,
         required: true
@@ -35,7 +21,7 @@ company_name: {
     },
        job_type: {
         type: String,
-        required: true
+        required: true 
     },
      salary: {
         type: String,
