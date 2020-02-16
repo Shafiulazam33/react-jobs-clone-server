@@ -6,6 +6,7 @@ console.log(login)
 // localhost:4000/api/users/register
 
 router.post('/login', login)
+router.post('/register', register)
 router.put('/update-email', updateEmail)
 router.put('/update-password', updatePassword)
 // Login Route

@@ -28,9 +28,9 @@ module.exports = {
         .catch(error => serverError(res, error))
     },
    postJobWithCompany(req, res){
-        let { company_name,website,logo_url,short_description,job_title,location,remote,job_type,salary,experience,apply_link,tags,description,featured}=req.body;
+        let {profile, company_name,website,logo_url,short_description,job_title,location,remote,job_type,salary,experience,apply_link,tags,description,featured}=req.body;
 let company = new Company({
-    company_name,website,logo_url,short_description,jobposts:[]
+   profile, company_name,website,logo_url,short_description,jobposts:[]
 })
 company.save()
 .then(comp => {
@@ -46,5 +46,20 @@ company.save()
     .catch(error => serverError(res, error))
 })
 .catch(error => serverError(res, error))
+},
+postJobWithExistedCompany(req,res){
+    let { company,job_title,location,remote,job_type,salary,experience,apply_link,tags,description,featured}=req.body;
+    
+    
+        let jobpost= new Jobpost({
+            company,job_title,location,remote,job_type,salary,experience,apply_link,tags,description,featured
+        }) 
+        jobpost.save()
+    .then(postt => {
+        res.status(200).json({
+            jobpostt:postt})
+        
+        })
+        .catch(error => serverError(res, error))
 }
 }

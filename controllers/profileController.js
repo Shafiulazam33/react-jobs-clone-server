@@ -34,7 +34,7 @@ module.exports = {
                        
                         email: user.email,
                         
-                        jobposts: user.jobposts
+                        companies: user.companies
                     }, 'SECRET', {expiresIn: '100h'})
 
                     res.status(200).json({
@@ -71,7 +71,7 @@ module.exports = {
                             email,
                             password: hash,
                             
-                            jobposts: []
+                            companies: []
                         })
 
                         Profile.save()
@@ -131,7 +131,7 @@ module.exports = {
                        
                         email: user.email,
                         
-                        jobposts: user.jobposts
+                        companies: user.companies
                     }, 'SECRET', {expiresIn: '100h'})
 
                     res.status(200).json({
