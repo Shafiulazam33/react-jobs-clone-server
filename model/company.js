@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const companySchema = new Schema({
+    profile:{
+    type: Schema.Types.ObjectId,
+    ref: 'Profile'
+    },
 company_name: {
     type: String,
     required: true
