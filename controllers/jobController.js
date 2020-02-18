@@ -13,15 +13,17 @@ module.exports = {
         let { email} = req.body
         
         
-        profile.findOne({ email },'companies')
+        Company.find()
         // Use Populate for transaction
+        //.populate('profile')
+        //.exec()e
         .then(user => {
             if (!user) {
                 resourceError(res, error)
             }
-            
+            console.log(user)
             res.status(200).json({
-                companies:user.companies
+                companies:'user.companies.company_name'
             })
            
         })
@@ -32,6 +34,7 @@ module.exports = {
 let company = new Company({
    profile, company_name,website,logo_url,short_description,jobposts:[]
 })
+
 company.save()
 .then(comp => {
     let jobpost= new Jobpost({
