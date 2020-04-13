@@ -31,10 +31,7 @@ module.exports = {
 
                     let token = jwt.sign({
                         _id: user._id,
-                       
-                        email: user.email,
-                        
-                        companies: user.companies
+                        email: user.email
                     }, 'SECRET', {expiresIn: '100h'})
 
                     res.status(200).json({
@@ -67,13 +64,11 @@ module.exports = {
                         }
 
                         let Profile = new profile({
-                            
                             email,
                             password: hash,
-                            
                             companies: []
                         })
-
+                            
                         Profile.save()
                             .then(user => {
                                 res.status(201).json({
@@ -146,3 +141,4 @@ module.exports = {
         // Generate Token and Response Back
     }
 }
+                            
