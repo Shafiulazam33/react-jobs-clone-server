@@ -1,8 +1,8 @@
 const router = require('express').Router()
 
 
-const  {findCompanies,postJobWithCompany,postJobWithExistedCompany}=require('../controllers/jobController')
-
+const  {findJobs,findCompanies,postJobWithCompany,postJobWithExistedCompany}=require('../controllers/jobController')
+router.get('/jobs/:location', findJobs)
 router.get('/companies', findCompanies)
 router.post('/post-job',postJobWithExistedCompany)
 router.post('/post-company-job',postJobWithCompany)
