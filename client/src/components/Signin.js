@@ -14,39 +14,39 @@ export default function Signin() {
 
         setState({ ...state, [nam]: val });
     }
-   
+
     const SubmitHandler = (e) => {
         e.preventDefault();
         console.log("aaaa55")
         Axios.post('http://localhost:4000/api/profile/login', state)
-                .then((res) => {
-                    
-                    console.log(res)
-                    let token = res.data.token
-            localStorage.setItem('auth_token', token)
-            setAuthToken(token)
-            let decode = jwtDecode(token)
-            console.log(decode)
-                    //history.push('/login')
-                })
-                .catch(error => {
-                    console.log(error.response.data)
-                    setError(error.response.data);
-                    })
+            .then((res) => {
+
+                console.log(res)
+                let token = res.data.token
+                localStorage.setItem('auth_token', token)
+                setAuthToken(token)
+                let decode = jwtDecode(token)
+                console.log(decode)
+                //history.push('/login')
+            })
+            .catch(error => {
+                console.log(error.response.data)
+                setError(error.response.data);
+            })
 
     }
     return (
         <div>
             <form onSubmit={SubmitHandler}>
-            <p>Sign In</p>
+                <p>Sign In</p>
         Email <input name="email" onChange={myChangeHandler} value={state.email} />
-        { error.email && <p>{error.email}</p>}
+                {error.email && <p>{error.email}</p>}
         password <input name="password" onChange={myChangeHandler} value={state.password} />
-        { error.password && <p>{error.password}</p>}
-        <input type="submit" onSubmit={SubmitHandler} value="Sign in"/>
-        </form>
+                {error.password && <p>{error.password}</p>}
+                <input type="submit" value="Sign in" />
+            </form>
             Dont Have An Account <Link to="/signup"><p>Create account</p></Link>
         </div>
 
-        )
+    )
 }

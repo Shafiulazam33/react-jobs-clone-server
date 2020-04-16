@@ -1,10 +1,8 @@
-<<<<<<< HEAD
+
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const Profile = require('../model/profile')
 const Company = require('../model/company')
-=======
->>>>>>> 6393d93076568b56a1290be250893ad9213b0cc7
 const Jobpost = require('../model/jobpost')
 const registerValidator = require('../validator/registerValidator')
 const loginValidator = require('../validator/loginValidator')

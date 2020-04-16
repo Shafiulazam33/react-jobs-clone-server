@@ -15,7 +15,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use('/api/profile', require('./routers/profileRoute'))
 app.use('/api/job', require('./routers/jobRoute'))
-
+app.use(passport.initialize())
+require('./passport')(passport)
 app.get('/', (req, res) => {
 
     res.json({

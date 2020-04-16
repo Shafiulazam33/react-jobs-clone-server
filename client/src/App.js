@@ -7,7 +7,7 @@ import Postjobs from './components/Postjobs'
 import Footer from './components/Footer'
 import Faq from './components/Faq'
 import Privacy from './components/Privacy'
-import Profile from './components/Profile'
+import Profile from './Profile'
 import { BrowserRouter, Route, Switch} from 'react-router-dom'
 
 var App=(props)=> {

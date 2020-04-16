@@ -5,16 +5,17 @@ const registerValidator = require('../validator/registerValidator')
 const loginValidator = require('../validator/loginValidator')
 const emailValidator = require('../validator/emailValidator')
 const passwordValidator = require('../validator/passwordValidator')
-const {serverError, resourceError} = require('../utils/error')
+const { serverError, resourceError } = require('../utils/error')
 module.exports = {
     login(req, res) {
         let { email, password } = req.body
+        console.log(req.body)
         let validate = loginValidator({ email, password })
-        
+console.log(validate)
         if (!validate.isValid) {
             return res.status(400).json(validate.error)
         }
-        
+
         profile.findOne({ email })
             // Use Populate for transaction
             .then(user => {
@@ -32,7 +33,7 @@ module.exports = {
                     let token = jwt.sign({
                         _id: user._id,
                         email: user.email
-                    }, 'SECRET', {expiresIn: '100h'})
+                    }, 'SECRET', { expiresIn: '100h' })
 
                     res.status(200).json({
                         message: 'Login Successful',
@@ -46,9 +47,9 @@ module.exports = {
         // Generate Token and Response Back
     },
     register(req, res) {
-        let {  email, password, confirmPassword } = req.body
-        let validate = registerValidator({  email, password, confirmPassword })
-        
+        let { email, password, confirmPassword } = req.body
+        let validate = registerValidator({ email, password, confirmPassword })
+
         if (!validate.isValid) {
             return res.status(400).json(validate.error)
         } else {
@@ -68,7 +69,7 @@ module.exports = {
                             password: hash,
                             companies: []
                         })
-                            
+
                         Profile.save()
                             .then(user => {
                                 res.status(201).json({
@@ -83,62 +84,80 @@ module.exports = {
         }
     },
     updateEmail(req, res) {
-        let {currentEmail, newEmail,confirmEmail} = req.body
-        let validate = emailValidator({ currentEmail, newEmail,confirmEmail })
-        
+        let { currentEmail, newEmail, confirmEmail } = req.body
+        let validate = emailValidator({ currentEmail, newEmail, confirmEmail })
+
         if (!validate.isValid) {
             return res.status(400).json(validate.error)
         }
-        profile.findOneAndUpdate({email:currentEmail }, { email:newEmail }, {new: true})
-        .then(result => { 
-            res.status(200).json({
-                message: 'Updated Successfully',
-                transaction: result
+        profile.findOneAndUpdate({ email: currentEmail }, { email: newEmail }, { new: true })
+            .then(user => {
+                let token = jwt.sign({
+                    _id: user._id,
+
+                    email: user.email,
+
+                    companies: user.companies
+                }, 'SECRET', { expiresIn: '100h' })
+
+                res.status(200).json({
+                    message: 'Updated Successfully',
+                    transaction: user,
+                    token: `Bearer ${token}`
+                })
             })
-        })
-        .catch(error => serverError(res, error))
-       
+            .catch(error => serverError(res, error))
+
     },
     updatePassword(req, res) {
-        let { currentPassword,newPassword,confirmPassword } = req.body
-        let validate = passwordValidator({  currentPassword,newPassword,confirmPassword  })
-        
+        let {currentPassword, newPassword, confirmPassword } = req.body
+        let validate = passwordValidator({ currentPassword, newPassword, confirmPassword })
+
         if (!validate.isValid) {
             return res.status(400).json(validate.error)
         }
-        
-        profile.findOne({ email })
+
+        profile.findOne({ email:req.user.email })
             // Use Populate for transaction
             .then(user => {
+                console.log(user)
                 if (!user) {
                     return resourceError(res, 'User Not Found')
                 }
-                bcrypt.compare(password, user.password, (err, result) => {
+                bcrypt.compare(currentPassword, user.password, (err, result) => {
                     if (err) {
                         return serverError(res, err)
                     }
                     if (!result) {
                         return resourceError(res, 'Password Doesn\'t Match')
                     }
+                    bcrypt.hash(newPassword, 11, (err, hash) => {
+                        if (err) {
+                            return resourceError(res, 'Server Error Occurred')
+                        }
+                        profile.findOneAndUpdate({ email:req.user.email }, { password: hash }, { new: true })
+                            .then(user => {
+                                let token = jwt.sign({
+                                    _id: user._id,
 
-                    let token = jwt.sign({
-                        _id: user._id,
-                       
-                        email: user.email,
-                        
-                        companies: user.companies
-                    }, 'SECRET', {expiresIn: '100h'})
+                                    email: user.email,
 
-                    res.status(200).json({
-                        message: 'Login Successful',
-                        token: `Bearer ${token}`
+                                    companies: user.companies
+                                }, 'SECRET', { expiresIn: '100h' })
+
+                                res.status(200).json({
+                                    message: 'Updated Successfully',
+                                    transaction: user,
+                                    token: `Bearer ${token}`
+                                })
+                            })
+                            .catch(error => serverError(res, error))
+                        })
                     })
-
                 })
-            })
-            .catch(error => serverError(res, error))
+                    .catch(error => serverError(res, error))
 
-        // Generate Token and Response Back
-    }
+                // Generate Token and Response Back
+            }
 }
-                            
+

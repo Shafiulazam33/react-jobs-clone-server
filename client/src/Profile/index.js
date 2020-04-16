@@ -7,8 +7,7 @@ export default function Profile() {
     let { path, url } = useRouteMatch();
     return (
         <div>
-           
-            <Switch>
+      <Switch>
         <Route exact path={path} component={Profilechanger}/>
          
         <Route path={`${path}/jobs`} component={Jobs}/>
