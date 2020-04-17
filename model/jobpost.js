@@ -16,7 +16,7 @@ company: {
         required: true
     },
       remote: {
-        type: Boolean,
+        type: String,
         required: true
     },
        job_type: {
