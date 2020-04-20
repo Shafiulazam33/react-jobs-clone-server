@@ -8,6 +8,7 @@ import Footer from './components/Footer'
 import Faq from './components/Faq'
 import Privacy from './components/Privacy'
 import Profile from './Profile'
+import Company from './components/Company'
 import { BrowserRouter, Route, Switch} from 'react-router-dom'
 
 var App=(props)=> {
@@ -25,6 +26,7 @@ var App=(props)=> {
             <Route path='/faq' component={Faq} />
             <Route path='/privacy' component={Privacy} />
             <Route path='/profile' component={Profile} />
+            <Route path='/company/:key/edit' component={Company} />
         </Switch>
       <Footer/>
       </BrowserRouter>

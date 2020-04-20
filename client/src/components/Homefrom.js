@@ -8,6 +8,7 @@ import {
   useParams,
   useRouteMatch
 } from "react-router-dom";
+import Axios from 'axios';
 
 const production = [{ description: "Dhaka,Bangladesh" }, { description: "onunhandledrejection,USA" }]
 const quicklocations = ["San Francisco", "New York", "US", "London", "Berlin", "Singapore"]
@@ -43,10 +44,21 @@ function Homefrom() {
 
     }
   }
+  const submitHandler = (event) =>{
+    event.preventDefault()
+    Axios.get(`http://localhost:4000/api/job/jobs/${state.searchword}`)
+    .then(res => {
+        console.log(res)
+        
+    })
+    .catch(error => {
+        console.log(error.response.data)
+    })
+  }
   return (
     <div>
       <p>Search for a  job or post your Job offer (for free!) in minutes.</p>
-      <input name="searchword" onChange={myChangeHandler} value={state.searchword} onKeyPress={SearchHandler} />
+      <form onSubmit={submitHandler}><input name="searchword" onChange={myChangeHandler} value={state.searchword} onKeyPress={SearchHandler} /></form>
       {production.map((value, index) => <p key={index}>{value.description}</p>)}
       <p><span onClick={ChangeRemoteOption}>change </span><span>I'm looking for remote jobs</span></p>
       <ul>{quicklocations.map((word, index) =>

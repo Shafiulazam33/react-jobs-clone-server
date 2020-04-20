@@ -28,10 +28,10 @@ module.exports = {
             })
             .catch(error => serverError(res, error))
     },
-   findCompanies(req, res) {
+    findCompanies(req, res) {
         let { email } = req.user
         console.log(email)
-        Profile.find({ email },'companies')
+        /* Profile.find({ email },'companies')
         .populate({
             path: 'companies',
             model: 'Company',
@@ -68,9 +68,46 @@ module.exports = {
 
             })
             .catch(error => serverError(res, error))*/
-    },
+        Profile.find({ email }, 'companies')
+            .exec()
+            .then(jobs => {
+                if (!jobs) {
+                    resourceError(res, error)
+                }
+                console.log(jobs[0].companies)
+                let ab = jobs[0].companies
+                Company.find({
+                    '_id': { $in: ab }
+                })
+                    .then(user => {
+                        if (!user) {
+                            resourceError(res, error)
+                        }
+                        
+                        Jobpost.find({
+                            'company': { $in: ab }
+                        })
+                            .then(result => {
+                                if (!result) {
+                                    resourceError(res, error)
+                                }
+                               
+
+                                res.status(200).json({
+                                    companies: user,
+                                    jobposts: result
+                                })
+
+                            })
+                            .catch(error => serverError(res, error))
+                    })
+                    .catch(error => serverError(res, error))
+            }).catch(error => serverError(res, error))
+            
+        },
+
     postJobWithCompany(req, res) {
-        let { company_name, website, logo_url, short_description, job_title, location, remote, job_type, salary, experience, apply_link, tags, description} = req.body;
+        let { company_name, website, logo_url, short_description, job_title, location, remote, job_type, salary, experience, apply_link, tags, description } = req.body
         console.log(req.user._id)
         let company = new Company({
             profile: req.user._id, company_name, website, logo_url, short_description, jobposts: []
@@ -80,20 +117,20 @@ module.exports = {
             .then(comp => {
                 Profile.findOneAndUpdate({ _id: req.user._id }, { $push: { companies: comp._id } }, { new: true })
                     .then(res => {
-                       
+
                     })
                     .catch(error => serverError(res, error))
                 let jobpost = new Jobpost({
-                    company: comp._id, job_title, location, remote, job_type, salary, experience, apply_link, tags, description, featured:false
+                    company: comp._id, job_title, location, remote, job_type, salary, experience, apply_link, tags, description, featured: false
                 })
                 jobpost.save()
                     .then(postt => {
                         Company.findOneAndUpdate({ _id: comp._id }, { $push: { jobposts: postt._id } }, { new: true })
                             .then(res => {
-                                
+
                             })
                             .catch(error => serverError(res, error))
-                       
+
                     })
                     .catch(error => serverError(res, error))
             })
