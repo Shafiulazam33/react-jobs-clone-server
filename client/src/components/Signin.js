@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link ,useHistory} from 'react-router-dom'
 import Axios from 'axios'
 import jwtDecode from 'jwt-decode'
 import setAuthToken from '../utils/setAuthToken'
@@ -8,6 +8,7 @@ import setAuthToken from '../utils/setAuthToken'
 export default function Signin() {
     const [state, setState] = useState({ email: "", password: "" });
     const [error, setError] = useState({});
+
     const myChangeHandler = (event) => {
         let nam = event.target.name;
         let val = event.target.value;
@@ -27,14 +28,17 @@ export default function Signin() {
                 setAuthToken(token)
                 let decode = jwtDecode(token)
                 console.log(decode)
-                //history.push('/login')
+                history.push('/')
+                window.location.reload();
+                
             })
             .catch(error => {
-                console.log(error.response.data)
-                setError(error.response.data);
+                //console.log(error.response.data)
+                //setError(error.response.data);
             })
 
     }
+    let history = useHistory();
     return (
         <div>
             <form onSubmit={SubmitHandler}>

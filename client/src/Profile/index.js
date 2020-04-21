@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {useLocation, Switch, Route, Link, useParams, useRouteMatch } from "react-router-dom";
+import { useHistory, Switch, Route, Link,useRouteMatch } from "react-router-dom";
 import Axios from 'axios'
 import Profilechanger from '../Profile/Profilechanger';
 import Jobs from '../Profile/Jobs'
@@ -27,21 +27,30 @@ export default function Profile() {
                 //setError(error.response.data);
             })
     }, []);
+    let history = useHistory();
     return (
         <div>
             <Switch>
-                <Route exact path={path} component={Profilechanger} />
+                <Route exact path="/profile" component={Profilechanger} />
                 <Route path={`${path}/jobs`} component={Jobs} />
                 <Route path={`${path}/companies`} component={Companies} />
             </Switch>
             <ul>
                 <Link to="/profile"><li>Profile</li></Link>
-                <Link to={{ pathname:`${url}/jobs`, data: stateJob ,com:stateCompany}}><li>Jobs{stateJob.length}</li></Link>
-                <Link to={{ pathname:`${url}/companies`, data: stateCompany  }}><li>Companies{stateCompany.length}</li></Link>
-                <Link to="signin"><li>Sign Out</li></Link>
+                <Link to={{ pathname: `${url}/jobs`, data: stateJob, com: stateCompany }}><li>Jobs{stateJob.length}</li></Link>
+                <Link to={{ pathname: `${url}/companies`, data: stateCompany }}><li>Companies{stateCompany.length}</li></Link>
+                <button onClick={() => {
+                    localStorage.removeItem('auth_token');
+                    history.push('/')
+                    window.location.reload();
+                    //history.push('/')
+                }}>Sign Out</button>
             </ul>
         </div>
     )
 }
+                   
+
+
 
 
