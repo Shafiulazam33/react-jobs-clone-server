@@ -1,0 +1,76 @@
+.jobs-list{
+    flex-basis: 75%;
+    padding: 15px;
+}
+.company-post-wrapper{
+padding: 15px;
+border: 1px solid #d6d2d2;
+border-radius: 3px;
+}
+.company-post{
+    display: flex;
+} 
+img.company-logo{
+    width: 150px;
+    height: 150px;
+} 
+.job-details{
+    margin-left: 20px;
+    flex-grow: 1;
+} 
+.job-position-type{
+    display: flex;
+    justify-content: space-between;
+} 
+.job-position{} 
+.job-slary{} 
+.job-type{}
+.company-name-location{
+    display: flex;
+    justify-content: space-between;
+} 
+.company-name-location{
+    margin: 7px;
+}
+.company-name{}
+ .company-location{} 
+ .remote{} 
+ .company-post-time{
+    margin: 7px;
+ } 
+ .line1{
+     height: 3px;
+     background:#d6d2d2 ;
+     margin: 5px 0 5px 0;
+ } 
+ .job-tags{
+     list-style: none;
+     text-align: right;
+ }
+ .job-tags li{
+     display: inline-block;
+     margin-left: 10px;
+ }
+ .line2{
+    height: 3px;
+    background:#d6d2d2 ;
+    margin: 5px 0 5px 0;
+ } 
+ .listed-edit-promote{
+     display: flex;
+     justify-content: flex-end;
+
+ }
+ .listed-edit-promote button.ui.primary.button{
+     margin: 0 0 0 7px;
+ }
+ .listed-edit-promote .ui.fitted.toggle.checkbox{
+     margin-right: 10px;
+ }
+ .listed{
+     padding: 6px;
+     border: 1px solid #d6d2d2;
+     display: flex;
+     border-radius: 5px;
+ }
+ .ul{} 

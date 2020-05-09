@@ -44,35 +44,38 @@ function Homefrom() {
 
     }
   }
-  const submitHandler = (event) =>{
+  const submitHandler = (event) => {
     event.preventDefault()
     Axios.get(`http://localhost:4000/api/job/jobs/${state.searchword}`)
-    .then(res => {
+      .then(res => {
         console.log(res)
-        
-    })
-    .catch(error => {
+
+      })
+      .catch(error => {
         console.log(error.response.data)
-    })
+      })
   }
   return (
-    <div>
-      <p>Search for a  job or post your Job offer (for free!) in minutes.</p>
-      <form onSubmit={submitHandler}><input name="searchword" onChange={myChangeHandler} value={state.searchword} onKeyPress={SearchHandler} /></form>
-      {production.map((value, index) => <p key={index}>{value.description}</p>)}
-      <p><span onClick={ChangeRemoteOption}>change </span><span>I'm looking for remote jobs</span></p>
-      <ul>{quicklocations.map((word, index) =>
-        <li key={index} onClick={() => SearchQuicklocation(index)}>{word}</li>
-      )}</ul>
-
-      <Switch>
-        <Route exact path={path}>
-          <h3>Please select a topic.</h3>
-        </Route>
-        <Route path={`location/:search`}>
-          <h1>ok janu</h1>
-        </Route>
-      </Switch>
+    <div class="search-wrapper">
+      <div class="searchbox-background">
+        <div class="searchbox">
+          <h3>Search for a
+                    Job or post your Job offer (for <span class="free">free</span>!) in minutes.</h3>
+          <input class="input-location" type="" name="" placeholder="Pick a location e.g. San Francisco" />
+          <div class="remote-check"><input type="checkbox" name="" />
+            <p>I'm looking for remote jobs</p>
+          </div>
+          <div class="quick-pick">
+            <p>QUICK PICK</p>
+          </div>
+          <ul class="ul">
+            <li>San Francisco</li>
+            <li>San Francisco</li>
+            <li>San Francisco</li>
+            <li>San Francisco</li>
+          </ul>
+        </div>
+      </div>
     </div>
   )
 }

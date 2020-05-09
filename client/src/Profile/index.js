@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory, Switch, Route, Link,useRouteMatch } from "react-router-dom";
+import { useHistory, Switch, Route, Link, useRouteMatch } from "react-router-dom";
 import Axios from 'axios'
 import Profilechanger from '../Profile/Profilechanger';
 import Jobs from '../Profile/Jobs'
 import Companies from '../Profile/Companies'
+import '../Profile/Profile.css'
+import { Input, Label, Menu, Icon } from 'semantic-ui-react'
 export default function Profile() {
     /*const [stateCompany, setStateCompany] = useState({company_name: "", website: "", logo_url: "", short_description: ""
     })
@@ -29,27 +31,62 @@ export default function Profile() {
     }, []);
     let history = useHistory();
     return (
-        <div>
+        <div className="profile-wrapper">
             <Switch>
                 <Route exact path="/profile" component={Profilechanger} />
                 <Route path={`${path}/jobs`} component={Jobs} />
                 <Route path={`${path}/companies`} component={Companies} />
             </Switch>
-            <ul>
-                <Link to="/profile"><li>Profile</li></Link>
-                <Link to={{ pathname: `${url}/jobs`, data: stateJob, com: stateCompany }}><li>Jobs{stateJob.length}</li></Link>
-                <Link to={{ pathname: `${url}/companies`, data: stateCompany }}><li>Companies{stateCompany.length}</li></Link>
-                <button onClick={() => {
-                    localStorage.removeItem('auth_token');
-                    history.push('/')
-                    window.location.reload();
-                    //history.push('/')
-                }}>Sign Out</button>
+            <ul className="ul-profile">
+                <Menu size='large' vertical>
+                    <Menu.Item
+                        name='inbox'
+                        active
+
+                    >
+                        <Label style={{ background: "inherit" }}><Icon color='teal' name="user icon"></Icon></Label>
+                        <Link to="/profile"><li>Profile</li></Link>
+                    </Menu.Item>
+
+                    <Menu.Item
+                        name='spam'
+
+
+                    >
+                        <Label style={{ background: "inherit" }}><Icon color='black' name="briefcase icon" /></Label>
+                        <Label>{stateJob.length}</Label>
+                        <Link to={{ pathname: `${url}/jobs`, data: stateJob, com: stateCompany }}><li>Jobs</li></Link>
+                    </Menu.Item>
+
+                    <Menu.Item
+                        name='updates'
+
+                    >
+                        <Label style={{ background: "inherit" }}><Icon color='black' name="copyright icon" /></Label>
+                        <Label>{stateCompany.length}</Label>
+
+                        <Link to={{ pathname: `${url}/companies`, data: stateCompany }}><li>Companies</li></Link>
+                    </Menu.Item>
+                    <Menu.Item
+                        name='updates'
+
+                    >
+                        <Label style={{ background: "inherit" }}><Icon color='black' name="sign-out icon"></Icon></Label>
+
+                        <li style={{ cursor: "pointer" }} onClick={() => {
+                            localStorage.removeItem('auth_token');
+                            history.push('/')
+                            window.location.reload();
+                            //history.push('/')
+                        }}>Sign Out</li>
+                    </Menu.Item>
+                </Menu>
             </ul>
         </div>
     )
 }
-                   
+
+
 
 
 

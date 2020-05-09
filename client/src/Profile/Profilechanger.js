@@ -1,7 +1,8 @@
-import React, { useState} from 'react'
+import React, { useState } from 'react'
 import Axios from 'axios'
 import jwtDecode from 'jwt-decode'
 import setAuthToken from '../utils/setAuthToken'
+import { Button } from 'semantic-ui-react'
 
 export default function Profilechanger() {
     const [stateemail, setStateemail] = useState({ currentEmail: "", newEmail: "", confirmEmail: "" });
@@ -21,110 +22,143 @@ export default function Profilechanger() {
     const emailsubmitHandler = (e) => {
         e.preventDefault()
         Axios.put('http://localhost:4000/api/profile/update-email', stateemail)
-        .then(res => {
-            console.log(res)
-            let token = res.data.token
-            localStorage.setItem('auth_token', token)
-            setAuthToken(token)
-            let decode = jwtDecode(token)
-            console.log(decode)
-        })
-        .catch(error => {
-            console.log(error)
-        })
+            .then(res => {
+                console.log(res)
+                let token = res.data.token
+                localStorage.setItem('auth_token', token)
+                setAuthToken(token)
+                let decode = jwtDecode(token)
+                console.log(decode)
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
     const passwordsubmitHandler = (e) => {
         e.preventDefault()
         Axios.put('http://localhost:4000/api/profile/update-password', statepass)
-        .then(res => {
-            console.log(res)
-            let token = res.data.token
-            localStorage.setItem('auth_token', token)
-            setAuthToken(token)
-            let decode = jwtDecode(token)
-            console.log(decode)
-        })
-        .catch(error => {
-            console.log(error)
-        })
+            .then(res => {
+                console.log(res)
+                let token = res.data.token
+                localStorage.setItem('auth_token', token)
+                setAuthToken(token)
+                let decode = jwtDecode(token)
+                console.log(decode)
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     const { currentEmail, newEmail, confirmEmail } = stateemail;
     const { currentPassword, newPassword, confirmPassword } = statepass;
     return (
-        <div>
+        <div className="profile-form">
             <form onSubmit={emailsubmitHandler}>
-                <div className='form-group'>
-                    <label htmlFor='amount'> Amount: </label>
-                    <input
-                        type="email"
-                        className='form-control'
-                        placeholder="Enter Amount"
-                        name='currentEmail'
-                        
-                        value={currentEmail}
-                        onChange={onChangeEmailHandler}
-                    />
-                    <input
-                        type="email"
-                        className='form-control'
-                        placeholder="Enter Amount"
-                        name='newEmail'
-                        
-                        value={newEmail}
-                        onChange={onChangeEmailHandler}
-                    />
-                    <input
-                        type="email"
-                        className='form-control'
-                        placeholder="Enter Amount"
-                        name='confirmEmail'
-                        
-                        value={confirmEmail}
-                        onChange={onChangeEmailHandler}
-                    />
-                    <input
-                        type="submit"
-                        value="Update email"
-                    />
+                <div className='email-change-form'>
+                    <div class="quick-pick">
+                        <div>
+                            <span class="company-logo">c</span><span>Company</span>
+                        </div>
+                    </div>
+                    <div className="email-change-wrapper">
+                        <div className="current-email">
+                            <p class="title">Current Email:</p>
+                            <div class="ui input">
+                                <input
+                                    type="email"
+                                    className='form-control'
+                                    placeholder="Enter Amount"
+                                    name='currentEmail'
+
+                                    value={currentEmail}
+                                    onChange={onChangeEmailHandler}
+                                />
+                            </div>
+                        </div>
+                        <div className="new-email">
+                            <p class="title">New Email:</p>
+                            <div class="ui input">
+                                <input
+                                    type="email"
+                                    className='form-control'
+                                    placeholder=""
+                                    name='newEmail'
+                                    value={newEmail}
+                                    onChange={onChangeEmailHandler}
+                                />
+                            </div>
+                        </div>
+                        <div className="confirm-email">
+                            <p class="title">Confirm Email:</p>
+                            <div class="ui input">
+                                <input
+                                    type="email"
+                                    className='form-control'
+                                    placeholder=""
+                                    name='confirmEmail'
+                                    value={confirmEmail}
+                                    onChange={onChangeEmailHandler}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="email-submit">
+                        <Button type="submit" primary>Update Email</Button>
+                    </div>
                 </div>
             </form>
             <form onSubmit={passwordsubmitHandler}>
-                <div className='form-group'>
-                    <label htmlFor='amount'> Change password </label>
-
-                    <input
-                        type="password"
-                        className='form-control'
-                        placeholder="Enter Amount"
-                        name='currentPassword'
-                        
-                        value={currentPassword}
-                        onChange={onChangePasswordHandler}
-                    />
-
-                    <input
-                        type="password"
-                        className='form-control'
-                        placeholder="Enter Amount"
-                        name='newPassword'
-                        
-                        value={newPassword}
-                        onChange={onChangePasswordHandler}
-                    />
-                    <input
-                        type="password"
-                        className='form-control'
-                        placeholder="Enter Amount"
-                        name='confirmPassword'
-                        
-                        value={confirmPassword}
-                        onChange={onChangePasswordHandler}
-                    />
-                    <input
-                        type="submit"
-                        value="Update email"
-                    />
+                <div className='password-change-form'>
+                    <div class="quick-pick">
+                        <div>
+                            <span class="company-logo">c</span><span>Company</span>
+                        </div>
+                    </div>
+                    <div className="password-change-wrapper">
+                        <div className="current-password">
+                            <p class="title">Current Passwod:</p>
+                            <div class="ui input">
+                                <input
+                                    type="password"
+                                    className='form-control'
+                                    placeholder="Enter Amount"
+                                    name='currentPassword'
+                                    value={currentPassword}
+                                    onChange={onChangePasswordHandler}
+                                />
+                            </div>
+                        </div>
+                        <div className="new-password">
+                            <p class="title">New Password</p>
+                            <div class="ui input">
+                                <input
+                                    type="password"
+                                    className='form-control'
+                                    placeholder=""
+                                    name='newPassword'
+                                    value={newPassword}
+                                    onChange={onChangePasswordHandler}
+                                />
+                            </div>
+                        </div>
+                        <div className="confirm-password">
+                            <p class="title">Confirm Password</p>
+                            <div class="ui input">
+                                <input
+                                    type="password"
+                                    className='form-control'
+                                    placeholder="Enter Amount"
+                                    name='confirmPassword'
+                                    value={confirmPassword}
+                                    onChange={onChangePasswordHandler}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="password-submit">
+                        <Button type="submit" primary>Update Password</Button>
+                    </div>
                 </div>
             </form>
         </div>

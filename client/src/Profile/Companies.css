@@ -1,0 +1,19 @@
+.company-list-wrapper{
+    display: flex;
+    border: 1px solid #d6d2d2;
+    padding: 15px;
+}
+.company-list{
+    flex-grow: 1;
+}
+.company-list-title{
+font-size: 25px;
+font-weight: bold;
+margin-bottom: 7px;
+}
+.edit-button{
+    text-align: right;
+}
+.edit-button .ui.primary.button{
+margin: 0;
+}

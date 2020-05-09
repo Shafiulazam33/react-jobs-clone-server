@@ -1,9 +1,11 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { Link ,useHistory} from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import Axios from 'axios'
 import jwtDecode from 'jwt-decode'
 import setAuthToken from '../utils/setAuthToken'
+import { Button } from 'semantic-ui-react'
+import './Signin.css'
 
 export default function Signin() {
     const [state, setState] = useState({ email: "", password: "" });
@@ -30,7 +32,7 @@ export default function Signin() {
                 console.log(decode)
                 history.push('/')
                 window.location.reload();
-                
+
             })
             .catch(error => {
                 //console.log(error.response.data)
@@ -40,16 +42,29 @@ export default function Signin() {
     }
     let history = useHistory();
     return (
-        <div>
-            <form onSubmit={SubmitHandler}>
-                <p>Sign In</p>
-        Email <input name="email" onChange={myChangeHandler} value={state.email} />
-                {error.email && <p>{error.email}</p>}
-        password <input name="password" onChange={myChangeHandler} value={state.password} />
-                {error.password && <p>{error.password}</p>}
-                <input type="submit" value="Sign in" />
-            </form>
-            Dont Have An Account <Link to="/signup"><p>Create account</p></Link>
+        <div className="signin-form-wrapper">
+            <div className="signin-form">
+                <form onSubmit={SubmitHandler}>
+                    <h1>Sign In</h1>
+                    <div className="email-input-wrapper">
+                        <p class="title">Email</p>
+                        <div class="ui input"><input name="email" onChange={myChangeHandler} value={state.email} />
+                            {error.email && <p>{error.email}</p>}
+                        </div>
+                    </div>
+                    <div className="password-input-wrapper">
+                        <p class="title">Password</p>
+                        <div class="ui input"><input name="password" onChange={myChangeHandler} value={state.password} />
+                            {error.password && <p>{error.password}</p>}
+                        </div>
+                    </div>
+                    <Button color='teal'>Sign in</Button>
+                </form>
+            </div>
+            <div className="account-link">
+                Dont Have An Account<br></br>
+                <Link to="/signup"><p>Create account</p></Link>
+            </div>
         </div>
 
     )

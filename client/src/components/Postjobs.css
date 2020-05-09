@@ -1,9 +1,3 @@
-* {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      
-    }
 
     .post-job-form {
         width: 1127px;
@@ -15,7 +9,7 @@
 .title{
 font-weight: 700;
 font-size: 13px;
-margin: 0;
+margin-bottom: 5px;
 }
     .post-job-form input {
         border-radius: 5px;
@@ -30,12 +24,12 @@ margin: 0;
     .job {
         display: flex;
         flex-direction: column;
-        padding: 10px 10px 30px 10px;
+        padding: 10px 10px 15px 10px;
         border: 1px solid #d6d2d2;
         border-radius: 5px;
     }
-
-    .quick-pick {
+    
+    .quick-pick,.quick-pick2 {
         height: 1px;
         width: 99%;
         background: #d6d2d2;
@@ -62,7 +56,7 @@ margin: 0;
     }
 
  .company-logo {
-    padding: 5px 3px 6px 2px;
+    padding: 4px 2px 7px 2px;
     border-radius: 50%;
     background: black;
     color: white;
@@ -70,76 +64,45 @@ margin: 0;
     line-height: 0.0;
     margin-right: 10px;
 }
-.job-logo{
-    
+.quick-pick2>div {
+    position: absolute;
+    top: -15px;
+    z-index: 2;
+    padding: 5px;
+    background: white;
+    left: 42%;
 }
-    .job-logo img {
-        width: 20px;
-        height: 20px;
-        display: inline-block;
+.job-logo{
+    display: inline-block;
         line-height: 0.0;
         margin-right: 10px;
-    }
+}
+.job-logo + span{
+    margin-bottom: 5px;
+}
+    .job-logo img {
+    top: 5px;
+    right: 29px;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+}
 
     .company-type {
         flex-basis: 75%;
     }
 
-    .company-button {
-        flex-basis: 25%;
-        padding: 10px 0;
-        text-align: center;
-        background: blue;
-        margin-top: 23px;
-        margin-bottom: 1px;
-        border-radius: 5px;
-        border: none;
-        outline: none;
-    }
 
     h4 {
         display: flex;
         padding: 0 10px 0 10px;
         margin-top: 34px;
     }
-
-    .remote-type-select,
-    .job-type-select,
-    .experience-type-select,
-    .company-type-select {
-        width: 100%;
-
-        margin-top: 7px;
+    .company-wrapper button.ui.primary.button{
+        margin-top: 21px;
+        margin-bottom: 8px;
+        flex-basis: 25%;
     }
-
-    .remote-type-select:hover>.remote-type-list,
-    .job-type-select:hover>.job-type-list,
-    .experience-type-select:hover>.experience-type-list {
-        display: block;
-
-    }
-
-    .select {
-        padding: 12px 12px;
-        border: 1px solid #d6d2d2;
-        border-radius: 5px;
-        color: hsla(0, 0%, 60%, .87);
-    }
-
-    .remote-type-list,
-    .job-type-list,
-    .experience-type-list {
-        display: none;
-    }
-
-    .remote-type-list>p,
-    .job-type-list>p .experience-type-list>p {
-        width: 100%;
-
-        border: 1px solid #d6d2d2;
-        padding: 10px 12px;
-    }
-
     .job {
         display: flex;
         flex-direction: column;
@@ -218,5 +181,31 @@ margin: 0;
 
     .description {
         margin-top: 15px;
-
+padding: 0 5px;
     }
+    .create-company-wrapper{
+display:flex;
+margin-bottom: 15px;
+    }
+    .create-company-wrapper .input{
+        width: 100%;
+    }
+    .company-name{
+flex-basis: 37.5%;
+padding: 0 5px;
+    }
+    .website{
+flex-basis: 37.5%;
+padding: 0 5px;
+    }
+    .company-logo-url{
+flex-basis: 25%;
+padding: 0 5px;
+    }
+    .short-description{
+        padding: 0 5px;
+    }
+    .ui.button {
+    margin-top: 15px;
+    border-radius: 5px;
+}

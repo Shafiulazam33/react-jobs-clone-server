@@ -1,11 +1,12 @@
 
 import React, { useState, useEffect } from 'react'
 import { Editor } from '@tinymce/tinymce-react';
-import { Dropdown } from 'semantic-ui-react'
+import { Dropdown, Icon } from 'semantic-ui-react'
 import { Button } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import Axios from 'axios'
 import './Postjobs.css'
+import { remoteOptions, tagOptions, experienceOptions, jobtypeOptions } from '../utils/dropdownOptions'
 
 const option = ["google", "apple"]
 const options = [
@@ -13,33 +14,31 @@ const options = [
     { value: 'strawberry', label: 'Strawberry' },
     { value: 'vanilla', label: 'Vanilla' }
 ]
-const friendOptions = [
-    {
-        key: 'Jenny Hess',
-        text: 'Jenny Hess',
-        value: 'Jenny Hess'
-    },
-    {
-        key: 'Elliot Fu',
-        text: 'Elliot Fu',
-        value: 'Elliot Fu'
-    }
-]
+
 export default function Postjobs() {
+
     const [state, setState] =
         useState({
-            existing_name: "as", company_name: "", website: "", logo_url: "", short_description: "",
+            existing_name: [], company_name: "", website: "", logo_url: "", short_description: "",
             job_title: "", location: "", remote: "", job_type: "", salary: "", experience: "",
             apply_link: "", tags: "", description: "", discard: false
         });
-    const SelectOptions = () => {
-        const selectoptions = <select value={state.value} onChange={handleChange}>
-            {option.map((word, index) =>
-                <option value={word}>{word}</option>
-            )} </select>;
-
-        return selectoptions;
-    }
+    useEffect(() => {
+        Axios.get('http://localhost:4000/api/job/companies')
+            .then((res) => {
+                console.log(res)
+                let options = []
+                res.data.companies.forEach((item, index) => {
+                    options.push({ key: item._id, text: item.company_name, value: item.company_name })
+                })
+                console.log(options)
+                setState({ ...state, existing_name: options });
+            })
+            .catch(error => {
+                //console.log(error.response.data)
+                //setError(error.response.data);
+            })
+    }, []);
     const myChangeHandler = (event) => {
         let nam = event.target.name;
         let val = event.target.value;
@@ -47,15 +46,10 @@ export default function Postjobs() {
         setState({ ...state, [nam]: val });
         console.log(val)
     }
-    const handleChange = (event) => {
-        console.log(event.target.name)
-        let name = event.target.name
-        if (name === "remote") {
-            setState({ ...state, remote: event.target.value });
-        }
-        else {
-            setState({ ...state, job_type: event.target.value });
-        }
+    const dropdownChangeHandler = (event, data) => {
+
+        setState({ ...state, [data.name]: data.value });
+
     }
     const submitHandler = (event) => {
         event.preventDefault();
@@ -81,28 +75,49 @@ export default function Postjobs() {
                 placeholder='Select Friend'
                 fluid
                 selection
-                options={friendOptions}
+                options={state.existing_name}
             />
         </div>
         <h4>OR</h4>
-        <button class="ui primary button company-button">create a new company</button>
+        <div>
+            <Button onClick={() => setState({ ...state, discard: true })} primary>create a new company</Button>
+        </div>
     </div></>);
-    const formnotexist = (<>company name <input name="company_name" onChange={myChangeHandler} value={state.company_name} />
-    website < input name="website" onChange={myChangeHandler} value={state.website} /> _name logo url
-        < input name="logo_url" onChange={myChangeHandler} value={state.logo_url} /> short description
-        < input name="short_description" onChange={myChangeHandler} value={state.short_description} />
-        <button>Discard and Select an existing _name</button></>);
+    const formnotexist = (<>
+        <div class="create-company-wrapper">
+            <div class="company-name"><p class="title">Company name</p><div class="ui input"> <input name="company_name" onChange={myChangeHandler} value={state.company_name} placeholder="Company name" /></div></div>
+            <div class="website"><p class="title">website</p><div class="ui input">< input name="website" onChange={myChangeHandler} value={state.website} placeholder="Website" /> </div></div>
+            <div class="company-logo-url"><p class="title">Company logo url</p>
+                <div class="ui input">< input name="logo_url" onChange={myChangeHandler} value={state.logo_url} placeholder="Logo url" /></div></div>
+        </div>
+
+        <div class="short-description">
+            <p class="title">Short description</p>
+            <Editor
+                initialValue="<p>This is the initial content of the editor</p>"
+                init={{
+                    height: 200,
+                    menubar: false,
+                    plugins: [
+                        'advlist autolink lists link image charmap print preview anchor',
+                        'searchreplace visualblocks code fullscreen',
+                        'insertdatetime media table paste code help wordcount'
+                    ],
+                    toolbar:
+                        'undo redo underline Blockquote | formatselect fontselect fontsizeselect| bold italic backcolor | \
+             alignleft aligncenter alignright alignjustify | \
+             bullist numlist | removeformat | cut copy paste'
+                }}
+                onEditorChange={handleEditorChange}
+            />
+        </div>
+
+        {(state.existing_name) ? <Button onClick={() => setState({ ...state, discard: false })}><Icon name="remove circle" />Discard and Select an Company name</Button> : ""}
+    </>);
     return (
 
         <>
 
-            <button class="ui button">Click Here</button>
-            <Dropdown
-                placeholder='Select Friend'
-                fluid
-                selection
-                options={friendOptions}
-            />
             Job
             <form onSubmit={submitHandler}>
 
@@ -116,8 +131,8 @@ export default function Postjobs() {
                         {(state.existing_name && state.discard === false) ? form_nameexist : formnotexist}
                     </div>
                     <div class="job">
-                        <div class="quick-pick">
-                            <div> <span class="job-logo"><img src="/images/iconfinder_Sed-05_2232591.png" /></span>
+                        <div class="quick-pick2">
+                            <div> <span class="job-logo"><img src="/images/iconfinder_Sed-05_2232591.png" />a</span>
                                 <span>Job</span>
                             </div>
                         </div>
@@ -125,67 +140,60 @@ export default function Postjobs() {
                             <div class="job-title"><p class="title">Job Title</p><div class="ui input"><input type="text" name="job_title" placeholder="Front end developer" onChange={myChangeHandler} value={state.job_title} /></div></div>
                             <div class="location"> <p class="title">Location</p> <div class="ui input"><input name="location" placeholder="Pick a location e.g. Tokyo" onChange={myChangeHandler} value={state.location} /></div></div>
                             <div class="remote-type"><p class="title">Remote-working</p>
-                                <div class="remote-type-select" name="remote" value={state.remote} onChange={handleChange}>
-                                    <p class="select">Remote Job Or Not</p>
-                                    <div class="remote-type-list">
-                                        <p>Yes</p>
-                                        <p>No</p>
-                                    </div>
-                                </div>
+
                                 <Dropdown
                                     placeholder='Remote Job Or Not'
                                     name="remote"
-                                    onChange={handleChange}
+                                    onChange={dropdownChangeHandler}
                                     fluid
                                     selection
-                                    options={friendOptions}
+                                    options={remoteOptions}
                                 />
                             </div>
                             <div class="job-type">
                                 <p class="title">Job Type</p>
-                                <div class="job-type-select" name="job_type" value={state.job_type} onChange={handleChange}>
-                                    <p class="select">job type</p>
-                                    <div class="job-type-list">
-                                        <p>Part-time</p>
-                                        <p>Full-time</p>
-                                    </div>
-                                </div>
+
                                 <Dropdown
                                     placeholder='job type'
                                     name="job_type"
-                                    onChange={handleChange}
+                                    onChange={dropdownChangeHandler}
                                     fluid
                                     selection
-                                    options={friendOptions}
+                                    options={jobtypeOptions}
                                 />
                             </div>
                         </div>
                         <div class="layer2">
-                            <div class="salary"> Salary<div class="ui input"><input name="salary" placeholder="25000$-35000$" onChange={myChangeHandler} value={state.salary} /></div></div>
+                            <div class="salary"> <p class="title">Salary</p><div class="ui input"><input name="salary" placeholder="25000$-35000$" onChange={myChangeHandler} value={state.salary} /></div></div>
                             <div class="experience">
                                 <div class="experience-type">
                                     <p class="title">Level of experience</p>
-                                    <div class="experience-type-select" name="experience" onChange={myChangeHandler} value={state.experience}>
-                                        <p class="select">Level of experience</p>
-                                        <div class="experience-type-list">
-                                            <p>Part-time</p>
-                                            <p>Full-time</p>
-                                        </div>
-                                    </div>
+
                                     <Dropdown
                                         placeholder='Level of experience'
                                         name="experience"
-                                        onChange={handleChange}
+                                        onChange={dropdownChangeHandler}
                                         fluid
                                         selection
-                                        options={friendOptions}
+                                        options={experienceOptions}
                                     />
                                 </div>
                             </div>
                             <div class="apply">
                                 <p class="title">Apply url or email</p><div class="ui input"><input name="apply_link" onChange={myChangeHandler} value={state.apply_link} placeholder="Url or email to use in order to apply" /></div></div>
                         </div>
-                        <div class="tags"><p class="title">Tags</p><div class="ui input"><input name="tags" onChange={myChangeHandler} value={state.tags} /></div></div>
+                        <div class="tags"><p class="title">Tags</p>
+                            <Dropdown
+                                placeholder='Select tags'
+                                fluid
+                                multiple
+                                search
+                                selection
+                                name="tags"
+                                onChange={dropdownChangeHandler}
+                                options={tagOptions}
+                            />
+                        </div>
                         <div class="description"><p class="title">Description</p>
                             <Editor
                                 initialValue="<p>This is the initial content of the editor</p>"
