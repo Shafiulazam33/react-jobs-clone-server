@@ -56,15 +56,15 @@ export default function Profilechanger() {
         <div className="profile-form">
             <form onSubmit={emailsubmitHandler}>
                 <div className='email-change-form'>
-                    <div class="quick-pick">
+                    <div className="quick-pick">
                         <div>
-                            <span class="company-logo">c</span><span>Company</span>
+                            <span className="company-logo">c</span><span>Company</span>
                         </div>
                     </div>
                     <div className="email-change-wrapper">
                         <div className="current-email">
-                            <p class="title">Current Email:</p>
-                            <div class="ui input">
+                            <p className="title">Current Email:</p>
+                            <div className="ui input">
                                 <input
                                     type="email"
                                     className='form-control'
@@ -77,8 +77,8 @@ export default function Profilechanger() {
                             </div>
                         </div>
                         <div className="new-email">
-                            <p class="title">New Email:</p>
-                            <div class="ui input">
+                            <p className="title">New Email:</p>
+                            <div className="ui input">
                                 <input
                                     type="email"
                                     className='form-control'
@@ -90,8 +90,8 @@ export default function Profilechanger() {
                             </div>
                         </div>
                         <div className="confirm-email">
-                            <p class="title">Confirm Email:</p>
-                            <div class="ui input">
+                            <p className="title">Confirm Email:</p>
+                            <div className="ui input">
                                 <input
                                     type="email"
                                     className='form-control'
@@ -110,15 +110,15 @@ export default function Profilechanger() {
             </form>
             <form onSubmit={passwordsubmitHandler}>
                 <div className='password-change-form'>
-                    <div class="quick-pick">
+                    <div className="quick-pick">
                         <div>
-                            <span class="company-logo">c</span><span>Company</span>
+                            <span className="company-logo">c</span><span>Company</span>
                         </div>
                     </div>
                     <div className="password-change-wrapper">
                         <div className="current-password">
-                            <p class="title">Current Passwod:</p>
-                            <div class="ui input">
+                            <p className="title">Current Passwod:</p>
+                            <div className="ui input">
                                 <input
                                     type="password"
                                     className='form-control'
@@ -130,7 +130,7 @@ export default function Profilechanger() {
                             </div>
                         </div>
                         <div className="new-password">
-                            <p class="title">New Password</p>
+                            <p className="title">New Password</p>
                             <div class="ui input">
                                 <input
                                     type="password"
@@ -143,7 +143,7 @@ export default function Profilechanger() {
                             </div>
                         </div>
                         <div className="confirm-password">
-                            <p class="title">Confirm Password</p>
+                            <p className="title">Confirm Password</p>
                             <div class="ui input">
                                 <input
                                     type="password"

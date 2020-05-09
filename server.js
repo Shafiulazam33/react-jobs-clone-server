@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 const passport = require('passport')
 const path = require('path')
 const app = express()
-/*zviyfishpkucdaqpck@awdrt.org*/
+/*zviyfishpkucdaqpck@awdrt.org may@dodihome.com*/
 const mongodburi = 'mongodb+srv://hany33:3300Mdhasny4@cluster1-3or4m.mongodb.net/react-jobs-clone-db?retryWrites=true&w=majority';
 app.use(morgan('dev'))
 app.use(cors())

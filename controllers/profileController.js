@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const profile = require('../model/profile')
+const Profile = require('../model/profile')
+const Company = require('../model/company')
+const Jobpost = require('../model/jobpost')
 const registerValidator = require('../validator/registerValidator')
 const loginValidator = require('../validator/loginValidator')
 const emailValidator = require('../validator/emailValidator')
@@ -11,12 +13,12 @@ module.exports = {
         let { email, password } = req.body
         console.log(req.body)
         let validate = loginValidator({ email, password })
-console.log(validate)
+        console.log(validate)
         if (!validate.isValid) {
             return res.status(400).json(validate.error)
         }
 
-        profile.findOne({ email })
+        Profile.findOne({ email })
             // Use Populate for transaction
             .then(user => {
                 if (!user) {
@@ -53,7 +55,7 @@ console.log(validate)
         if (!validate.isValid) {
             return res.status(400).json(validate.error)
         } else {
-            profile.findOne({ email })
+            Profile.findOne({ email })
                 .then(user => {
                     if (user) {
                         return resourceError(res, 'Email Already Exist')
@@ -64,7 +66,7 @@ console.log(validate)
                             return resourceError(res, 'Server Error Occurred')
                         }
 
-                        let Profile = new profile({
+                        let Profile = new Profile({
                             email,
                             password: hash,
                             companies: []
@@ -90,7 +92,7 @@ console.log(validate)
         if (!validate.isValid) {
             return res.status(400).json(validate.error)
         }
-        profile.findOneAndUpdate({ email: currentEmail }, { email: newEmail }, { new: true })
+        Profile.findOneAndUpdate({ email: currentEmail }, { email: newEmail }, { new: true })
             .then(user => {
                 let token = jwt.sign({
                     _id: user._id,
@@ -110,14 +112,14 @@ console.log(validate)
 
     },
     updatePassword(req, res) {
-        let {currentPassword, newPassword, confirmPassword } = req.body
+        let { currentPassword, newPassword, confirmPassword } = req.body
         let validate = passwordValidator({ currentPassword, newPassword, confirmPassword })
 
         if (!validate.isValid) {
             return res.status(400).json(validate.error)
         }
 
-        profile.findOne({ email:req.user.email })
+        Profile.findOne({ email: req.user.email })
             // Use Populate for transaction
             .then(user => {
                 console.log(user)
@@ -135,7 +137,7 @@ console.log(validate)
                         if (err) {
                             return resourceError(res, 'Server Error Occurred')
                         }
-                        profile.findOneAndUpdate({ email:req.user.email }, { password: hash }, { new: true })
+                        Profile.findOneAndUpdate({ email: req.user.email }, { password: hash }, { new: true })
                             .then(user => {
                                 let token = jwt.sign({
                                     _id: user._id,
@@ -152,12 +154,74 @@ console.log(validate)
                                 })
                             })
                             .catch(error => serverError(res, error))
-                        })
                     })
                 })
-                    .catch(error => serverError(res, error))
+            })
+            .catch(error => serverError(res, error))
 
-                // Generate Token and Response Back
-            }
+        // Generate Token and Response Back
+    },
+    updateCompany(req, res) {
+        let { _id, company_name, website, logo_url, short_description } = req.body
+        Company.findOneAndUpdate({ _id }, { $set: { company_name, website, logo_url, short_description } }, { new: true })
+            .exec()
+            .then(result => {
+                console.log(result)
+            }).catch(error => serverError(res, error))
+    },
+    updateJob(req, res) {
+        let { _id, company_id, company_name, website, logo_url, short_description,
+            job_title, location, remote, job_type, salary, experience,
+            apply_link, tags, description, discard } = req.body
+        if (!discard) {
+            Company.findOneAndUpdate({ _id: company_id }, { $set: { company_name, website, logo_url, short_description } }, { new: true })
+                .exec()
+                .then(result => {
+                    console.log(result)
+                }).catch(error => serverError(res, error))
+
+            Jobpost.findOneAndUpdate({ _id }, {
+                $set: {
+                    job_title, location, remote, job_type, salary, experience,
+                    apply_link, tags, description
+                }
+            }, { new: true })
+                .exec()
+                .then(result => {
+                    console.log(result)
+                    res.status(200).json({
+                        result
+                    })
+                }).catch(error => serverError(res, error))
+        }
+        else {
+            let company = new Company({
+                profile: req.user._id, company_name, website, logo_url, short_description, jobposts: [_id]
+            })
+            company.save()
+                .then(comp => {
+                    Profile.findOneAndUpdate({ _id: req.user._id }, { $push: { companies: comp._id } }, { new: true })
+                        .then(res => {
+
+                        })
+                        .catch(error => serverError(res, error))
+                    Jobpost.findOneAndUpdate({ _id }, {
+                        $set: {
+                            company_id: comp._id, job_title, location, remote, job_type, salary, experience,
+                            apply_link, tags, description
+                        }
+                    }, { new: true })
+                        .exec()
+                        .then(result => {
+                            console.log(result)
+                            res.status(200).json({
+                                result
+                            })
+                        }).catch(error => serverError(res, error))
+                })
+
+        }
+    }
 }
+
 

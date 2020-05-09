@@ -92,7 +92,15 @@ margin-bottom: 5px;
         flex-basis: 75%;
     }
 
-
+    p.error {
+        border: 1px solid #ca9090;
+        margin-top: 10px;
+        /* display: inline-block; */
+        padding: 5px;
+        border-radius: 10px;
+        text-align: center;
+        color: #e43e3e;
+    }
     h4 {
         display: flex;
         padding: 0 10px 0 10px;

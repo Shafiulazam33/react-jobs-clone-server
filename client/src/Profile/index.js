@@ -17,8 +17,6 @@ export default function Profile() {
     useEffect(() => {
         Axios.get('http://localhost:4000/api/job/companies')
             .then((res) => {
-
-                console.log(res)
                 setStateCompany(res.data.companies)
                 setStateJobs(res.data.jobposts)
                 // console.log(stateJobs)
@@ -30,48 +28,53 @@ export default function Profile() {
             })
     }, []);
     let history = useHistory();
+    console.log("ljj")
+    console.log(stateCompany)
+    console.log(stateJob)
+    console.log("jj")
     return (
         <div className="profile-wrapper">
             <Switch>
                 <Route exact path="/profile" component={Profilechanger} />
-                <Route path={`${path}/jobs`} component={Jobs} />
-                <Route path={`${path}/companies`} component={Companies} />
+                <Route path={`${path}/jobs`}
+                    render={() =>
+                        <Jobs data={stateJob} com={stateCompany} />}
+                />
+
+                <Route path={`${path}/companies`} render={() => <Companies data={stateCompany} />} />
             </Switch>
             <ul className="ul-profile">
                 <Menu size='large' vertical>
                     <Menu.Item
                         name='inbox'
                         active
-
                     >
-                        <Label style={{ background: "inherit" }}><Icon color='teal' name="user icon"></Icon></Label>
+                        <Label style={{ background: "inherit" }}><Icon color='teal' name="user"></Icon></Label>
                         <Link to="/profile"><li>Profile</li></Link>
                     </Menu.Item>
 
+
                     <Menu.Item
                         name='spam'
-
-
                     >
-                        <Label style={{ background: "inherit" }}><Icon color='black' name="briefcase icon" /></Label>
+                        <Label style={{ background: "inherit" }}><Icon color='black' name="briefcase" /></Label>
                         <Label>{stateJob.length}</Label>
-                        <Link to={{ pathname: `${url}/jobs`, data: stateJob, com: stateCompany }}><li>Jobs</li></Link>
+                        <Link to={{ pathname: `${url}/jobs` }}><li>Jobs</li></Link>
                     </Menu.Item>
+
+
 
                     <Menu.Item
                         name='updates'
-
                     >
-                        <Label style={{ background: "inherit" }}><Icon color='black' name="copyright icon" /></Label>
+                        <Label style={{ background: "inherit" }}><Icon color='black' name="copyright" /></Label>
                         <Label>{stateCompany.length}</Label>
-
-                        <Link to={{ pathname: `${url}/companies`, data: stateCompany }}><li>Companies</li></Link>
+                        <Link to={{ pathname: `${url}/companies` }}><li>Companies</li></Link>
                     </Menu.Item>
                     <Menu.Item
                         name='updates'
-
                     >
-                        <Label style={{ background: "inherit" }}><Icon color='black' name="sign-out icon"></Icon></Label>
+                        <Label style={{ background: "inherit" }}><Icon color='black' name="sign-out"></Icon></Label>
 
                         <li style={{ cursor: "pointer" }} onClick={() => {
                             localStorage.removeItem('auth_token');
@@ -85,6 +88,9 @@ export default function Profile() {
         </div>
     )
 }
+
+
+
 
 
 

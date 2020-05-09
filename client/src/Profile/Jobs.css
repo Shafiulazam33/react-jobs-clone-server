@@ -1,14 +1,20 @@
 .jobs-list{
     flex-basis: 75%;
-    padding: 15px;
 }
 .company-post-wrapper{
 padding: 15px;
 border: 1px solid #d6d2d2;
 border-radius: 3px;
+margin-bottom: 15px;
+}
+.company-post-wrapper:hover{
+    background-color:rgba(0,0,0,0.1)
 }
 .company-post{
     display: flex;
+} 
+.company-post p{
+    margin: 0;
 } 
 img.company-logo{
     width: 150px;
@@ -22,27 +28,45 @@ img.company-logo{
     display: flex;
     justify-content: space-between;
 } 
-.job-position{} 
-.job-slary{} 
-.job-type{}
+.job-position-type p{
+    margin: 0;
+}
+.job-position {
+    font-weight: 700;
+    padding-right: 10px;
+    font-size: 25px;
+}
+.job-slary{
+    color:green;
+} 
+.job-type{
+    color: brown;
+    text-align: right;
+    text-transform: capitalize;
+}
 .company-name-location{
     display: flex;
     justify-content: space-between;
-} 
-.company-name-location{
     margin: 7px;
+    color: darkcyan;
+} 
+.company-name{
+    padding: 0;
 }
-.company-name{}
  .company-location{} 
- .remote{} 
+ .remote{
+     color:orange;
+     padding-left: 10px;
+     
+ } 
  .company-post-time{
     margin: 7px;
  } 
- .line1{
-     height: 3px;
-     background:#d6d2d2 ;
-     margin: 5px 0 5px 0;
- } 
+ p.line1 {
+    height: 3px;
+    background: #d6d2d2;
+    margin: 15px 0 10px 0;
+}
  .job-tags{
      list-style: none;
      text-align: right;
@@ -51,11 +75,11 @@ img.company-logo{
      display: inline-block;
      margin-left: 10px;
  }
- .line2{
+ p.line2 {
     height: 3px;
-    background:#d6d2d2 ;
-    margin: 5px 0 5px 0;
- } 
+    background: #d6d2d2;
+    margin: 10px 0 8px 0;
+}
  .listed-edit-promote{
      display: flex;
      justify-content: flex-end;
@@ -73,4 +97,6 @@ img.company-logo{
      display: flex;
      border-radius: 5px;
  }
- .ul{} 
+ .listed-edit-promote a{
+     color: white;
+ }

@@ -1,0 +1,77 @@
+.search-wrapper {
+    height: 400px;
+    /* text-align: center; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-size: cover;
+}
+.geosuggest {
+    position: relative;
+}
+.geosuggest__input{
+    width: 100%;
+    padding: 10px;
+    outline: none;
+    border: 1px solid saddlebrown;
+}
+.geosuggest__input:focus{
+    border: 1px solid saddlebrown;
+}
+.geosuggest__suggests--hidden {
+    max-height: 0;
+    overflow: hidden;
+    border-width: 0;
+  }
+.geosuggest__suggests-wrapper{
+position: absolute;
+width: 100%;
+z-index: 2;
+}
+.geosuggest__item {
+    padding: 10px;
+    border-top: none;
+    border-right: 1px solid saddlebrown;
+    border-bottom: 1px solid saddlebrown;
+    border-left: 1px solid saddlebrown;
+    text-align: left;
+}
+.geosuggest__item:hover{
+    background-color:rgb(140, 168, 144,0.3);  
+}
+.geosuggest__item--active{
+background-color:rgb(140, 168, 144);
+}
+.searchbox-background {
+    width: 700px;
+    height: 200px;
+    background: antiquewhite;
+    text-align: center;
+}
+.searchbox {
+    padding: 15px;
+}
+.form-ul{
+}
+.form-ul li{
+    display: inline-block;
+    margin-right: 10px;
+    z-index: -1;
+}
+
+.remote-check{
+display: flex;
+justify-content: center;
+padding: 10px;
+z-index: -1;
+}
+.remote-check p{
+    margin-left: 10px;
+}
+
+#z-index0,.z-index0{
+    z-index: 1;
+}
+.geosuggest__suggests{
+    background: antiquewhite;
+}

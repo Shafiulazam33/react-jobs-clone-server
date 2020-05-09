@@ -1,5 +1,5 @@
-
 import React, { useState, useEffect } from 'react'
+import { useParams } from "react-router-dom";
 import { Editor } from '@tinymce/tinymce-react';
 import { Dropdown, Icon } from 'semantic-ui-react'
 import { Button } from 'semantic-ui-react'
@@ -9,6 +9,7 @@ import './Postjobs.css'
 import { remoteOptions, tagOptions, experienceOptions, jobtypeOptions } from '../utils/dropdownOptions'
 
 export default function Postjobs() {
+    const { _id } = useParams();
     const [error, setError] = useState({
         company_id: "", company_name: "", website: "", logo_url: "", short_description: "",
         job_title: "", location: "", remote: "", job_type: "", salary: "", experience: "",
@@ -23,22 +24,18 @@ export default function Postjobs() {
         });
     console.log(state)
     useEffect(() => {
-        Axios.get('http://localhost:4000/api/job/companies')
+        Axios.post('http://localhost:4000/api/job/find-job-edit', { _id })
             .then((res) => {
                 console.log(res)
                 let options = []
-                if (res.data.companies.length > 0) {
-                    console.log("dd")
-                    res.data.companies.forEach((item, index) => {
-                        options.push({ key: item._id, text: item.company_name, value: item._id })
-                    })
-                    setState({ ...state, existing_name: options });
-                }
-                else {
-                    console.log("sddd")
-                    setState({ ...state, discard: true });
-                }
-                console.log(options)
+                res.data.companies.forEach((item, index) => {
+                    options.push({ key: item._id, text: item.company_name, value: item._id })
+                })
+                let { company_name } = res.data.companies.find((item) => {
+                    return (item._id === res.data.jobposts.company_id)
+                })
+                console.log(options, res.data.jobposts, res.data.companies)
+                setState({ ...state, existing_name: options, ...res.data.jobposts, company_name });
                 setIsLoaded(true);
             })
             .catch(error => {
@@ -55,21 +52,12 @@ export default function Postjobs() {
     }
 
     const dropdownChangeHandler = (event, data) => {
-
         setState({ ...state, [data.name]: data.value });
-
     }
+
     const submitHandler = (event) => {
         event.preventDefault();
-        const RouteOptions = () => {
-            if (!state.discard) {
-                return 'http://localhost:4000/api/job/post-job'
-            }
-            else {
-                return 'http://localhost:4000/api/job/post-company-job'
-            }
-        }
-        Axios.post(RouteOptions(), state)
+        Axios.put('http://localhost:4000/api/profile/update-job', { _id, ...state })
             .then((res) => {
 
                 console.log(res)
@@ -87,8 +75,8 @@ export default function Postjobs() {
     const handleEditorChange2 = (description, editor) => {
         setState({ ...state, description })
     }
-    const form_nameexist = (<><div className="company-wrapper">
-        <div className="company-type"> <p className="title">Select an existing company</p>
+    const form_nameexist = (<><div class="company-wrapper">
+        <div class="company-type"> <p class="title">Select an existing company</p>
             <Dropdown
                 placeholder='Select Friend'
                 name="company_id"
@@ -96,6 +84,7 @@ export default function Postjobs() {
                 selection
                 onChange={dropdownChangeHandler}
                 options={state.existing_name}
+                text={state.company_name}
             />
             {(error.company_id) ? <p className="error">Please Select A Company Name</p> : ""}
         </div>
@@ -105,13 +94,13 @@ export default function Postjobs() {
         </div>
     </div></>);
     const formnotexist = (<>
-        <div className="create-company-wrapper">
-            <div className="company-name"><p className="title">Company name</p><div className="ui input"> <input name="company_name" onChange={myChangeHandler} value={state.company_name} placeholder="Company name" /></div>
+        <div class="create-company-wrapper">
+            <div class="company-name"><p class="title">Company name</p><div class="ui input"> <input name="company_name" onChange={myChangeHandler} value={state.company_name} placeholder="Company name" /></div>
                 {(error.company_name) ? <p className="error">{error.company_name}</p> : ""}</div>
-            <div className="website"><p className="title">website</p><div className="ui input">< input name="website" onChange={myChangeHandler} value={state.website} placeholder="Website" /> </div>
+            <div class="website"><p class="title">website</p><div class="ui input">< input name="website" onChange={myChangeHandler} value={state.website} placeholder="Website" /> </div>
                 {(error.website) ? <p className="error">{error.company_name}</p> : ""}</div>
-            <div className="company-logo-url"><p className="title">Company logo url</p>
-                <div className="ui input">< input name="logo_url" onChange={myChangeHandler} value={state.logo_url} placeholder="Logo url" /></div>
+            <div class="company-logo-url"><p class="title">Company logo url</p>
+                <div class="ui input">< input name="logo_url" onChange={myChangeHandler} value={state.logo_url} placeholder="Logo url" /></div>
                 {(error.logo_url) ? <p className="error">{error.logo_url}</p> : ""}</div>
         </div>
 
@@ -173,6 +162,7 @@ export default function Postjobs() {
                                         fluid
                                         selection
                                         options={remoteOptions}
+                                        text={state.remote}
                                     />
                                     {(error.remote) ? <p className="error">{error.remote}</p> : ""}
                                 </div>
@@ -186,6 +176,7 @@ export default function Postjobs() {
                                         fluid
                                         selection
                                         options={jobtypeOptions}
+                                        text={state.job_type}
                                     />
                                     {(error.job_type) ? <p className="error">{error.job_type}</p> : ""}
                                 </div>
@@ -204,6 +195,7 @@ export default function Postjobs() {
                                             fluid
                                             selection
                                             options={experienceOptions}
+                                            text={state.experience}
                                         />
                                         {(error.experience) ? <p className="error">{error.experience}</p> : ""}
                                     </div>
@@ -222,12 +214,13 @@ export default function Postjobs() {
                                     name="tags"
                                     onChange={dropdownChangeHandler}
                                     options={tagOptions}
+                                    value={state.tags}
                                 />
                                 {(error.tags) ? <p className="error">{error.tags}</p> : ""}
                             </div>
                             <div class="description"><p class="title">Description</p>
                                 <Editor
-                                    initialValue=""
+                                    initialValue={state.description}
                                     init={{
                                         height: 500,
                                         menubar: false,

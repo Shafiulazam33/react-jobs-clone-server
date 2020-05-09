@@ -1,7 +1,14 @@
+.ul-company-list{
+    flex-basis: 75%;
+}
+.ul-company-list li{
+    margin-bottom: 20px;
+}
 .company-list-wrapper{
     display: flex;
     border: 1px solid #d6d2d2;
     padding: 15px;
+    border-radius: 5px;
 }
 .company-list{
     flex-grow: 1;
@@ -16,4 +23,7 @@ margin-bottom: 7px;
 }
 .edit-button .ui.primary.button{
 margin: 0;
+}
+.edit-button a{
+    color: white;
 }
