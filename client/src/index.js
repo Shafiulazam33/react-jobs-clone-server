@@ -5,7 +5,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import jwtDecode from 'jwt-decode'
 import setAuthToken from './utils/setAuthToken'
-
+console.log("qw")
 const token = localStorage.getItem('auth_token')
 
 if (token) {

@@ -11,7 +11,7 @@ module.exports = passport => {
         Profile.findOne({ _id: payload._id })
             .then(result => {
                 if (!result) {
-                    return done(null, false) 
+                    return done(null, false)
                 } else {
                     return done(null, result)
                 }

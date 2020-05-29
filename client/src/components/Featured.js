@@ -13,11 +13,12 @@ import {
     useRouteMatch,
     useHistory
 } from "react-router-dom";
-let token = localStorage.getItem('auth_token');
-if (token) {
-    let decode = jwtDecode(token);
-}
 
+let token = localStorage.getItem('auth_token');
+let decode;
+if (token) {
+    decode = jwtDecode(token);
+}
 var Featured = (props) => {
     let { job_id } = useParams()
     const funcstripe = () => {
@@ -39,7 +40,7 @@ var Featured = (props) => {
                 token={onToken}
                 name="React Jobs"
                 description="Make Featured Your Post"
-                //email={decode.email}
+                email={decode.email}
                 ComponentClass="div"
                 panelLabel="Ready To Pay"
                 amount={100 * 100}

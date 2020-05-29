@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from './components/Header'
 import Homeform from './components/Homeform'
 import Signin from './components/Signin'
 import Signup from './components/Signup'
+import Admin from './components/Admin'
 import Postjobs from './components/Postjobs'
 import Footer from './components/Footer'
 import Faq from './components/Faq'
@@ -13,8 +14,15 @@ import PostCompanyEdit from './components/PostCompanyEdit'
 import PostjobsEdit from './components/PostjobsEdit'
 import Jobdescription from './components/Jobdescription'
 import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom'
+import ReactGA from 'react-ga';
+var App = () => {
+  console.log("abuk2")
+  useEffect(() => {
+    console.log("abuk")
+    ReactGA.initialize('UA-167933617-1');
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  });
 
-var App = (props) => {
   return (
     <div className="Apps">
       <BrowserRouter>
@@ -26,6 +34,7 @@ var App = (props) => {
           <Route path='/chk' component={Homeform} />
           <Route path='/signin' component={Signin} />
           <Route path='/signup' component={Signup} />
+          <Route path='/admin' component={Admin} />
           <Route path='/postjobs' component={Postjobs} />
           <Route path='/faq' component={Faq} />
           <Route path='/privacy' component={Privacy} />

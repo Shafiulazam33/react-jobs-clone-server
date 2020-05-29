@@ -127,6 +127,7 @@ export default function Homeform() {
     useState({
       searchword: "", remote: false, quicklocation: "", skip: true, count: 0
     })
+  console.log(state.quicklocation)
   useEffect(() => {
     if (!name) {
       Axios.get(`http://free.ipwhois.io/json/`)
@@ -139,6 +140,8 @@ export default function Homeform() {
           //ReactDOM.findDOMNode(inp[0]).classList.add("geosuggest__suggests--hidden");
 
           //geosuggestEl.current.blur()
+          let quicklocation = res.data.region + "," + res.data.country
+          setState({ ...state, quicklocation })
           setTimeout(
             function () {
               geosuggestEl.current.focus()
@@ -335,7 +338,7 @@ export default function Homeform() {
           <Geosuggest
             ref={geosuggestEl}
             placeholder="Start typing!"
-            initialValue="KAN"
+            initialValue={state.quicklocation}
             //autoComplete="on"
             //autoActivateFirstSuggest={true}
             //types={["(regions)"]}
@@ -344,7 +347,7 @@ export default function Homeform() {
             queryDelay="2500"
             //autoActivateFirstSuggest="true"
             fixtures={fixtures}
-            onSuggestSelect={() => onSuggestSelect}
+            onSuggestSelect={onSuggestSelect}
             onChange={onChange}
             location={new window.google.maps.LatLng(null, null)}
             radius="20" />

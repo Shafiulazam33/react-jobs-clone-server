@@ -10,7 +10,6 @@ import './Signin.css'
 export default function Signin() {
     const [state, setState] = useState({ email: "", password: "" });
     const [error, setError] = useState({});
-
     const myChangeHandler = (event) => {
         let nam = event.target.name;
         let val = event.target.value;
@@ -32,9 +31,10 @@ export default function Signin() {
                 if (decode.isAdmin === true) {
                     history.push('/admin')
                 }
-                console.log(decode)
-                history.push('/')
-                window.location.reload();
+                else {
+                    history.push('/')
+                    window.location.reload();
+                }
 
             })
             .catch(error => {

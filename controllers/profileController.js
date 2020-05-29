@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const nodemailer = require("nodemailer");
 const Profile = require('../model/profile')
 const Company = require('../model/company')
 const Jobpost = require('../model/jobpost')
@@ -34,7 +35,8 @@ module.exports = {
 
                     let token = jwt.sign({
                         _id: user._id,
-                        email: user.email
+                        email: user.email,
+                        isAdmin: user.isAdmin
                     }, 'SECRET', { expiresIn: '100h' })
 
                     res.status(200).json({
@@ -71,6 +73,38 @@ module.exports = {
                             password: hash,
                             companies: [],
                         })
+                        let token = jwt.sign({
+                            email
+                        }, 'SECRET', { expiresIn: '100h' })
+                        async function main() {
+                            let testAccount = await nodemailer.createTestAccount();
+
+                            let transporter = nodemailer.createTransport({
+                                host: "smtp.ethereal.email",
+                                port: 587,
+                                secure: false, // true for 465, false for other ports
+                                auth: {
+                                    user: testAccount.user, // generated ethereal user
+                                    pass: testAccount.pass, // generated ethereal password
+                                },
+                                tls: {
+                                    rejectUnauthorized: false
+                                }
+                            });
+                            let info = await transporter.sendMail({
+                                from: '"Fred Foo 👻" <foo@example.com>', // sender address
+                                to: email, // list of receivers
+                                subject: "Hello ✔", // Subject line
+                                text: "Hello world?", // plain text body
+                                html: `<a href="localhost:3000/email-verification?token=${token}">localhost:3000/email-verification?token=${token}</a>`, // html body
+                            });
+                            console.log("Message sent: %s", info.messageId);
+                            console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+                        }
+                        main().catch(console.error);
+
+
+
 
                         profile.save()
                             .then(user => {
@@ -84,6 +118,11 @@ module.exports = {
                 })
                 .catch(error => serverError(res, error))
         }
+
+
+    },
+    emailVerification(req, res) {
+        let token = req.params.token
     },
     updateEmail(req, res) {
         let { currentEmail, newEmail, confirmEmail } = req.body

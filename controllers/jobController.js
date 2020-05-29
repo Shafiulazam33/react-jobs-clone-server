@@ -266,7 +266,8 @@ module.exports = {
         stripe.charges.create({
             amount: 100 * 100,
             source: req.body.id,
-            currency: 'usd'
+            currency: 'usd',
+            description: "job_id " + req.body.job_id
         }).then(function () {
             console.log('Charge Successful')
             res.json({ message: 'Successfully Featured Your Post' })
@@ -304,6 +305,49 @@ module.exports = {
             res.status(500).end()
         })
     },
+    findFeaturedPost(req, res) {
+        Jobpost.find({ 'featured.isfeatured': true })
+            // Use Populate for transaction
+            .populate('company')
+            .exec()
+            .then(jobs => {
+                if (!jobs) {
+                    resourceError(res, error)
+                }
+                //console.log(user)
+                console.log(jobs[0])
+                let ids = []
+                for (let i = 0; i < jobs.length; i++) {
+                    ids.push(jobs[i].company.profile)
+                }
+                Profile.find({ '_id': { $in: ids } }, 'email')
+                    .exec()
+                    .then(prof => {
+                        console.log(prof)
+                        res.status(200).json({
+                            jobs, prof
+                        })
+
+                    }).catch(error => serverError(res, error))
+
+            })
+            .catch(error => serverError(res, error))
+    },
+    featuredPostClose(req, res) {
+        let { _id } = req.body
+        Jobpost.findOneAndUpdate({ _id }, {
+            $set: {
+                isfeatured: false
+            }
+        }, { new: true })
+            .exec()
+            .then(result => {
+                console.log(result)
+                res.status(200).json({
+                    result
+                })
+            }).catch(error => serverError(res, error))
+    }
 }
 
 

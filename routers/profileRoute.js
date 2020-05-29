@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { login, register, updateEmail, updatePassword, updateCompany, updateJob } = require('../controllers/profileController')
+const { login, register, emailVerification, updateEmail, updatePassword, updateCompany, updateJob } = require('../controllers/profileController')
 const authenticate = require('../authenticate')
 
 // Registration Route
@@ -7,6 +7,7 @@ const authenticate = require('../authenticate')
 
 router.post('/login', login)
 router.post('/register', register)
+//router.get('/email-verification', emailVerification)
 router.put('/update-email', authenticate, updateEmail)
 router.put('/update-password', authenticate, updatePassword)
 router.put('/update-company', authenticate, updateCompany)
