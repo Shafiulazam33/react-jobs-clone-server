@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const jobpostSchema = new Schema({
-    company_id: {
+    company: {
         type: Schema.Types.ObjectId,
         ref: 'Company'
     },
@@ -44,11 +44,46 @@ const jobpostSchema = new Schema({
         required: true
     },
     featured: {
-        type: Boolean,
+        type: {
+            isfeatured: {
+                type: Boolean,
+                required: true
+            },
+            featured_created_at: {
+                type: Date
+
+            },
+            featured_expired_at: {
+                type: Date
+            }
+        }
+    },
+    location: {
+        type: {
+            location_name: {
+                type: String,
+                required: true
+            },
+            place_id: {
+                type: String,
+                required: true
+            }, admin_area1: {
+                type: String,
+                required: true
+            },
+            admin_area2: {
+                type: String,
+                required: true
+            },
+            country: {
+                type: String,
+                required: true
+            }
+        },
         required: true
     }
 },
-    { timestamps: true }
+
 )
 const Jobpost = mongoose.model('Jobpost', jobpostSchema)
 module.exports = Jobpost

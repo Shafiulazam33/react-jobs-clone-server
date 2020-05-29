@@ -100,3 +100,20 @@ img.company-logo{
  .listed-edit-promote a{
      color: white;
  }
+ @media screen and (max-width: 1187px) and (min-width: 992px){
+  .header {
+    max-width: 933px;
+  }
+}
+@media screen and (max-width: 992px) and  (min-width: 768px){
+  .jobs-list {
+    padding-right: 15px;
+  }
+}
+@media screen and (max-width: 768px){
+  .jobs-list {
+    order: 2;
+    width: 96%;
+    margin: auto;
+}
+}

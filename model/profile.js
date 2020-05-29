@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const profileSchema = new Schema({
-    
+
     email: {
         type: String,
         required: true
@@ -11,7 +11,10 @@ const profileSchema = new Schema({
         type: String,
         required: true
     },
-    
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
     companies: {
         type: [{
             type: Schema.Types.ObjectId,

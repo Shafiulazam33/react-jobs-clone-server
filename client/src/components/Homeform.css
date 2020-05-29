@@ -1,10 +1,11 @@
 .search-wrapper {
-    height: 400px;
+    height: 300px;
     /* text-align: center; */
     display: flex;
     justify-content: center;
     align-items: center;
     background-size: cover;
+    background-image: url("/images/staticmap.png");
 }
 .geosuggest {
     position: relative;
@@ -19,6 +20,11 @@
     border: 1px solid saddlebrown;
 }
 .geosuggest__suggests--hidden {
+    max-height: 0;
+    overflow: hidden;
+    border-width: 0;
+  }
+  .geosuggest__suggests5 {
     max-height: 0;
     overflow: hidden;
     border-width: 0;
@@ -44,7 +50,6 @@ background-color:rgb(140, 168, 144);
 }
 .searchbox-background {
     width: 700px;
-    height: 200px;
     background: antiquewhite;
     text-align: center;
 }
@@ -62,7 +67,7 @@ background-color:rgb(140, 168, 144);
 .remote-check{
 display: flex;
 justify-content: center;
-padding: 10px;
+padding: 20px 15px 0 15px;
 z-index: -1;
 }
 .remote-check p{
@@ -74,4 +79,14 @@ z-index: -1;
 }
 .geosuggest__suggests{
     background: antiquewhite;
+}
+@media screen and (max-width: 992px) and  (min-width: 768px){
+  .searchbox-background{
+      width: 723px;
+  }
+}
+@media screen and (max-width: 768px) and (min-width:480px) {
+  .searchbox-background{
+      width: 80%;
+  }
 }

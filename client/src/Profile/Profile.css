@@ -7,7 +7,7 @@
 }
 .profile-form{
     flex-basis: 75%;
-    padding: 15px;
+    padding:0 15px;
 }
 .profile-form .input{
     width: 100%;
@@ -35,4 +35,36 @@
 }
 .email-submit,.password-submit{
     text-align: right;
+}
+@media screen and (max-width: 1187px) and (min-width: 992px){
+.profile-wrapper{
+    max-width: 933px;
+}
+}
+@media screen and (max-width: 992px) and  (min-width: 768px){
+  .profile-wrapper{
+width: 723px;
+  }
+  .ul-profile{
+      padding-left: 0;
+  }
+}
+@media screen and (max-width: 768px){
+     .profile-wrapper{
+flex-direction: column;
+  }
+  .ul-profile{
+      order: 1;
+      width: 96%;
+    margin: auto;
+    padding-left: 0;
+        padding-bottom: 15px;
+
+  }
+  .profile-form{
+      order:2;
+  }
+  .email-change-wrapper,.password-change-wrapper{
+flex-direction: column;
+  }
 }

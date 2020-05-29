@@ -10,7 +10,7 @@ const validate = user => {
     if (!user.job_title) {
         error.job_title = 'Please Provide job_title'
     }
-    if (!user.location) {
+    if (!user.location.location_name) {
         error.location = 'Please Provide location'
     }
     if (!user.remote) {

@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const Profile = require('../model/profile')
 const Company = require('../model/company')
@@ -66,13 +66,13 @@ module.exports = {
                             return resourceError(res, 'Server Error Occurred')
                         }
 
-                        let Profile = new Profile({
+                        let profile = new Profile({
                             email,
                             password: hash,
-                            companies: []
+                            companies: [],
                         })
 
-                        Profile.save()
+                        profile.save()
                             .then(user => {
                                 res.status(201).json({
                                     message: 'User Created Successfully',
@@ -207,7 +207,7 @@ module.exports = {
                         .catch(error => serverError(res, error))
                     Jobpost.findOneAndUpdate({ _id }, {
                         $set: {
-                            company_id: comp._id, job_title, location, remote, job_type, salary, experience,
+                            company: comp._id, job_title, location, remote, job_type, salary, experience,
                             apply_link, tags, description
                         }
                     }, { new: true })

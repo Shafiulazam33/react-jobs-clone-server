@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useParams } from "react-router-dom";
 import { Editor } from '@tinymce/tinymce-react';
 import { Dropdown, Icon } from 'semantic-ui-react'
 import { Button } from 'semantic-ui-react'
-import 'semantic-ui-css/semantic.min.css';
+import Geosuggest from 'react-geosuggest';
 import Axios from 'axios'
 import './Postjobs.css'
 import { remoteOptions, tagOptions, experienceOptions, jobtypeOptions } from '../utils/dropdownOptions'
 
 export default function Postjobs() {
+    let change, takeSuggest;
+    const geosuggestEl = useRef(null);
     const { _id } = useParams();
     const [error, setError] = useState({
         company_id: "", company_name: "", website: "", logo_url: "", short_description: "",
@@ -19,7 +21,7 @@ export default function Postjobs() {
     const [state, setState] =
         useState({
             existing_name: [], company_id: "", company_name: "", website: "", logo_url: "", short_description: "",
-            job_title: "", location: "", remote: "", job_type: "", salary: "", experience: "",
+            job_title: "", location: {}, remote: "", job_type: "", salary: "", experience: "",
             apply_link: "", tags: "", description: "", discard: false
         });
     console.log(state)
@@ -54,9 +56,36 @@ export default function Postjobs() {
     const dropdownChangeHandler = (event, data) => {
         setState({ ...state, [data.name]: data.value });
     }
-
+    const onSuggestSelect = (suggest) => {
+        takeSuggest = 1;
+        let location = {};
+        let address = suggest.gmaps.address_components
+        console.log(address)
+        location.location_name = suggest.gmaps.description
+        location.place_id = suggest.gmaps.place_id
+        address.map((value, index) => {
+            if (value.types[0] == "country") {
+                location.country = value.long_name;
+            }
+            else if (value.types[0] == "administrative_area_level_1") {
+                location.admin_area1 = value.long_name;
+            }
+            else if (value.types[0] == "administrative_area_level_2") {
+                location.admin_area2 = value.long_name;
+            }
+        }
+        )
+        console.log(location)
+        setState({ ...state, location })
+    };
+    const onChange = (val) => {
+        change = 1;
+    }
     const submitHandler = (event) => {
         event.preventDefault();
+        if (change !== takeSuggest) {
+            setError({ ...error, location: "Please Provide Location From Suggested Location" })
+        }
         Axios.put('http://localhost:4000/api/profile/update-job', { _id, ...state })
             .then((res) => {
 
@@ -151,7 +180,18 @@ export default function Postjobs() {
                             <div class="layer1">
                                 <div class="job-title"><p class="title">Job Title</p><div class="ui input"><input type="text" name="job_title" placeholder="Front end developer" onChange={myChangeHandler} value={state.job_title} /></div>
                                     {(error.job_title) ? <p className="error">{error.job_title}</p> : ""}</div>
-                                <div class="location"> <p class="title">Location</p> <div class="ui input"><input name="location" placeholder="Pick a location e.g. Tokyo" onChange={myChangeHandler} value={state.location} /></div>
+                                <div class="location"> <p class="title">Location</p> <div class="ui input">
+
+                                    <Geosuggest
+                                        ref={geosuggestEl}
+                                        placeholder="Pick a location e.g. Tokyo"
+                                        initialValue={state.location.location_name}
+                                        //fixtures={fixtures}
+                                        onSuggestSelect={onSuggestSelect}
+                                        onChange={onChange}
+                                        location={new window.google.maps.LatLng(null, null)}
+                                        radius="20" />
+                                </div>
                                     {(error.location) ? <p className="error">{error.location}</p> : ""}</div>
                                 <div class="remote-type"><p class="title">Remote-working</p>
 

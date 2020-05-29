@@ -1,5 +1,6 @@
 .ul-company-list{
     flex-basis: 75%;
+    padding: 0 15px;
 }
 .ul-company-list li{
     margin-bottom: 20px;
@@ -26,4 +27,11 @@ margin: 0;
 }
 .edit-button a{
     color: white;
+}
+@media screen and (max-width: 768px){
+  .ul-company-list {
+    order: 2;
+    width: 96%;
+    margin: auto;
+}
 }

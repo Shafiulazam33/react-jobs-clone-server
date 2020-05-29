@@ -3,6 +3,7 @@ import Axios from 'axios'
 import jwtDecode from 'jwt-decode'
 import setAuthToken from '../utils/setAuthToken'
 import { Button } from 'semantic-ui-react'
+//import { compare } from 'bcrypt'
 
 export default function Profilechanger() {
     const [stateemail, setStateemail] = useState({ currentEmail: "", newEmail: "", confirmEmail: "" });
@@ -49,6 +50,12 @@ export default function Profilechanger() {
                 console.log(error)
             })
     }
+    const funcCurrentEmail = () => {
+        let token = localStorage.getItem('auth_token')
+        let decode = jwtDecode(token)
+        console.log(decode)
+        return decode.email
+    }
 
     const { currentEmail, newEmail, confirmEmail } = stateemail;
     const { currentPassword, newPassword, confirmPassword } = statepass;
@@ -70,10 +77,11 @@ export default function Profilechanger() {
                                     className='form-control'
                                     placeholder="Enter Amount"
                                     name='currentEmail'
-
-                                    value={currentEmail}
+                                    value={funcCurrentEmail()}
                                     onChange={onChangeEmailHandler}
+                                    disabled
                                 />
+
                             </div>
                         </div>
                         <div className="new-email">

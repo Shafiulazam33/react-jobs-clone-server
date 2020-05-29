@@ -29,6 +29,9 @@ export default function Signin() {
                 localStorage.setItem('auth_token', token)
                 setAuthToken(token)
                 let decode = jwtDecode(token)
+                if (decode.isAdmin === true) {
+                    history.push('/admin')
+                }
                 console.log(decode)
                 history.push('/')
                 window.location.reload();

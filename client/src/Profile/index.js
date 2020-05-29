@@ -44,7 +44,7 @@ export default function Profile() {
                 <Route path={`${path}/companies`} render={() => <Companies data={stateCompany} />} />
             </Switch>
             <ul className="ul-profile">
-                <Menu size='large' vertical>
+                <Menu size='fluid' vertical>
                     <Menu.Item
                         name='inbox'
                         active
