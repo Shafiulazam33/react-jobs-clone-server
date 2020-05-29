@@ -175,7 +175,7 @@ module.exports = {
                 if (!jobs) {
                     resourceError(res, error)
                 }
-                console.log(jobs[0].companies)
+                // console.log(jobs[0].companies)
                 let ab = jobs[0].companies
                 Company.find({
                     '_id': { $in: ab }

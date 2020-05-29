@@ -73,41 +73,45 @@ module.exports = {
                             password: hash,
                             companies: [],
                         })
-                        let token = jwt.sign({
-                            email
-                        }, 'SECRET', { expiresIn: '100h' })
-                        async function main() {
-                            let testAccount = await nodemailer.createTestAccount();
-
-                            let transporter = nodemailer.createTransport({
-                                host: "smtp.ethereal.email",
-                                port: 587,
-                                secure: false, // true for 465, false for other ports
-                                auth: {
-                                    user: testAccount.user, // generated ethereal user
-                                    pass: testAccount.pass, // generated ethereal password
-                                },
-                                tls: {
-                                    rejectUnauthorized: false
-                                }
-                            });
-                            let info = await transporter.sendMail({
-                                from: '"Fred Foo 👻" <foo@example.com>', // sender address
-                                to: email, // list of receivers
-                                subject: "Hello ✔", // Subject line
-                                text: "Hello world?", // plain text body
-                                html: `<a href="localhost:3000/email-verification?token=${token}">localhost:3000/email-verification?token=${token}</a>`, // html body
-                            });
-                            console.log("Message sent: %s", info.messageId);
-                            console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-                        }
-                        main().catch(console.error);
 
 
 
 
                         profile.save()
                             .then(user => {
+                                let token = jwt.sign({
+                                    _id: user._id,
+                                    email: user.email,
+                                    emailConfirmed: user.emailConfirmed,
+                                    isAdmin: user.isAdmin
+                                }, 'SECRET', { expiresIn: '100h' })
+                                async function main() {
+                                    let testAccount = await nodemailer.createTestAccount();
+
+                                    let transporter = nodemailer.createTransport({
+                                        host: "smtp.ethereal.email",
+                                        port: 587,
+                                        secure: false, // true for 465, false for other ports
+                                        auth: {
+                                            user: testAccount.user, // generated ethereal user
+                                            pass: testAccount.pass, // generated ethereal password
+                                        },
+                                        tls: {
+                                            rejectUnauthorized: false
+                                        }
+                                    });
+                                    let info = await transporter.sendMail({
+                                        from: '"Fred Foo 👻" <foo@example.com>', // sender address
+                                        to: email, // list of receivers
+                                        subject: "Hello ✔", // Subject line
+                                        text: "Hello world?", // plain text body
+                                        html: `<a href="localhost:4000/api/profile/email-verification?token=${token}">localhost:3000/email-verification?token=${token}</a>`, // html body
+                                    });
+                                    console.log("Message sent: %s", info.messageId);
+                                    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+                                }
+                                main().catch(console.error);
+
                                 res.status(201).json({
                                     message: 'User Created Successfully',
                                     user
@@ -122,7 +126,13 @@ module.exports = {
 
     },
     emailVerification(req, res) {
-        let token = req.params.token
+        console.log(req)
+        Profile.findOneAndUpdate({ email: req.user.email }, { emailConfirmed: true }, { new: true })
+            .then(user => {
+
+                res.send("<p>Email is confirmed</p>")
+            })
+            .catch(error => serverError(res, error))
     },
     updateEmail(req, res) {
         let { currentEmail, newEmail, confirmEmail } = req.body

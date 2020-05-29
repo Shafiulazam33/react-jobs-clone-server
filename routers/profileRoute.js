@@ -7,7 +7,7 @@ const authenticate = require('../authenticate')
 
 router.post('/login', login)
 router.post('/register', register)
-//router.get('/email-verification', emailVerification)
+router.get('/email-verification', authenticate, emailVerification)
 router.put('/update-email', authenticate, updateEmail)
 router.put('/update-password', authenticate, updatePassword)
 router.put('/update-company', authenticate, updateCompany)
