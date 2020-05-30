@@ -13,6 +13,7 @@ import Featured from './components/Featured'
 import PostCompanyEdit from './components/PostCompanyEdit'
 import PostjobsEdit from './components/PostjobsEdit'
 import Jobdescription from './components/Jobdescription'
+import Adv from './components/Adv'
 import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom'
 import ReactGA from 'react-ga';
 var App = () => {
@@ -43,6 +44,7 @@ var App = () => {
           <Route path='/company/:_id/edit' exact component={PostCompanyEdit} />
           <Route path='/job/:_id' exact component={Jobdescription} />
           <Route path='/job/:_id/edit' component={PostjobsEdit} />
+          <Route path='/adv' component={Adv} />
         </Switch>
         <Footer />
       </BrowserRouter>

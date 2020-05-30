@@ -119,6 +119,7 @@ export default function Homeform() {
   const geosuggestEl = useRef(null);
   let { name } = useParams();
   let history = useHistory();
+  const [statedata, setData] = useState({})
   const [stateError, setError] =
     useState({
       error: false
@@ -140,28 +141,39 @@ export default function Homeform() {
           //ReactDOM.findDOMNode(inp[0]).classList.add("geosuggest__suggests--hidden");
 
           //geosuggestEl.current.blur()
-          let quicklocation = res.data.region + "," + res.data.country
-          setState({ ...state, quicklocation })
-          setTimeout(
-            function () {
-              geosuggestEl.current.focus()
-              let it = document.getElementsByClassName("geosuggest__suggests");
-              ReactDOM.findDOMNode(it[0]).classList.add("geosuggest__suggests5");
-            }
-              .bind(this),
-            3000
-          );
-          setTimeout(
-            function () {
+          let quicklocation
+          if (res.data.country) {
+            quicklocation = res.data.region + "," + res.data.country
+            setState({ ...state, quicklocation })
+            setTimeout(
+              function () {
+                geosuggestEl.current.focus()
+                let it = document.getElementsByClassName("geosuggest__suggests");
+                ReactDOM.findDOMNode(it[0]).classList.add("geosuggest__suggests5");
+              }
+                .bind(this),
+              3000
+            );
+            setTimeout(
+              function () {
 
-              let item = document.getElementsByClassName("geosuggest__item");
-              console.log(item[0])
-              ReactDOM.findDOMNode(item[0]).click()
-            }
-              .bind(this),
-            10000
-          );
-
+                let item = document.getElementsByClassName("geosuggest__item");
+                console.log(item[0])
+                ReactDOM.findDOMNode(item[0]).click()
+              }
+                .bind(this),
+              10000
+            );
+          }
+          else {
+            Axios.post(`http://localhost:4000/api/job/jobs`, { "isFeatured": true })
+              .then(res => {
+                setData(res.data)
+              })
+              .catch(error => {
+                console.log(error)
+              })
+          }
         })
         .catch(error => {
           console.log(error)
@@ -169,6 +181,8 @@ export default function Homeform() {
         })
     }
   }, []);
+
+
   const checkk = () => {
     console.log("aaqqqqq")
     let inp = document.getElementsByClassName("geosuggest__input");
@@ -338,7 +352,7 @@ export default function Homeform() {
           <Geosuggest
             ref={geosuggestEl}
             placeholder="Start typing!"
-            initialValue={state.quicklocation}
+            initialValue={(state.quicklocation) ? state.quicklocation : ""}
             //autoComplete="on"
             //autoActivateFirstSuggest={true}
             //types={["(regions)"]}

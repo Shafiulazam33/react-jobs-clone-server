@@ -4,7 +4,7 @@ import { Link, useHistory } from 'react-router-dom'
 import Axios from 'axios'
 import jwtDecode from 'jwt-decode'
 import setAuthToken from '../utils/setAuthToken'
-import { Button } from 'semantic-ui-react'
+import { Button, Message } from 'semantic-ui-react'
 import './Signin.css'
 
 export default function Signin() {
@@ -38,14 +38,19 @@ export default function Signin() {
 
             })
             .catch(error => {
-                //console.log(error.response.data)
-                //setError(error.response.data);
+                setError(error.response.data)
             })
 
     }
     let history = useHistory();
     return (
         <div className="signin-form-wrapper">
+            {error.confirm &&
+                <Message warning>
+                    <Message.Header>Confirm  Your Email</Message.Header>
+                    <p>Visit Your Email, then try again.</p>
+                </Message>
+            }
             <div className="signin-form">
                 <form onSubmit={SubmitHandler}>
                     <h1>Sign In</h1>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Message } from 'semantic-ui-react'
 import Axios from 'axios'
 import jwtDecode from 'jwt-decode'
 import setAuthToken from '../utils/setAuthToken'
@@ -6,6 +7,8 @@ import { Button } from 'semantic-ui-react'
 //import { compare } from 'bcrypt'
 
 export default function Profilechanger() {
+    const [passMessage, setpassMessage] = useState()
+    const [emailMessage, setemailMessage] = useState()
     const [stateemail, setStateemail] = useState({ currentEmail: "", newEmail: "", confirmEmail: "" });
     const [statepass, setStatepass] = useState({ currentPassword: "", newPassword: "", confirmPassword: "" });
     const onChangeEmailHandler = (event) => {
@@ -29,6 +32,13 @@ export default function Profilechanger() {
                 localStorage.setItem('auth_token', token)
                 setAuthToken(token)
                 let decode = jwtDecode(token)
+                setpassMessage(null)
+                setemailMessage(<Message positive>
+                    <Message.Header>You are eligible for a reward</Message.Header>
+                    <p>
+                        Please Confirm Your New Email, Check Your Mail
+    </p>
+                </Message>)
                 console.log(decode)
             })
             .catch(error => {
@@ -44,6 +54,13 @@ export default function Profilechanger() {
                 localStorage.setItem('auth_token', token)
                 setAuthToken(token)
                 let decode = jwtDecode(token)
+                setemailMessage(null)
+                setpassMessage(<Message positive>
+                    <Message.Header>You are eligible for a reward</Message.Header>
+                    <p>
+                        Your Password Successfully Changed
+    </p>
+                </Message>)
                 console.log(decode)
             })
             .catch(error => {
@@ -61,6 +78,7 @@ export default function Profilechanger() {
     const { currentPassword, newPassword, confirmPassword } = statepass;
     return (
         <div className="profile-form">
+            {passMessage || emailMessage}
             <form onSubmit={emailsubmitHandler}>
                 <div className='email-change-form'>
                     <div className="quick-pick">

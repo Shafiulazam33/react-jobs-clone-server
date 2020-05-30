@@ -4,7 +4,9 @@ import { Editor } from '@tinymce/tinymce-react';
 import { Dropdown, Icon } from 'semantic-ui-react'
 import { Button } from 'semantic-ui-react'
 import Geosuggest from 'react-geosuggest';
-import 'semantic-ui-css/semantic.min.css';
+import {
+    Link
+} from "react-router-dom";
 import Axios from 'axios'
 import './Postjobs.css'
 import { remoteOptions, tagOptions, experienceOptions, jobtypeOptions } from '../utils/dropdownOptions'
@@ -17,6 +19,8 @@ export default function Postjobs() {
         apply_link: "", tags: "", description: ""
     });
     const [isLoaded, setIsLoaded] = useState(false);
+    const [isPosted, setIsPosted] = useState(false);
+    const [job_id, setjob_id] = useState("");
     const [state, setState] =
         useState({
             existing_name: [], company_id: "", company_name: "", website: "", logo_url: "", short_description: "",
@@ -73,8 +77,9 @@ export default function Postjobs() {
         }
         Axios.post(RouteOptions(), state)
             .then((res) => {
-
                 console.log(res)
+                setIsPosted(true)
+                setjob_id(res.data.jobpost._id)
                 //history.push('/login')
             })
             .catch(error => {
@@ -162,7 +167,7 @@ export default function Postjobs() {
         {(state.existing_name) ? <Button onClick={() => setState({ ...state, discard: false, company_name: "" })}><Icon name="remove circle" />Discard and Select an Company name</Button> : ""}
     </>);
 
-    if (isLoaded) {
+    if (isLoaded && !isPosted) {
         return (
             <>
                 <div className="profile-wrapper">
@@ -283,7 +288,17 @@ export default function Postjobs() {
                 </div>
             </>
         )
-    } else {
+    } else if (isLoaded && isPosted) {
+        return (
+            <div class="advertise-wrapper">
+                <div className="icon-briefcase"><Icon color='black' name="briefcase" /></div>
+                <h1>Thank you for your insertion</h1>
+                <p>Your insertion has been published , want to promote it?</p>
+                <p><Link className="ui large primary button" to="/">Go back to Home</Link><Link className="ui large primary button" to={`/Featured/${job_id}`}>Promote my insertion</Link></p>
+            </div >
+        )
+    }
+    else {
         return (
             <>
             </>

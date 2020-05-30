@@ -4,6 +4,9 @@ import { Editor } from '@tinymce/tinymce-react';
 import { Dropdown, Icon } from 'semantic-ui-react'
 import { Button } from 'semantic-ui-react'
 import Geosuggest from 'react-geosuggest';
+import {
+    Link
+} from "react-router-dom";
 import Axios from 'axios'
 import './Postjobs.css'
 import { remoteOptions, tagOptions, experienceOptions, jobtypeOptions } from '../utils/dropdownOptions'
@@ -13,18 +16,20 @@ export default function Postjobs() {
     const geosuggestEl = useRef(null);
     const { _id } = useParams();
     const [error, setError] = useState({
-        company_id: "", company_name: "", website: "", logo_url: "", short_description: "",
+        company: "", company_name: "", website: "", logo_url: "", short_description: "",
         job_title: "", location: "", remote: "", job_type: "", salary: "", experience: "",
         apply_link: "", tags: "", description: ""
     });
     const [isLoaded, setIsLoaded] = useState(false);
+    const [isPosted, setIsPosted] = useState(false);
+    const [job_id, setjob_id] = useState("");
     const [state, setState] =
         useState({
-            existing_name: [], company_id: "", company_name: "", website: "", logo_url: "", short_description: "",
+            existing_name: [], company: "", company_name: "", website: "", logo_url: "", short_description: "",
             job_title: "", location: {}, remote: "", job_type: "", salary: "", experience: "",
             apply_link: "", tags: "", description: "", discard: false
         });
-    console.log(state)
+    console.log(state, isLoaded)
     useEffect(() => {
         Axios.post('http://localhost:4000/api/job/find-job-edit', { _id })
             .then((res) => {
@@ -34,14 +39,13 @@ export default function Postjobs() {
                     options.push({ key: item._id, text: item.company_name, value: item._id })
                 })
                 let { company_name } = res.data.companies.find((item) => {
-                    return (item._id === res.data.jobposts.company_id)
+                    return (item._id === res.data.jobposts.company)
                 })
                 console.log(options, res.data.jobposts, res.data.companies)
                 setState({ ...state, existing_name: options, ...res.data.jobposts, company_name });
                 setIsLoaded(true);
             })
             .catch(error => {
-                console.log("error")
                 console.log(error)
                 setError(error);
             })
@@ -90,10 +94,11 @@ export default function Postjobs() {
             .then((res) => {
 
                 console.log(res)
+                setIsPosted(true)
                 //history.push('/login')
             })
             .catch(error => {
-                console.log(error.response.data)
+                console.log(error)
                 setError({ ...error.response.data });
             })
     }
@@ -158,7 +163,7 @@ export default function Postjobs() {
         {(state.existing_name) ? <Button onClick={() => setState({ ...state, discard: false, company_name: "" })}><Icon name="remove circle" />Discard and Select an Company name</Button> : ""}
     </>);
 
-    if (isLoaded) {
+    if (isLoaded && !isPosted) {
         return (
             <>
                 <form onSubmit={submitHandler}>
@@ -187,7 +192,7 @@ export default function Postjobs() {
                                         placeholder="Pick a location e.g. Tokyo"
                                         initialValue={state.location.location_name}
                                         //fixtures={fixtures}
-                                        onSuggestSelect={onSuggestSelect}
+                                        onSuggestSelect={() => onSuggestSelect}
                                         onChange={onChange}
                                         location={new window.google.maps.LatLng(null, null)}
                                         radius="20" />
@@ -284,7 +289,17 @@ export default function Postjobs() {
                 </form >
             </>
         )
-    } else {
+    } else if (isLoaded && isPosted) {
+        return (
+            <div class="advertise-wrapper">
+                <div className="icon-briefcase"><Icon color='black' name="briefcase" /></div>
+                <h1>Thank you for your insertion</h1>
+                <p>Your insertion has been published , want to promote it?</p>
+                <p><Link className="ui large primary button" to="/">Go back to Home</Link><Link className="ui large primary button" to={`/Featured/${_id}`}>Promote my insertion</Link></p>
+            </div >
+        )
+    }
+    else {
         return (
             <>
             </>

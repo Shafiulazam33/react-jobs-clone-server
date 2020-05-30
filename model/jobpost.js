@@ -43,6 +43,11 @@ const jobpostSchema = new Schema({
         type: String,
         required: true
     },
+    islisted: {
+        type: Boolean,
+        default: true,
+        required: true
+    },
     featured: {
         type: {
             isfeatured: {

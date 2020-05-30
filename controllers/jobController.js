@@ -223,10 +223,12 @@ module.exports = {
                     company: comp._id, job_title, location, remote, job_type, salary, experience, apply_link, tags, description, featured: { isfeatured: false }
                 })
                 jobpost.save()
-                    .then(postt => {
-                        Company.findOneAndUpdate({ _id: comp._id }, { $push: { jobposts: postt._id } }, { new: true })
-                            .then(res => {
-
+                    .then(post => {
+                        Company.findOneAndUpdate({ _id: comp._id }, { $push: { jobposts: post._id } }, { new: true })
+                            .then(result => {
+                                res.status(200).json({
+                                    jobpost: post
+                                })
                             })
                             .catch(error => serverError(res, error))
 
@@ -245,18 +247,18 @@ module.exports = {
             company: company_id, job_title, location, remote, job_type, salary, experience, apply_link, tags, description, featured: { isfeatured: false }
         })
         jobpost.save()
-            .then(postt => {
+            .then(post => {
                 Company.findOneAndUpdate({ _id: company_id }, { $push: { jobposts: postt._id } }, { new: true })
                     .then(result => {
+                        /*return  res.status(200).json({
+                              message: 'Updated Successfullycompanyss',
+                              transactionjjjjprofile: result
+                          })*/
                         res.status(200).json({
-                            message: 'Updated Successfullycompanyss',
-                            transactionjjjjprofile: result
+                            jobpost: post
                         })
+                            .catch(error => serverError(res, error))
                     })
-                    .catch(error => serverError(res, error))
-                res.status(200).json({
-                    jobpostt: postt
-                })
 
             })
             .catch(error => serverError(res, error))

@@ -1,10 +1,10 @@
-.header-wrapper {
+.navbar-wrapper {
     background: #7babff;
 }
-.header-wrapper a{
+.navbar-wrapper a{
   color: white;
 }
-.header {
+.navbar {
     display: flex;
     justify-content: space-between;
     background: #7babff;
@@ -13,18 +13,18 @@
     margin: auto;
 }
 
-.header-left {
+.navbar-left {
     display: flex;
     align-items: center;
     padding: 0 10px;
 }
 
-.header-left>img {
+.navbar-left>img {
     width: 50px;
     height: 50px;
 }
 
-.header-right {
+.navbar-right {
     font-size: 18px;
     font-weight: 400;
     color: white;
@@ -33,7 +33,7 @@
     padding: 0 10px;
 }
 
-.header-right>.text1 {
+.navbar-right>.text1 {
     padding: 0 15px 0 15px;
     border-left: 1px solid white;
     border-right: 1px solid white;
@@ -44,30 +44,30 @@ a{
     color: white;
 }
 
-.header-right>.text2 {
+.navbar-right>.text2 {
     
     padding-left: 15px;
     display: flex;
     align-items: center;
 }
 
-.header-right>p>img {
+.navbar-right>p>img {
     width: 18px;
     height: 18px;
     margin-right: 10px;
 }
 @media screen and (max-width: 1187px) and (min-width: 992px){
-  .header {
+  .navbar {
     max-width: 933px;
   }
 }
 @media screen and (max-width: 992px) and  (min-width: 768px){
-  .header {
+  .navbar {
     max-width: 723px;
   }
 }
 @media screen and (max-width: 768px) and (min-width:480px) {
-  .header {
+  .navbar {
     width: 95%;
   }
 }

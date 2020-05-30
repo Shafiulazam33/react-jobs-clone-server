@@ -8,6 +8,8 @@ const registerValidator = require('../validator/registerValidator')
 const loginValidator = require('../validator/loginValidator')
 const emailValidator = require('../validator/emailValidator')
 const passwordValidator = require('../validator/passwordValidator')
+const jobPostValidator = require('../validator/jobPostvalidator')
+const jobPostCompanyValidator = require('../validator/jobPostCompanyvalidator')
 const { serverError, resourceError } = require('../utils/error')
 module.exports = {
     login(req, res) {
@@ -24,6 +26,12 @@ module.exports = {
             .then(user => {
                 if (!user) {
                     return resourceError(res, 'User Not Found')
+                }
+                if (!user.emailConfirmed) {
+                    console.log("ABAL")
+                    return res.status(400).json({
+                        confirm: "Please Confirm Your Email"
+                    })
                 }
                 bcrypt.compare(password, user.password, (err, result) => {
                     if (err) {
@@ -100,12 +108,13 @@ module.exports = {
                                             rejectUnauthorized: false
                                         }
                                     });
+                                    let link = `localhost:4000/api/profile/email-verification?token=${token}`
                                     let info = await transporter.sendMail({
                                         from: '"Fred Foo 👻" <foo@example.com>', // sender address
                                         to: email, // list of receivers
                                         subject: "Hello ✔", // Subject line
                                         text: "Hello world?", // plain text body
-                                        html: `<a href="localhost:4000/api/profile/email-verification?token=${token}">localhost:3000/email-verification?token=${token}</a>`, // html body
+                                        html: `<a href="${link}">${link}</a>`, // html body
                                     });
                                     console.log("Message sent: %s", info.messageId);
                                     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
@@ -123,14 +132,13 @@ module.exports = {
                 .catch(error => serverError(res, error))
         }
 
-
     },
+
     emailVerification(req, res) {
-        console.log(req)
         Profile.findOneAndUpdate({ email: req.user.email }, { emailConfirmed: true }, { new: true })
             .then(user => {
-
                 res.send("<p>Email is confirmed</p>")
+
             })
             .catch(error => serverError(res, error))
     },
@@ -219,31 +227,33 @@ module.exports = {
             }).catch(error => serverError(res, error))
     },
     updateJob(req, res) {
-        let { _id, company_id, company_name, website, logo_url, short_description,
+        let { _id, company, company_name, website, logo_url, short_description,
             job_title, location, remote, job_type, salary, experience,
             apply_link, tags, description, discard } = req.body
-        if (!discard) {
-            Company.findOneAndUpdate({ _id: company_id }, { $set: { company_name, website, logo_url, short_description } }, { new: true })
-                .exec()
-                .then(result => {
-                    console.log(result)
-                }).catch(error => serverError(res, error))
 
+        if (!discard) {
+            let validate = jobPostValidator({ company_id: company, job_title, location, remote, job_type, salary, experience, apply_link, tags, description })
+            if (!validate.isValid) {
+                return res.status(400).json(validate.error)
+            }
             Jobpost.findOneAndUpdate({ _id }, {
                 $set: {
-                    job_title, location, remote, job_type, salary, experience,
+                    company, job_title, location, remote, job_type, salary, experience,
                     apply_link, tags, description
                 }
             }, { new: true })
                 .exec()
                 .then(result => {
-                    console.log(result)
                     res.status(200).json({
                         result
                     })
                 }).catch(error => serverError(res, error))
         }
         else {
+            let validate = jobPostCompanyValidator({ company_name, website, logo_url, short_description, job_title, location, remote, job_type, salary, experience, apply_link, tags, description })
+            if (!validate.isValid) {
+                return res.status(400).json(validate.error)
+            }
             let company = new Company({
                 profile: req.user._id, company_name, website, logo_url, short_description, jobposts: [_id]
             })
@@ -262,7 +272,7 @@ module.exports = {
                     }, { new: true })
                         .exec()
                         .then(result => {
-                            console.log(result)
+
                             res.status(200).json({
                                 result
                             })

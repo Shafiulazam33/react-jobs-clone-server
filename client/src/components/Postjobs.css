@@ -223,6 +223,19 @@ input.geosuggest__input {
     margin: 0;
     padding: 10px;
 }
+.advertise-wrapper {
+        margin: 100px 10px 25px 10px;
+        text-align: center;
+    }
+.icon-briefcase{
+    padding-bottom: -20px;
+}
+.icon-briefcase > i.black.briefcase.icon {
+    font-size: 8em;
+}
+    .advertise-wrapper p {
+        padding-bottom: 20px;
+    }
 @media screen and (max-width: 1187px) and (min-width: 992px){
   .post-job-form{
     max-width: 933px;

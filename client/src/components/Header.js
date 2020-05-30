@@ -5,15 +5,15 @@ import './Header.css'
 export default function Header() {
   return (
 
-    <div class="header-wrapper">
-      <div class="header">
+    <div class="navbar-wrapper">
+      <div class="navbar">
         <Link to="/">
-          <div class="header-left">
+          <div class="navbar-left">
             <img alt="" src="/images/iconfinder_react_js_1322468.png" />
             <span>JOBS</span>
           </div>
         </Link>
-        <div class="header-right">
+        <div class="navbar-right">
           <p class="text1">
             {(localStorage.getItem('auth_token')) ? <Link to="/postjobs">Post-jobs</Link> : <Link to="/signin">Post-jobs</Link>
             }
