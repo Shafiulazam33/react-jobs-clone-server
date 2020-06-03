@@ -5,7 +5,6 @@ import './Header.css'
 export default function Header() {
   console.log("header")
   return (
-
     <div className="navbar-wrapper">
       <div className="navbar">
         <Link to="/">
@@ -26,6 +25,5 @@ export default function Header() {
         </div>
       </div>
     </div>
-
   )
 }

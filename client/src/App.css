@@ -1,17 +1,5 @@
-
-ul{
-list-style-type:none;
-}
-li{
-  display: inline-block;
-}
-.yellow{
-  color:magenta;
-
-}
-.white{
-  color: green;
-}
-div{
-  border:5px solid burlywood;
+.Apps{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }

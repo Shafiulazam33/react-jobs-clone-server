@@ -71,7 +71,7 @@ export default function Signin() {
             </div>
             <div className="account-link">
                 Dont Have An Account<br></br>
-                <Link to="/signup"><p>Create account</p></Link>
+                <Link to="/signup">Create account</Link>
             </div>
         </div>
 

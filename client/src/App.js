@@ -16,6 +16,7 @@ import Jobdescription from './components/Jobdescription'
 import Adv from './components/Adv'
 import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom'
 import ReactGA from 'react-ga';
+import './App.css'
 var App = () => {
   console.log("abuk2")
   useEffect(() => {

@@ -1,3 +1,6 @@
+.search-list{
+flex-grow: 1;
+}
 .search-wrapper {
     height: 300px;
     /* text-align: center; */

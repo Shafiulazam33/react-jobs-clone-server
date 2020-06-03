@@ -441,7 +441,7 @@ export default function Homeform() {
   }
 
   return (
-    <>
+    <div className="search-list">
       <div className="search-wrapper">
         <div className="searchbox-background">
           <div className="searchbox">
@@ -463,7 +463,7 @@ export default function Homeform() {
               onChange={onChange}
               location={new window.google.maps.LatLng(null, null)}
               radius="20" />
-            <div className="remote-check"><p class="z-index0"><Checkbox onChange={toggleCheckBox} toggle onChange={funcCheckbox} /></p>
+            <div className="remote-check"><p class="z-index0"><Checkbox toggle onChange={funcCheckbox} /></p>
               <p>I'm looking for remote jobs</p>
             </div>
             <div className="quick-pick" id="z-index0">
@@ -527,7 +527,7 @@ export default function Homeform() {
             }) : ""
         }
       </ul>
-    </>
+    </div>
   )
 
 

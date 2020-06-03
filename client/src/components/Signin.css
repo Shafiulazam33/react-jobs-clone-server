@@ -25,6 +25,9 @@ text-align: center;
 padding: 15px 0 15px 0;
 border: 1px solid #d6d2d2;
 }
+.account-link a{
+    display: inline-block;
+}
 @media screen and (max-width: 620px){
 .signin-form-wrapper {
     width: 95%;
