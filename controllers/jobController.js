@@ -40,6 +40,7 @@ module.exports = {
         }
         Jobpost.find(findfunc())
             // Use Populate for transaction
+            .sort({ 'featured.isfeatured': -1, createdAt: -1 })
             .populate('company')
             .exec()
             .then(jobs => {
@@ -220,7 +221,7 @@ module.exports = {
                     })
                     .catch(error => serverError(res, error))
                 let jobpost = new Jobpost({
-                    company: comp._id, job_title, location, remote, job_type, salary, experience, apply_link, tags, description, featured: { isfeatured: false }
+                    company: comp._id, job_title, location, remote, job_type, salary, experience, apply_link, tags, description, featured: { isfeatured: 0 }
                 })
                 jobpost.save()
                     .then(post => {
@@ -244,7 +245,7 @@ module.exports = {
             return res.status(400).json(validate.error)
         }
         let jobpost = new Jobpost({
-            company: company_id, job_title, location, remote, job_type, salary, experience, apply_link, tags, description, featured: { isfeatured: false }
+            company: company_id, job_title, location, remote, job_type, salary, experience, apply_link, tags, description, featured: { isfeatured: 0 }
         })
         jobpost.save()
             .then(post => {
@@ -289,7 +290,7 @@ module.exports = {
             Jobpost.findOneAndUpdate({ _id: req.body.job_id }, {
                 $set: {
                     featured: {
-                        isfeatured: true,
+                        isfeatured: 1,
                         featured_created_at: funcDate(currentdate),
                         featured_expired_at: funcDate(nextdate)
                     }
@@ -308,7 +309,7 @@ module.exports = {
         })
     },
     findFeaturedPost(req, res) {
-        Jobpost.find({ 'featured.isfeatured': true })
+        Jobpost.find({ 'featured.isfeatured': 1 })
             // Use Populate for transaction
             .populate('company')
             .exec()
@@ -339,7 +340,7 @@ module.exports = {
         let { _id } = req.body
         Jobpost.findOneAndUpdate({ _id }, {
             $set: {
-                isfeatured: false
+                isfeatured: 0
             }
         }, { new: true })
             .exec()

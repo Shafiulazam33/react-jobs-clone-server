@@ -1,15 +1,23 @@
 import React, { useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { Message } from 'semantic-ui-react'
 import Axios from 'axios'
 import jwtDecode from 'jwt-decode'
 import setAuthToken from '../utils/setAuthToken'
 import { Button } from 'semantic-ui-react'
 //import { compare } from 'bcrypt'
-
+const decodeEmail = () => {
+    let token = localStorage.getItem('auth_token')
+    if (token) {
+        let decode = jwtDecode(token)
+        console.log(decode)
+        return decode.email
+    } else { return "" }
+}
 export default function Profilechanger() {
     const [passMessage, setpassMessage] = useState()
     const [emailMessage, setemailMessage] = useState()
-    const [stateemail, setStateemail] = useState({ currentEmail: "", newEmail: "", confirmEmail: "" });
+    const [stateemail, setStateemail] = useState({ currentEmail: decodeEmail(), newEmail: "", confirmEmail: "" });
     const [statepass, setStatepass] = useState({ currentPassword: "", newPassword: "", confirmPassword: "" });
     const onChangeEmailHandler = (event) => {
         let nam = event.target.name;
@@ -29,9 +37,7 @@ export default function Profilechanger() {
             .then(res => {
                 console.log(res)
                 let token = res.data.token
-                localStorage.setItem('auth_token', token)
-                setAuthToken(token)
-                let decode = jwtDecode(token)
+                localStorage.removeItem('auth_token')
                 setpassMessage(null)
                 setemailMessage(<Message positive>
                     <Message.Header>You are eligible for a reward</Message.Header>
@@ -39,7 +45,15 @@ export default function Profilechanger() {
                         Please Confirm Your New Email, Check Your Mail
     </p>
                 </Message>)
-                console.log(decode)
+
+                setTimeout(
+                    function () {
+                        history.push('/')
+                        window.location.reload();
+                    }
+                        .bind(this),
+                    7000
+                );
             })
             .catch(error => {
                 console.log(error)
@@ -71,11 +85,13 @@ export default function Profilechanger() {
         let token = localStorage.getItem('auth_token')
         let decode = jwtDecode(token)
         console.log(decode)
-        return decode.email
+        setStateemail({ ...stateemail, currentEmail: decode.email })
+        // return decode.email
     }
-
+    //funcCurrentEmail()
     const { currentEmail, newEmail, confirmEmail } = stateemail;
     const { currentPassword, newPassword, confirmPassword } = statepass;
+    let history = useHistory()
     return (
         <div className="profile-form">
             {passMessage || emailMessage}
@@ -95,7 +111,7 @@ export default function Profilechanger() {
                                     className='form-control'
                                     placeholder="Enter Amount"
                                     name='currentEmail'
-                                    value={funcCurrentEmail()}
+                                    value={currentEmail}
                                     onChange={onChangeEmailHandler}
                                     disabled
                                 />

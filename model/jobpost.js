@@ -51,7 +51,7 @@ const jobpostSchema = new Schema({
     featured: {
         type: {
             isfeatured: {
-                type: Boolean,
+                type: Number,
                 required: true
             },
             featured_created_at: {
@@ -88,7 +88,7 @@ const jobpostSchema = new Schema({
         required: true
     }
 },
-
+    { timestamps: true }
 )
 const Jobpost = mongoose.model('Jobpost', jobpostSchema)
 module.exports = Jobpost

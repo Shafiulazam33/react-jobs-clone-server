@@ -6,6 +6,7 @@ padding: 15px;
 border: 1px solid #d6d2d2;
 border-radius: 3px;
 margin-bottom: 15px;
+width: 100%;
 }
 .company-post-wrapper:hover{
     background-color:rgba(0,0,0,0.1)

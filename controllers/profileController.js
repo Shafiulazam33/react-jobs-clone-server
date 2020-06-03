@@ -1,6 +1,5 @@
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
-const nodemailer = require("nodemailer");
 const Profile = require('../model/profile')
 const Company = require('../model/company')
 const Jobpost = require('../model/jobpost')
@@ -10,6 +9,8 @@ const emailValidator = require('../validator/emailValidator')
 const passwordValidator = require('../validator/passwordValidator')
 const jobPostValidator = require('../validator/jobPostvalidator')
 const jobPostCompanyValidator = require('../validator/jobPostCompanyvalidator')
+const { doemail } = require('../utils/doemail')
+console.log("a1", doemail)
 const { serverError, resourceError } = require('../utils/error')
 module.exports = {
     login(req, res) {
@@ -93,33 +94,8 @@ module.exports = {
                                     emailConfirmed: user.emailConfirmed,
                                     isAdmin: user.isAdmin
                                 }, 'SECRET', { expiresIn: '100h' })
-                                async function main() {
-                                    let testAccount = await nodemailer.createTestAccount();
-
-                                    let transporter = nodemailer.createTransport({
-                                        host: "smtp.ethereal.email",
-                                        port: 587,
-                                        secure: false, // true for 465, false for other ports
-                                        auth: {
-                                            user: testAccount.user, // generated ethereal user
-                                            pass: testAccount.pass, // generated ethereal password
-                                        },
-                                        tls: {
-                                            rejectUnauthorized: false
-                                        }
-                                    });
-                                    let link = `localhost:4000/api/profile/email-verification?token=${token}`
-                                    let info = await transporter.sendMail({
-                                        from: '"Fred Foo 👻" <foo@example.com>', // sender address
-                                        to: email, // list of receivers
-                                        subject: "Hello ✔", // Subject line
-                                        text: "Hello world?", // plain text body
-                                        html: `<a href="${link}">${link}</a>`, // html body
-                                    });
-                                    console.log("Message sent: %s", info.messageId);
-                                    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-                                }
-                                main().catch(console.error);
+                                doemail(email, token)
+                                doemail().catch(console.error);
 
                                 res.status(201).json({
                                     message: 'User Created Successfully',
@@ -158,11 +134,10 @@ module.exports = {
 
                     companies: user.companies
                 }, 'SECRET', { expiresIn: '100h' })
-
+                doemail(user.email, token)
                 res.status(200).json({
                     message: 'Updated Successfully',
-                    transaction: user,
-                    token: `Bearer ${token}`
+                    transaction: user
                 })
             })
             .catch(error => serverError(res, error))
@@ -229,9 +204,21 @@ module.exports = {
     updateJob(req, res) {
         let { _id, company, company_name, website, logo_url, short_description,
             job_title, location, remote, job_type, salary, experience,
-            apply_link, tags, description, discard } = req.body
-
-        if (!discard) {
+            apply_link, tags, description, discard, islisted } = req.body
+        console.log("ghjhvcvhjhgfghjkjhgv", islisted)
+        if (islisted != null) {
+            Jobpost.findOneAndUpdate({ _id }, {
+                $set: { islisted }
+            }, { new: true })
+                .exec()
+                .then(result => {
+                    console.log("s")
+                    res.status(200).json({
+                        result
+                    })
+                }).catch(error => serverError(res, error))
+        }
+        if (!discard && discard != null) {
             let validate = jobPostValidator({ company_id: company, job_title, location, remote, job_type, salary, experience, apply_link, tags, description })
             if (!validate.isValid) {
                 return res.status(400).json(validate.error)
@@ -239,7 +226,7 @@ module.exports = {
             Jobpost.findOneAndUpdate({ _id }, {
                 $set: {
                     company, job_title, location, remote, job_type, salary, experience,
-                    apply_link, tags, description
+                    apply_link, tags, description, islisted
                 }
             }, { new: true })
                 .exec()
@@ -249,7 +236,7 @@ module.exports = {
                     })
                 }).catch(error => serverError(res, error))
         }
-        else {
+        else if (discard != null) {
             let validate = jobPostCompanyValidator({ company_name, website, logo_url, short_description, job_title, location, remote, job_type, salary, experience, apply_link, tags, description })
             if (!validate.isValid) {
                 return res.status(400).json(validate.error)

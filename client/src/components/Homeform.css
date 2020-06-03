@@ -80,6 +80,18 @@ z-index: -1;
 .geosuggest__suggests{
     background: antiquewhite;
 }
+.ui.icon.message,.ui.info.message,.ui.warning.message {
+    margin:10px auto 0 auto;
+    max-width: 1127px;
+}
+.jobs-link{
+max-width: 1127px;
+margin: 10px auto 0 auto;
+}
+.jobs-link .company-post-wrapper{
+    width: 100%;
+    margin-bottom: 0;
+}
 @media screen and (max-width: 992px) and  (min-width: 768px){
   .searchbox-background{
       width: 723px;

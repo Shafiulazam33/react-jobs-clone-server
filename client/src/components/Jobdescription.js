@@ -44,7 +44,7 @@ export default function Jobdescription() {
             <div className="job-description-layer1">
                 <h1>{state.job_title} position at {state.company_name}</h1>
                 <p className="type-salary"><Icon name="info circle"></Icon><span>{state.job_type}</span><span className="job-slary"><Icon name="money bill alternate outline"></Icon> {state.salary}</span></p>
-                <p className="location-remote"><Icon name="location arrow" />{state.location}<span className="remote">{(state.remote) ? <><Icon name="home" /><span>remote</span></> : ""}</span></p>
+                <p className="location-remote"><Icon name="location arrow" />{state.location.location_name}<span className="remote">{(state.remote) ? <><Icon name="home" /><span>remote</span></> : ""}</span></p>
                 <p className="post-time"><Icon name="clock outline" />posted a month ago</p>
                 <ul className="ul job-description-tags">
                     {state.tags.map((val) =>

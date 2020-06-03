@@ -78,7 +78,7 @@ export default function Postjobs() {
         Axios.post(RouteOptions(), state)
             .then((res) => {
                 console.log(res)
-                setIsPosted(true)
+                //setIsPosted(true)
                 setjob_id(res.data.jobpost._id)
                 //history.push('/login')
             })
