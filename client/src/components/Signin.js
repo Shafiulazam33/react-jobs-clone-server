@@ -38,6 +38,7 @@ export default function Signin() {
 
             })
             .catch(error => {
+                console.log(error.response)
                 setError(error.response.data)
             })
 
@@ -45,10 +46,16 @@ export default function Signin() {
     let history = useHistory();
     return (
         <div className="signin-form-wrapper">
+            {error.message &&
+                <Message warning>
+                    <Message.Header>Oppps!</Message.Header>
+                    <p>Invalid Email/Password</p>
+                </Message>
+            }
             {error.confirm &&
                 <Message warning>
-                    <Message.Header>Confirm  Your Email</Message.Header>
-                    <p>Visit Your Email, then try again.</p>
+                    <Message.Header>Oppps!</Message.Header>
+                    <p>Please Confirm Your Email</p>
                 </Message>
             }
             <div className="signin-form">
@@ -57,20 +64,20 @@ export default function Signin() {
                     <div className="email-input-wrapper">
                         <p class="title">Email</p>
                         <div class="ui input"><input name="email" onChange={myChangeHandler} value={state.email} />
-                            {error.email && <p>{error.email}</p>}
                         </div>
+                        {error.email && <p className="error">{error.email}</p>}
                     </div>
                     <div className="password-input-wrapper">
-                        <p class="title">Password</p>
+                        <p class="title">Password<Link to="/reset">(Forget Password?)</Link></p>
                         <div class="ui input"><input name="password" onChange={myChangeHandler} value={state.password} />
-                            {error.password && <p>{error.password}</p>}
                         </div>
+                        {error.password && <p className="error">{error.password}</p>}
                     </div>
                     <Button color='teal'>Sign in</Button>
                 </form>
             </div>
             <div className="account-link">
-                Dont Have An Account<br></br>
+                Don't Have An Account?<br></br>
                 <Link to="/signup">Create account</Link>
             </div>
         </div>

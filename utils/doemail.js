@@ -1,5 +1,5 @@
 const nodemailer = require("nodemailer");
-async function doemail(email, token) {
+async function doemail(email, token, resetLink) {
     let testAccount = await nodemailer.createTestAccount();
 
     let transporter = nodemailer.createTransport({
@@ -14,7 +14,13 @@ async function doemail(email, token) {
             rejectUnauthorized: false
         }
     });
-    let link = `localhost:4000/api/profile/email-verification?token=${token}`
+    let link;
+    if (resetLink) {
+        link = `localhost:3000/password-reset?token=${token}&email=${email}`
+    }
+    else {
+        link = `localhost:4000/api/profile/email-verification?token=${token}`
+    }
     let info = await transporter.sendMail({
         from: '"Fred Foo 👻" <foo@example.com>', // sender address
         to: email, // list of receivers

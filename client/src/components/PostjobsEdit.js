@@ -123,9 +123,7 @@ export default function Postjobs() {
             {(error.company_id) ? <p className="error">Please Select A Company Name</p> : ""}
         </div>
         <h4>OR</h4>
-        <div>
-            <Button onClick={() => setState({ ...state, discard: true, company_id: "" })} primary>create a new company</Button>
-        </div>
+        <Button onClick={() => setState({ ...state, discard: true, company_id: "" })} primary>create a new company</Button>
     </div></>);
     const formnotexist = (<>
         <div class="create-company-wrapper">
@@ -166,127 +164,129 @@ export default function Postjobs() {
     if (isLoaded && !isPosted) {
         return (
             <>
-                <form onSubmit={submitHandler}>
-                    <div class="post-job-form">
-                        <div class="company">
-                            <div class="quick-pick">
-                                <div>
-                                    <span class="company-logo">c</span><span>Company</span>
+                <div className="profile-wrapper">
+                    <div className="post-job-form">
+                        <form onSubmit={submitHandler}>
+                            <div className="company">
+                                <div className="horizontal-line">
+                                    <div className="logo-wrapper">
+                                        <span className="company-logo">c</span><span>Company</span>
+                                    </div>
                                 </div>
+                                {(state.existing_name && state.discard === false) ? form_nameexist : formnotexist}
                             </div>
-                            {(state.existing_name && state.discard === false) ? form_nameexist : formnotexist}
-                        </div>
-                        <div class="job">
-                            <div class="quick-pick2">
-                                <div> <span class="job-logo"><img src="/images/iconfinder_Sed-05_2232591.png" />a</span>
-                                    <span>Job</span>
+                            <div className="job">
+                                <div className="horizontal-line">
+                                    <div className="logo-wrapper"> <span className="job-logo"><img src="/images/iconfinder_Sed-05_2232591.png" />a</span>
+                                        <span>Job</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="layer1">
-                                <div class="job-title"><p class="title">Job Title</p><div class="ui input"><input type="text" name="job_title" placeholder="Front end developer" onChange={myChangeHandler} value={state.job_title} /></div>
-                                    {(error.job_title) ? <p className="error">{error.job_title}</p> : ""}</div>
-                                <div class="location"> <p class="title">Location</p> <div class="ui input">
+                                <div className="layer1">
+                                    <div className="job-title"><p className="title">Job Title</p><div className="ui input"><input type="text" name="job_title" placeholder="Front end developer" onChange={myChangeHandler} value={state.job_title} /></div>
+                                        {(error.job_title) ? <p className="error">{error.job_title}</p> : ""}</div>
+                                    <div className="location"> <p className="title">Location</p> <div className="ui input">
 
-                                    <Geosuggest
-                                        ref={geosuggestEl}
-                                        placeholder="Pick a location e.g. Tokyo"
-                                        initialValue={state.location.location_name}
-                                        //fixtures={fixtures}
-                                        onSuggestSelect={() => onSuggestSelect}
-                                        onChange={onChange}
-                                        location={new window.google.maps.LatLng(null, null)}
-                                        radius="20" />
-                                </div>
-                                    {(error.location) ? <p className="error">{error.location}</p> : ""}</div>
-                                <div class="remote-type"><p class="title">Remote-working</p>
-
-                                    <Dropdown
-                                        placeholder='Remote Job Or Not'
-                                        name="remote"
-                                        onChange={dropdownChangeHandler}
-                                        fluid
-                                        selection
-                                        options={remoteOptions}
-                                        text={state.remote}
-                                    />
-                                    {(error.remote) ? <p className="error">{error.remote}</p> : ""}
-                                </div>
-                                <div class="job-type">
-                                    <p class="title">Job Type</p>
-
-                                    <Dropdown
-                                        placeholder='job type'
-                                        name="job_type"
-                                        onChange={dropdownChangeHandler}
-                                        fluid
-                                        selection
-                                        options={jobtypeOptions}
-                                        text={state.job_type}
-                                    />
-                                    {(error.job_type) ? <p className="error">{error.job_type}</p> : ""}
-                                </div>
-                            </div>
-                            <div class="layer2">
-                                <div class="salary"> <p class="title">Salary</p><div class="ui input"><input name="salary" placeholder="25000$-35000$" onChange={myChangeHandler} value={state.salary} /></div>
-                                    {(error.salary) ? <p className="error">{error.salary}</p> : ""}</div>
-                                <div class="experience">
-                                    <div class="experience-type">
-                                        <p class="title">Level of experience</p>
+                                        <Geosuggest
+                                            ref={geosuggestEl}
+                                            placeholder="Pick a location e.g. Tokyo"
+                                            initialValue={state.location.location_name}
+                                            //fixtures={fixtures}
+                                            onSuggestSelect={() => onSuggestSelect}
+                                            onChange={onChange}
+                                            location={new window.google.maps.LatLng(null, null)}
+                                            radius="20" />
+                                    </div>
+                                        {(error.location) ? <p className="error">{error.location}</p> : ""}</div>
+                                    <div className="remote-type"><p className="title">Remote-working</p>
 
                                         <Dropdown
-                                            placeholder='Level of experience'
-                                            name="experience"
+                                            placeholder='Remote Job Or Not'
+                                            name="remote"
                                             onChange={dropdownChangeHandler}
                                             fluid
                                             selection
-                                            options={experienceOptions}
-                                            text={state.experience}
+                                            options={remoteOptions}
+                                            text={state.remote}
                                         />
-                                        {(error.experience) ? <p className="error">{error.experience}</p> : ""}
+                                        {(error.remote) ? <p className="error">{error.remote}</p> : ""}
+                                    </div>
+                                    <div class="job-type">
+                                        <p class="title">Job Type</p>
+
+                                        <Dropdown
+                                            placeholder='job type'
+                                            name="job_type"
+                                            onChange={dropdownChangeHandler}
+                                            fluid
+                                            selection
+                                            options={jobtypeOptions}
+                                            text={state.job_type}
+                                        />
+                                        {(error.job_type) ? <p className="error">{error.job_type}</p> : ""}
                                     </div>
                                 </div>
-                                <div class="apply">
-                                    <p class="title">Apply url or email</p><div class="ui input"><input name="apply_link" onChange={myChangeHandler} value={state.apply_link} placeholder="Url or email to use in order to apply" /></div>
-                                    {(error.apply_link) ? <p className="error">{error.apply_link}</p> : ""}</div>
-                            </div>
-                            <div class="tags"><p class="title">Tags</p>
-                                <Dropdown
-                                    placeholder='Select tags'
-                                    fluid
-                                    multiple
-                                    search
-                                    selection
-                                    name="tags"
-                                    onChange={dropdownChangeHandler}
-                                    options={tagOptions}
-                                    value={state.tags}
-                                />
-                                {(error.tags) ? <p className="error">{error.tags}</p> : ""}
-                            </div>
-                            <div class="description"><p class="title">Description</p>
-                                <Editor
-                                    initialValue={state.description}
-                                    init={{
-                                        height: 500,
-                                        menubar: false,
-                                        plugins: [
-                                            'advlist autolink lists link image charmap print preview anchor',
-                                            'searchreplace visualblocks code fullscreen',
-                                            'insertdatetime media table paste code help wordcount'
-                                        ],
-                                        toolbar:
-                                            'undo redo underline Blockquote | formatselect fontselect fontsizeselect| bold italic backcolor | \
+                                <div class="layer2">
+                                    <div class="salary"> <p class="title">Salary</p><div class="ui input"><input name="salary" placeholder="25000$-35000$" onChange={myChangeHandler} value={state.salary} /></div>
+                                        {(error.salary) ? <p className="error">{error.salary}</p> : ""}</div>
+                                    <div class="experience">
+                                        <div class="experience-type">
+                                            <p class="title">Level of experience</p>
+
+                                            <Dropdown
+                                                placeholder='Level of experience'
+                                                name="experience"
+                                                onChange={dropdownChangeHandler}
+                                                fluid
+                                                selection
+                                                options={experienceOptions}
+                                                text={state.experience}
+                                            />
+                                            {(error.experience) ? <p className="error">{error.experience}</p> : ""}
+                                        </div>
+                                    </div>
+                                    <div class="apply">
+                                        <p class="title">Apply url or email</p><div class="ui input"><input name="apply_link" onChange={myChangeHandler} value={state.apply_link} placeholder="Url or email to use in order to apply" /></div>
+                                        {(error.apply_link) ? <p className="error">{error.apply_link}</p> : ""}</div>
+                                </div>
+                                <div class="tags"><p class="title">Tags</p>
+                                    <Dropdown
+                                        placeholder='Select tags'
+                                        fluid
+                                        multiple
+                                        search
+                                        selection
+                                        name="tags"
+                                        onChange={dropdownChangeHandler}
+                                        options={tagOptions}
+                                        value={state.tags}
+                                    />
+                                    {(error.tags) ? <p className="error">{error.tags}</p> : ""}
+                                </div>
+                                <div class="description"><p class="title">Description</p>
+                                    <Editor
+                                        initialValue={state.description}
+                                        init={{
+                                            height: 500,
+                                            menubar: false,
+                                            plugins: [
+                                                'advlist autolink lists link image charmap print preview anchor',
+                                                'searchreplace visualblocks code fullscreen',
+                                                'insertdatetime media table paste code help wordcount'
+                                            ],
+                                            toolbar:
+                                                'undo redo underline Blockquote | formatselect fontselect fontsizeselect| bold italic backcolor | \
              alignleft aligncenter alignright alignjustify | \
              bullist numlist | removeformat | cut copy paste'
-                                    }}
-                                    onEditorChange={handleEditorChange2}
-                                />
-                                {(error.description) ? <p className="error">{error.description}</p> : ""}
+                                        }}
+                                        onEditorChange={handleEditorChange2}
+                                    />
+                                    {(error.description) ? <p className="error">{error.description}</p> : ""}
+                                </div>
+                                <Button type="submit" primary>Submit</Button>
                             </div>
-                            <Button type="submit" primary>Submit</Button>
-                        </div>
+                        </form >
                     </div>
-                </form >
+                </div>
             </>
         )
     } else if (isLoaded && isPosted) {

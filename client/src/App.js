@@ -13,6 +13,9 @@ import Featured from './components/Featured'
 import PostCompanyEdit from './components/PostCompanyEdit'
 import PostjobsEdit from './components/PostjobsEdit'
 import Jobdescription from './components/Jobdescription'
+import PasswordReset from './components/PasswordReset'
+import Privacypolicy from './components/Privacypolicy'
+import Reset from './components/Reset'
 import Adv from './components/Adv'
 import { BrowserRouter, Route, Switch, useHistory } from 'react-router-dom'
 import ReactGA from 'react-ga';
@@ -36,10 +39,12 @@ var App = () => {
           <Route path='/chk' component={Homeform} />
           <Route path='/signin' component={Signin} />
           <Route path='/signup' component={Signup} />
+          <Route path='/reset' component={Reset} />
           <Route path='/admin' component={Admin} />
           <Route path='/postjobs' component={Postjobs} />
           <Route path='/faq' component={Faq} />
-          <Route path='/privacy' component={Privacy} />
+          <Route path='/password-reset' component={PasswordReset} />
+          <Route path='/privacy-policy' component={Privacypolicy} />
           <Route path='/profile' component={Profile} />
           <Route path='/featured/:job_id' component={Featured} />
           <Route path='/company/:_id/edit' exact component={PostCompanyEdit} />

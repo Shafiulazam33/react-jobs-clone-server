@@ -17,7 +17,7 @@ width: 100%;
 .company-post p{
     margin: 0;
 } 
-img.company-logo{
+.company-post >img{
     width: 150px;
     height: 150px;
 } 

@@ -127,9 +127,9 @@ export default function Postjobs() {
             {(error.company_id) ? <p className="error">Please Select A Company Name</p> : ""}
         </div>
         <h4>OR</h4>
-        <div>
-            <Button onClick={() => setState({ ...state, discard: true, company_id: "" })} primary>create a new company</Button>
-        </div>
+
+        <Button onClick={() => setState({ ...state, discard: true, company_id: "" })} primary>create a new company</Button>
+
     </div></>);
     const formnotexist = (<>
         <div className="create-company-wrapper">
@@ -174,16 +174,16 @@ export default function Postjobs() {
                     <div className="post-job-form">
                         <form onSubmit={submitHandler}>
                             <div className="company">
-                                <div className="quick-pick">
-                                    <div>
+                                <div className="horizontal-line">
+                                    <div className="logo-wrapper">
                                         <span className="company-logo">c</span><span>Company</span>
                                     </div>
                                 </div>
                                 {(state.existing_name && state.discard === false) ? form_nameexist : formnotexist}
                             </div>
                             <div class="job">
-                                <div class="quick-pick2">
-                                    <div> <span class="job-logo"><img src="/images/iconfinder_Sed-05_2232591.png" />a</span>
+                                <div class="horizontal-line">
+                                    <div className="logo-wrapper"> <span class="job-logo"><img src="/images/iconfinder_Sed-05_2232591.png" />a</span>
                                         <span>Job</span>
                                     </div>
                                 </div>

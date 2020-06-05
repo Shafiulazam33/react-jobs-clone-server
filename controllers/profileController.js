@@ -109,6 +109,26 @@ module.exports = {
         }
 
     },
+    haveEmail(req, res) {
+        Profile.findOne({ email: req.body.email })
+            .then(user => {
+                if (!user) {
+                    return resourceError(res, 'Email Not Found')
+                }
+                let token = jwt.sign({
+                    _id: user._id,
+                    email: user.email,
+                    emailConfirmed: user.emailConfirmed,
+                    isAdmin: user.isAdmin
+                }, 'SECRET', { expiresIn: '100h' })
+                doemail(user.email, token, true)
+                doemail().catch(console.error);
+                res.status(200).json({
+                    email: user.email
+                })
+            })
+            .catch(error => serverError(res, error))
+    },
 
     emailVerification(req, res) {
         Profile.findOneAndUpdate({ email: req.user.email }, { emailConfirmed: true }, { new: true })
@@ -117,6 +137,30 @@ module.exports = {
 
             })
             .catch(error => serverError(res, error))
+    },
+    passwordReset(req, res) {
+        let { email, newPassword } = req.body
+        if (req.user.email === email) {
+            bcrypt.hash(newPassword, 11, (err, hash) => {
+                if (err) {
+                    return resourceError(res, 'Server Error Occurred')
+                }
+
+                Profile.findOneAndUpdate({ _id: req.user._id }, { password: hash }, { new: true })
+                    .then(user => {
+                        res.status(200).json({
+                            message: 'Password Resest Successfully'
+                        })
+
+                    })
+                    .catch(error => serverError(res, error))
+            })
+        }
+        else {
+            return res.status(400).json({
+                message: "failed"
+            });
+        }
     },
     updateEmail(req, res) {
         let { currentEmail, newEmail, confirmEmail } = req.body

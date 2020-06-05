@@ -466,8 +466,8 @@ export default function Homeform() {
             <div className="remote-check"><p class="z-index0"><Checkbox toggle onChange={funcCheckbox} /></p>
               <p>I'm looking for remote jobs</p>
             </div>
-            <div className="quick-pick" id="z-index0">
-              <div>QUICK PICK</div>
+            <div className="horizontal-line" id="z-index0">
+              <div className="quick-pick">QUICK PICK</div>
             </div>
             <ul className="form-ul">
               {
@@ -494,7 +494,7 @@ export default function Homeform() {
                   <Link className="jobs-link" onClick={(e) => e.stopPropagation()} to={{ pathname: `/job/${value._id}`, id: { _id: value._id } }}>
                     <li key={value._id} className="company-post-wrapper">
                       <div className="company-post">
-                        <img alt="" src="//logo.clearbit.com/spotify.com" className="company-logo" />
+                        <img alt="" src="//logo.clearbit.com/spotify.com" />
                         <div className="job-details">
                           <div className="job-position-type">
                             <p>

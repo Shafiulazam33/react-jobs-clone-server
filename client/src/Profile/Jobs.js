@@ -74,7 +74,7 @@ export default function Jobs(props) {
 
                                     <li key={value._id} className="company-post-wrapper" onClick={(e) => { e.stopPropagation(); history.push(`/job/${value._id}`) }}>
                                         <div className="company-post">
-                                            <img alt="" src="//logo.clearbit.com/spotify.com" className="company-logo" />
+                                            <img alt="" src="//logo.clearbit.com/spotify.com" />
                                             <div className="job-details">
                                                 <div className="job-position-type">
                                                     <p>

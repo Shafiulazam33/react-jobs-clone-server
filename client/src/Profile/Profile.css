@@ -1,6 +1,6 @@
 .profile-wrapper{
     display: flex;
-    max-width: 1127px;
+    width: 1127px;
     margin: auto;
     margin-top: 15px;
     justify-content: space-between;
@@ -26,6 +26,9 @@
     margin-bottom: 15px;
     border-radius: 5px;
 }
+.password-change-form .logo-wrapper{
+left:39.5%;
+}
 .email-change-wrapper,.password-change-wrapper{
     display: flex;
 }
@@ -35,6 +38,10 @@
 }
 .email-submit,.password-submit{
     text-align: right;
+}
+i.black.icon {
+    color: #1b1c1d!important;
+    margin-right: 10px;
 }
 @media screen and (max-width: 1187px) and (min-width: 992px){
 .profile-wrapper{
@@ -50,6 +57,9 @@ width: 723px;
   }
 }
 @media screen and (max-width: 768px){
+    .profile-wrapper{
+width:95%;
+  }
      .profile-wrapper{
 flex-direction: column;
   }

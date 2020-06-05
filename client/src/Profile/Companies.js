@@ -21,7 +21,7 @@ export default function Companies(props) {
                                                 <div className="company-list-title"><Icon name="chart area" />{value.company_name}</div>
                                                 <p className="line1"></p>
                                                 <div className="edit-button">
-                                                    <Button primary><Link to={{ pathname: `/company/${value._id}/edit`, data: value }}>Edit</Link></Button>
+                                                    <Link className="ui primary button" to={{ pathname: `/company/${value._id}/edit`, data: value }}>Edit</Link>
                                                 </div>
                                             </div>
                                         </div>

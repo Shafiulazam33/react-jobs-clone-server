@@ -52,34 +52,35 @@ export default function Signup() {
         <div className="signin-form-wrapper">
             <div className="signin-form">
                 <form onSubmit={SubmitHandler}>
-                    <h1>Sign In</h1>
+                    <h1>Create Account</h1>
                     <div className="email-input-wrapper">
                         <p class="title">Email</p>
                         <div class="ui input"><input name="email" onChange={myChangeHandler} value={state.email} />
-                            {error.email && <p>{error.email}</p>}
                         </div>
+                        {error.email && <p className="error">{error.email}</p>}
                     </div>
                     <div className="password-input-wrapper">
                         <p class="title">Password</p>
                         <div class="ui input"><input name="password" onChange={myChangeHandler} value={state.password} />
-                            {error.password && <p>{error.password}</p>}
                         </div>
+                        {error.password && <p className="error">{error.password}</p>}
                     </div>
                     <div className="password-input-wrapper">
                         <p class="title">Confirm Password</p>
                         <div class="ui input"><input name="confirmPassword" onChange={myChangeHandler} value={state.confirmPassword} />
-                            {error.confirmpassword && <p>{error.confirmpassword}</p>}
                         </div>
+                        {error.confirmPassword && <p className="error">{error.confirmPassword}</p>}
                     </div>
-                    <Checkbox label='Make my profile visible' onClick={checkboxHandler} />
+                    <Checkbox label='Agree To' onClick={checkboxHandler} />
+                    <Link to="/privacy-policy">Privacy-Policy</Link>
                     <br></br>
                     <input type="submit" class="submit-button" ref={inputEl} value="Sign Up" />
                 </form>
             </div>
 
             <div className="account-link">
-                Already Have An Account<br></br>
-                <Link to="/sigin"><p>Sign In</p></Link>
+                Already Have An Account?<br></br>
+                <Link to="/signin"><p>Sign In</p></Link>
             </div>
         </div>
 

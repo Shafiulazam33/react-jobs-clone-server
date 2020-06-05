@@ -4,7 +4,7 @@ import { Message } from 'semantic-ui-react'
 import Axios from 'axios'
 import jwtDecode from 'jwt-decode'
 import setAuthToken from '../utils/setAuthToken'
-import { Button } from 'semantic-ui-react'
+import { Button, Icon } from 'semantic-ui-react'
 //import { compare } from 'bcrypt'
 const decodeEmail = () => {
     let token = localStorage.getItem('auth_token')
@@ -97,9 +97,9 @@ export default function Profilechanger() {
             {passMessage || emailMessage}
             <form onSubmit={emailsubmitHandler}>
                 <div className='email-change-form'>
-                    <div className="quick-pick">
-                        <div>
-                            <span className="company-logo">c</span><span>Company</span>
+                    <div className="horizontal-line">
+                        <div className="logo-wrapper">
+                            <Icon color='black' name="mail" /><span>Change Email</span>
                         </div>
                     </div>
                     <div className="email-change-wrapper">
@@ -152,9 +152,9 @@ export default function Profilechanger() {
             </form>
             <form onSubmit={passwordsubmitHandler}>
                 <div className='password-change-form'>
-                    <div className="quick-pick">
-                        <div>
-                            <span className="company-logo">c</span><span>Company</span>
+                    <div className="horizontal-line">
+                        <div className="logo-wrapper">
+                            <Icon color='black' name="key" /><span>Change Password</span>
                         </div>
                     </div>
                     <div className="password-change-wrapper">

@@ -30,7 +30,7 @@ margin-bottom: 5px;
         border-radius: 5px;
     }
     
-    .quick-pick,.quick-pick2 {
+    .horizontal-line{
         height: 1px;
         width: 99%;
         background: #d6d2d2;
@@ -42,12 +42,12 @@ margin-bottom: 5px;
         margin: 10px auto 15px auto;
     }
 
-    .quick-pick>div {
-    position: absolute;
+    .company-logo-wrapper {
+   position: absolute;
     top: -10px;
     z-index: 2;
     padding: 0 18px;
-    background: #faebd7;
+    background: white;
     left: 42%;
 }
 
@@ -59,17 +59,19 @@ margin-bottom: 5px;
  .company-logo {
     padding: 4px 2px 7px 2px;
     border-radius: 50%;
-    color: white;
+    color: #ffffff;
     display: inline-block;
     line-height: 0.0;
     margin-right: 10px;
+    background: black;
 }
-.quick-pick2>div {
+.logo-wrapper {
     position: absolute;
     top: -15px;
     z-index: 2;
     padding: 5px;
     background: white;
+    font-weight: 700;
     left: 42%;
 }
 .job-logo{
@@ -82,7 +84,7 @@ margin-bottom: 5px;
 }
     .job-logo img {
     top: 5px;
-    right: 29px;
+    right: 30px;
     width: 20px;
     height: 20px;
     position: absolute;
@@ -101,22 +103,29 @@ margin-bottom: 5px;
         text-align: center;
         color: #e43e3e;
     }
-    h4 {
-        display: flex;
-        padding: 0 10px 0 10px;
-        margin-top: 34px;
+   .company-wrapper h4 {
+        flex-basis: 5%;
+    margin-top: 30px;
+    text-align: center;
     }
     .company-wrapper button.ui.primary.button{
         margin-top: 21px;
         margin-bottom: 8px;
         flex-basis: 25%;
+        text-align: center;
     }
     .job {
         display: flex;
         flex-direction: column;
         margin-top: 15px;
     }
-
+    .job  button.ui.primary.button{
+margin-top: 10px;
+margin-left: 5px;
+    }
+.job .logo-wrapper{
+    left:43.5%;
+}
     .layer1 {
         display: flex;
         margin-top: 10px;
@@ -161,8 +170,10 @@ margin-bottom: 5px;
         flex-basis: 18.75%;
     }
 
-    .job-type {
+   .layer1 .job-type {
         flex-basis: 18.75%;
+        color:black;
+        text-align: left;
     }
 
     .salary {
@@ -197,7 +208,7 @@ margin-bottom: 15px;
     .create-company-wrapper .input{
         width: 100%;
     }
-    .company-name{
+    .create-company-wrapper .company-name{
 flex-basis: 37.5%;
 padding: 0 5px;
     }
@@ -212,10 +223,12 @@ padding: 0 5px;
     .short-description{
         padding: 0 5px;
     }
-    .ui.button {
+   .company .ui.button {
     margin-top: 15px;
+    margin-left: 5px;
     border-radius: 5px;
 }
+
 .geosuggest {
     width: 100%;
 }
@@ -243,15 +256,16 @@ input.geosuggest__input {
 }
 
 @media screen and (max-width: 768px){
+    .profile-wrapper{
+        width: 94%;
+    }
     .post-job-form{
-    max-width: 94%;
+    max-width: 100%;
   }
   .company-wrapper {
       flex-direction: column;
   }
-  .company-wrapper .ui.button{
-      flex-direction: column;
-  }
+  
   .create-company-wrapper{
 flex-direction: column;
   }

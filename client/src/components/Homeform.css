@@ -4,6 +4,7 @@ flex-grow: 1;
 .search-wrapper {
     height: 300px;
     /* text-align: center; */
+    margin-bottom: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -76,7 +77,14 @@ z-index: -1;
 .remote-check p{
     margin-left: 10px;
 }
-
+.quick-pick{
+    position: absolute;
+    top: -15px;
+    z-index: 2;
+    padding: 5px;
+    background: antiquewhite;;
+    left: 42%;
+}
 #z-index0,.z-index0{
     z-index: 1;
 }
@@ -84,24 +92,52 @@ z-index: -1;
     background: antiquewhite;
 }
 .ui.icon.message,.ui.info.message,.ui.warning.message {
-    margin:10px auto 0 auto;
+    margin:10px auto 10px auto;
     max-width: 1127px;
 }
 .jobs-link{
 max-width: 1127px;
-margin: 10px auto 0 auto;
+margin: 10px auto 10px auto;
 }
 .jobs-link .company-post-wrapper{
     width: 100%;
     margin-bottom: 0;
 }
+@media screen and (min-width: 992px) and  (max-width: 1200px){
+  .jobs-link{
+max-width: 933px;
+}
+.search-list .ui.icon.message, .search-list .ui.info.message,.search-list .ui.warning.message {
+   max-width: 933px;
+}
+}
 @media screen and (max-width: 992px) and  (min-width: 768px){
   .searchbox-background{
       width: 723px;
   }
+  .jobs-link{
+max-width: 723px;
 }
-@media screen and (max-width: 768px) and (min-width:480px) {
+.search-list .ui.icon.message, .search-list .ui.info.message,.search-list .ui.warning.message{
+   max-width: 723px;
+}
+}
+@media screen and (max-width:768px) {
   .searchbox-background{
       width: 80%;
   }
+  .jobs-link{
+max-width: 95%;
+  }
+  .search-list .ui.icon.message, .search-list .ui.info.message,.search-list .ui.warning.message{
+   max-width: 95%;
+}
+.company-post{
+flex-direction: column;
+}
+.company-post >img {
+    width: 200px;
+    height: 200px;
+    margin: 20px auto;
+}
 }
