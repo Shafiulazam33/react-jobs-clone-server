@@ -3,7 +3,6 @@ import Axios from 'axios'
 import jwtDecode from 'jwt-decode'
 import StripeCheckout from 'react-stripe-checkout';
 import { Button, Icon, Label } from 'semantic-ui-react'
-
 import {
     BrowserRouter as Router,
     Switch,
@@ -13,7 +12,8 @@ import {
     useRouteMatch,
     useHistory
 } from "react-router-dom";
-
+require('dotenv').config()
+console.log("qq12aaa", process.env.REACT_APP_STRIPE_KEY)
 let token = localStorage.getItem('auth_token');
 let decode;
 if (token) {
@@ -45,7 +45,7 @@ var Featured = (props) => {
                 panelLabel="Ready To Pay"
                 amount={100 * 100}
                 currency="USD"
-                stripeKey={"pk_test_90w6ttibPuPDAMqNfn9UovZ100qQ6W35nh"}
+                stripeKey={process.env.REACT_STRIPE_KEY}
             >
                 <Button as='div' labelPosition='right'>
                     <Button color='blue'>

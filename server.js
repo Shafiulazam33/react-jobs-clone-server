@@ -1,7 +1,7 @@
 if (process.env.NODE_ENV !== 'production') {
-    require('dotenv')
+    require('dotenv/config')
 }
-
+console.log(process.env.SECRET_KEY)
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
@@ -11,7 +11,7 @@ const passport = require('passport')
 const path = require('path')
 const app = express()
 /*zviyfishpkucdaqpck@awdrt.org may@dodihome.com*/
-const mongodburi = 'mongodb+srv://hany33:3300Mdhasny4@cluster1-3or4m.mongodb.net/react-jobs-clone-db?retryWrites=true&w=majority';
+const mongodburi = process.env.MONGODB_URI;
 app.use(morgan('dev'))
 app.use(cors())
 

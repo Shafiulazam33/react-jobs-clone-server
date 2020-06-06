@@ -1,8 +1,8 @@
 import React from 'react'
 import { useState, useRef, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import Axios from 'axios'
-import { Button, Checkbox } from 'semantic-ui-react'
+import { Button, Checkbox, Message } from 'semantic-ui-react'
 import './Signup.css'
 export default function Signup() {
     const [state, setState] = useState({ email: "", password: "", confirmPassword: "", checked: false });
@@ -33,8 +33,7 @@ export default function Signup() {
         Axios.post('http://localhost:4000/api/profile/register', state)
             .then((res) => {
                 console.log(res)
-
-                //history.push('/login')
+                history.push('/signin')
             })
             .catch(error => {
                 console.log(error.response.data)
@@ -48,8 +47,15 @@ export default function Signup() {
             setState({ ...state, checked: true });
         }
     }
+    let history = useHistory();
     return (
         <div className="signin-form-wrapper">
+            {error.message &&
+                <Message warning>
+                    <Message.Header>Oppps!</Message.Header>
+                    <p>{error.message}</p>
+                </Message>
+            }
             <div className="signin-form">
                 <form onSubmit={SubmitHandler}>
                     <h1>Create Account</h1>
