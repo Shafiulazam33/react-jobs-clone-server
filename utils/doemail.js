@@ -3,12 +3,11 @@ async function doemail(email, token, resetLink) {
     let testAccount = await nodemailer.createTestAccount();
 
     let transporter = nodemailer.createTransport({
-        host: 'in-v3.mailjet.com',
-        port: 587,
+        service: 'yahoo',
         secure: false,
         auth: {
             user: "mdshafiulazam33@yahoo.com",
-            pass: '1234578mdshafiulazam33@yahoo.com'
+            pass: '12345678mdshafiulazam33@yahoo.com'
         },
         tls: {
             rejectUnauthorized: false
