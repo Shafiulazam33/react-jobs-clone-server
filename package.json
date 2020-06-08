@@ -1,11 +1,11 @@
 {
-  "name": "React-jobs-clone-server",
+  "name": "React-jobs-clone",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "server": "nodemon server.js",
+    "server": "node server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
@@ -33,5 +33,8 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
+  },
+  "engines": {
+    "node": "12.6.1"
   }
 }
