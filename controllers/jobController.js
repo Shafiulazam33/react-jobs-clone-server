@@ -282,7 +282,7 @@ module.exports = {
         let { _id } = req.body
         Jobpost.findOneAndUpdate({ _id }, {
             $set: {
-                isfeatured: 0
+                'featured.isfeatured': 0
             }
         }, { new: true })
             .exec()

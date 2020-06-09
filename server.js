@@ -19,7 +19,6 @@ else {
 const mongodburi = process.env.MONGODB_URI;
 app.use(morgan('dev'))
 app.use(cors())
-
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use('/api/profile', require('./routers/profileRoute'))
@@ -27,7 +26,6 @@ app.use('/api/job', require('./routers/jobRoute'))
 app.use(passport.initialize())
 require('./passport')(passport)
 app.get('/', (req, res) => {
-
     res.json({
         message: `Welcome To Our 
         Application`
@@ -42,4 +40,5 @@ app.listen(PORT, () => {
             console.log('Database Connected...')
         });
 })
+
 

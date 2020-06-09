@@ -28,7 +28,7 @@ export default function Postjobs() {
         });
     console.log(state, isLoaded)
     useEffect(() => {
-        Axios.post('/api/job/find-job-edit', { _id })
+        Axios.put('/api/job/find-job-edit', { _id })
             .then((res) => {
                 console.log(res)
                 let options = []

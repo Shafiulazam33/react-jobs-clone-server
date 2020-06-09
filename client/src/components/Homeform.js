@@ -22,7 +22,7 @@ export default function Homeform() {
     })
   console.log(state.quicklocation)
   useEffect(() => {
-    Axios.get(`http://free.ipwhois.io/jso/`)
+    Axios.get(`https://free.ipwhois.io/json/`)
       .then(res => {
         console.log(res)
         let quicklocation

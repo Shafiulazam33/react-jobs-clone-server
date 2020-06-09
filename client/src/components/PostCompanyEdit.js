@@ -18,7 +18,7 @@ export default function Postjobs() {
         });
     console.log(state)
     useEffect(() => {
-        Axios.post('/api/job/find-company-edit', { _id, ...state })
+        Axios.put('/api/job/find-company-edit', { _id, ...state })
             .then((res) => {
                 setIsLoaded(true);
                 setState(res.data.result)

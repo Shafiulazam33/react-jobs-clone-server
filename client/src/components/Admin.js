@@ -11,8 +11,8 @@ const Admin = () => {
     const [dataPerPage, setDataPerPage] = useState(10);
     const [displayNone, setDisplayNone] = useState("");
     console.log(data, "e")
-    useEffect(() => {
-        Axios.get('/api/job/find-featured-post')
+    const funcFindFeaturedPost = () => {
+        Axios.get(' http://localhost:4000/api/job/find-featured-post')
             .then((res) => {
                 console.log(res.data.jobs)
                 setData(res.data.jobs)
@@ -21,7 +21,21 @@ const Admin = () => {
             .catch(error => {
                 console.log(error)
             })
+    }
+    useEffect(() => {
+        funcFindFeaturedPost()
     }, [])
+    const funcFeaturedPostOff = (_id) => {
+        window.alert("Are You Sure To Off Feature Of This Job")
+        Axios.put('/api/job/featured-post-close', { _id })
+            .then((res) => {
+                console.log(res.data.result)
+                funcFindFeaturedPost()
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
     const funcPageData = () => {
         let row = [];
         console.log("va", activePage, dataPerPage)
@@ -30,7 +44,7 @@ const Admin = () => {
             if (Number(i) === data.length) {
                 break;
             }
-            row.push(<tr>
+            row.push(<tr key={i * 25}>
                 <td>
                     {data[i]._id}
                 </td>
@@ -44,7 +58,7 @@ const Admin = () => {
                     {data[i].featured.featured_expired_at}
                 </td>
                 <td>
-                    <input className="off-button" id={data[i]._id} type="button" value="OFF" onClick={(e) => console.log(e.target.id)} />
+                    <input className="off-button" id={data[i]._id} type="button" value="OFF" onClick={(e) => funcFeaturedPostOff(e.target.id)} />
                 </td></tr>)
         }
         return row
@@ -81,13 +95,13 @@ const Admin = () => {
                     <div className="dashboard-menu"><p>Menu</p><p><Icon name="bars" className="white" onClick={() => { (!displayNone) ? setDisplayNone("display-none") : setDisplayNone("") }} /></p></div>
                     <ul className={displayNone}>
                         <li>
-                            <Link>
+                            <Link to={"/admin"}>
                                 <img className="dashboard-icon" alt="" src="/images/iconfinder_pie-chart_322488.png" />
                                 <span>Google Analytics</span>
                             </Link>
                         </li>
                         <li>
-                            <Link>
+                            <Link to={"/admin"}>
                                 <img className="dashboard-icon" alt="" src="/images/iconfinder_table_1608863.png" />
                                 <span>Featured Tables</span>
                             </Link>
@@ -96,24 +110,28 @@ const Admin = () => {
                 </div>
                 <div className="side-right">
                     <table>
-                        <tr>
-                            <th>
-                                Job Id
+                        <thead>
+                            <tr>
+                                <th>
+                                    Job Id
                     </th>
-                            <th>
-                                Email
+                                <th>
+                                    Email
                     </th>
-                            <th>
-                                Featured At
+                                <th>
+                                    Featured At
                     </th>
-                            <th>
-                                Featured Experider At
+                                <th>
+                                    Featured Experider At
                     </th>
-                            <th>
-                                Featured Off
+                                <th>
+                                    Featured Off
                     </th>
-                        </tr>
-                        {funcPageData()}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {funcPageData()}
+                        </tbody>
                     </table>
                     <div className="pagination-wrapper">
                         <div><input type="Number" className="pagination-input" onKeyPress={

@@ -16,7 +16,7 @@ var Featured = () => {
     let { job_id } = useParams()
     const onToken = (token) => {
         console.log(token)
-        Axios.post('/api/job/payfor-feature', { ...token, job_id })
+        Axios.put('/api/job/payfor-feature', { ...token, job_id })
             .then((res) => {
                 console.log(res)
             })
