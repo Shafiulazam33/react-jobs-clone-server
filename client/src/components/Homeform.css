@@ -3,7 +3,6 @@ flex-grow: 1;
 }
 .search-wrapper {
     height: 300px;
-    /* text-align: center; */
     margin-bottom: 10px;
     display: flex;
     justify-content: center;
@@ -90,6 +89,9 @@ z-index: -1;
 }
 .geosuggest__suggests{
     background: antiquewhite;
+}
+ .ui.toggle.checkbox label:after {
+z-index:1;
 }
 .ui.icon.message,.ui.info.message,.ui.warning.message {
     margin:10px auto 10px auto;

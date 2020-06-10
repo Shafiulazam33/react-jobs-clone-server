@@ -4,6 +4,9 @@
 .navbar-wrapper a{
   color: white;
 }
+.navbar-wrapper a:hover{
+  color: #4183c4;
+}
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -36,9 +39,6 @@
     border-left: 1px solid white;
     border-right: 1px solid white;
     margin: 0;
-    color: white;
-}
-a{
     color: white;
 }
 

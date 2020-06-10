@@ -11,7 +11,7 @@ export default function Profile() {
     const [stateJob, setStateJobs] = useState([])
     let { path, url } = useRouteMatch();
     useEffect(() => {
-        Axios.post('/api/job/companies')
+        Axios({ method: 'get', url: '/api/job/companies', headers: { 'Cache-control': 'no-cache' } })
             .then((res) => {
                 setStateCompany(res.data.companies)
                 setStateJobs(res.data.jobposts)
