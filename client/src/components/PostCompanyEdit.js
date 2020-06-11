@@ -16,7 +16,6 @@ export default function Postjobs() {
         useState({
             company_id: "", company_name: "", website: "", logo_url: "", short_description: ""
         });
-    console.log(state)
     useEffect(() => {
         Axios.put('/api/job/find-company-edit', { _id, ...state })
             .then((res) => {
@@ -36,7 +35,6 @@ export default function Postjobs() {
         event.preventDefault();
         Axios.put('http://localhost:4000/api/profile/update-company', { _id, ...state })
             .then((res) => {
-                console.log(res)
                 history.push('/profile/companies')
             })
             .catch(error => {

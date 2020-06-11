@@ -20,9 +20,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import ReactGA from 'react-ga';
 import './App.css'
 var App = () => {
-  console.log("abuk2")
   useEffect(() => {
-    console.log("abuk")
     ReactGA.initialize('UA-167933617-1');
     ReactGA.pageview(window.location.pathname + window.location.search);
   });

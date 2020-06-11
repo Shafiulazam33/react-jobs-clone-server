@@ -24,24 +24,19 @@ export default function Postjobs() {
             job_title: "", location: {}, remote: "", job_type: "", salary: "", experience: "",
             apply_link: "", tags: "", description: "", discard: false
         });
-    console.log(state)
     useEffect(() => {
-        Axios.get('/api/job/companies')
+        Axios.post('/api/job/companies')
             .then((res) => {
-                console.log(res)
                 let options = []
                 if (res.data.companies.length > 0) {
-                    console.log("dd")
                     res.data.companies.forEach((item, index) => {
                         options.push({ key: item._id, text: item.company_name, value: item._id })
                     })
                     setState({ ...state, existing_name: options });
                 }
                 else {
-                    console.log("sddd")
                     setState({ ...state, discard: true });
                 }
-                console.log(options)
                 setIsLoaded(true);
             })
             .catch(error => {
@@ -71,12 +66,10 @@ export default function Postjobs() {
         }
         Axios.post(RouteOptions(), state)
             .then((res) => {
-                console.log(res)
                 setIsPosted(true)
                 setjob_id(res.data.jobpost._id)
             })
             .catch(error => {
-                console.log(error.response.data)
                 setError({ ...error.response.data });
             })
     }

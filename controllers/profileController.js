@@ -11,26 +11,21 @@ const passwordValidator = require('../validator/passwordValidator')
 const jobPostValidator = require('../validator/jobPostvalidator')
 const jobPostCompanyValidator = require('../validator/jobPostCompanyvalidator')
 const { doemail } = require('../utils/doemail')
-console.log("a1", doemail)
 const { serverError, resourceError } = require('../utils/error')
 module.exports = {
     login(req, res) {
         let { email, password } = req.body
-        console.log(req.body)
         let validate = loginValidator({ email, password })
-        console.log(validate)
         if (!validate.isValid) {
             return res.status(400).json(validate.error)
         }
 
         Profile.findOne({ email })
-            // Use Populate for transaction
             .then(user => {
                 if (!user) {
                     return resourceError(res, 'User Not Found')
                 }
                 if (!user.emailConfirmed) {
-                    console.log("ABAL")
                     return res.status(400).json({
                         confirm: "Please Confirm Your Email"
                     })
@@ -81,10 +76,6 @@ module.exports = {
                             password: hash,
                             companies: [],
                         })
-
-
-
-
                         profile.save()
                             .then(user => {
                                 let token = jwt.sign({
@@ -133,10 +124,10 @@ module.exports = {
         Profile.findOneAndUpdate({ email: req.user.email }, { emailConfirmed: true }, { new: true })
             .then(user => {
                 res.send("<p>Email is confirmed</p>")
-
             })
             .catch(error => serverError(res, error))
     },
+
     passwordReset(req, res) {
         let { email, newPassword } = req.body
         if (req.user.email === email) {
@@ -144,13 +135,11 @@ module.exports = {
                 if (err) {
                     return resourceError(res, 'Server Error Occurred')
                 }
-
                 Profile.findOneAndUpdate({ _id: req.user._id }, { password: hash }, { new: true })
                     .then(user => {
                         res.status(200).json({
                             message: 'Password Resest Successfully'
                         })
-
                     })
                     .catch(error => serverError(res, error))
             })
@@ -184,8 +173,8 @@ module.exports = {
                 })
             })
             .catch(error => serverError(res, error))
-
     },
+
     updatePassword(req, res) {
         let { currentPassword, newPassword, confirmPassword } = req.body
         let validate = passwordValidator({ currentPassword, newPassword, confirmPassword })
@@ -319,5 +308,11 @@ module.exports = {
         }
     }
 }
+
+
+
+
+
+
 
 

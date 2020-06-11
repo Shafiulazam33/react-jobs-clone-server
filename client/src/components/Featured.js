@@ -15,10 +15,8 @@ if (token) {
 var Featured = () => {
     let { job_id } = useParams()
     const onToken = (token) => {
-        console.log(token)
         Axios.put('/api/job/payfor-feature', { ...token, job_id })
             .then((res) => {
-                console.log(res)
             })
             .catch(error => {
                 console.log(error)

@@ -9,7 +9,6 @@ const decodeEmail = () => {
     let token = localStorage.getItem('auth_token')
     if (token) {
         let decode = jwtDecode(token)
-        console.log(decode)
         return decode.email
     } else { return "" }
 }
@@ -23,8 +22,6 @@ export default function Profilechanger() {
         let val = event.target.value;
         setStateemail({ ...stateemail, [nam]: val });
     }
-
-
     const onChangePasswordHandler = (event) => {
         let nam = event.target.name;
         let val = event.target.value;
@@ -34,7 +31,6 @@ export default function Profilechanger() {
         e.preventDefault()
         Axios.put('/api/profile/update-email', stateemail)
             .then(res => {
-                console.log(res)
                 localStorage.removeItem('auth_token')
                 setpassMessage(null)
                 setemailMessage(<Message positive>
@@ -70,7 +66,6 @@ export default function Profilechanger() {
                         Your Password Successfully Changed
     </p>
                 </Message>)
-                console.log(decode)
             })
             .catch(error => {
                 console.log(error)
@@ -193,3 +188,5 @@ export default function Profilechanger() {
         </div>
     )
 }
+
+

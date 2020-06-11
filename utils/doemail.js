@@ -3,28 +3,32 @@ async function doemail(email, token, resetLink) {
     let testAccount = await nodemailer.createTestAccount();
 
     let transporter = nodemailer.createTransport({
+        host: 'smtp.mail.yahoo.com',
+        port: 465,
         service: 'yahoo',
         secure: false,
+        tls: false,
         auth: {
-            user: "mdshafiulazam33@yahoo.com",
-            pass: '12345678mdshafiulazam33@yahoo.com'
+            user: 'mdshafiulazam33@yahoo.com',
+            pass: 'nbwnvhnrxrhqdmuz'
         },
-        tls: {
-            rejectUnauthorized: false
-        }
+        debug: false,
+        logger: true
     });
-    let link;
+    let link, subText;
     if (resetLink) {
-        link = `localhost:3000/password-reset?token=${token}&email=${email}`
+        link = `https://react-jobs-clone.herokuapp.com/password-reset?token=${token}&email=${email}`
+        subText = "Password-Reset On React-Jobs-Clone"
     }
     else {
-        link = `localhost:4000/api/profile/email-verification?token=${token}`
+        link = `https://react-jobs-clone.herokuapp.com/api/profile/email-verification?token=${token}`
+        subText = "Email Verification For React-Jobs-Clone"
     }
+    console.log(email)
     let info = await transporter.sendMail({
-        from: '"Fred Foo 👻" <foo@example.com>', // sender address
+        from: '<mdshafiulazam33@yahoo.com>', // sender address
         to: email, // list of receivers
-        subject: "Hello ✔", // Subject line
-        text: "Hello world?", // plain text body
+        subject: subText, // Subject line
         html: `<a href="${link}">${link}</a>`, // html body
     });
     console.log("Message sent: %s", info.messageId);

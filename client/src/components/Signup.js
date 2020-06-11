@@ -23,20 +23,15 @@ export default function Signup() {
     const myChangeHandler = (event) => {
         let nam = event.target.name;
         let val = event.target.value;
-
         setState({ ...state, [nam]: val });
     }
-
     const SubmitHandler = (e) => {
         e.preventDefault();
-        console.log("aaaaaaaaaaa555")
         Axios.post('/api/profile/register', state)
             .then((res) => {
-                console.log(res)
                 history.push('/signin')
             })
             .catch(error => {
-                console.log(error.response.data)
                 setError(error.response.data);
             })
     }
@@ -93,3 +88,5 @@ export default function Signup() {
 
     )
 }
+
+

@@ -6,7 +6,6 @@ import '../Profile/Jobs.css'
 export default function Jobs(props) {
     let _id;
     let { data, com } = props;
-    console.log(data, com)
     const [statedata, setData] = useState(false)
     useEffect(() => {
         setTimeout(
@@ -15,10 +14,9 @@ export default function Jobs(props) {
             },
             3000
         );
-
     }, [])
+
     const funcCheckbox = (val, ind) => {
-        console.log(ind, val)
         funcList(null, ind.checked)
     }
     const funcCh = (val) => {
@@ -30,7 +28,6 @@ export default function Jobs(props) {
         }
     }
     const funcList = (id, check) => {
-        console.log(_id, check)
         if (id != null) {
             _id = id
         }
@@ -38,7 +35,6 @@ export default function Jobs(props) {
             if (check === true) {
                 Axios.put(`/api/profile/update-job`, { _id, islisted: true })
                     .then(res => {
-                        console.log(res)
                         setData(true)
                     })
                     .catch(error => {
@@ -48,7 +44,6 @@ export default function Jobs(props) {
             else {
                 Axios.put(`/api/profile/update-job`, { _id, islisted: false })
                     .then(res => {
-                        console.log(res)
                         setData(true)
                     })
                     .catch(error => {

@@ -19,8 +19,7 @@ export default function Resest() {
         e.preventDefault();
         if (!state.email) {
             setError("Insert Your Email")
-        }
-        console.log("aaaa55")
+                }
         Axios.post('/api/profile/have-email', state)
             .then((res) => {
                 if (res.data.email === state.email) {
@@ -38,7 +37,6 @@ export default function Resest() {
 
             })
             .catch(error => {
-                console.log("j", error.response.data.message)
                 setMessage(<Message warning>
                     <Message.Header>Confirm  Your Email</Message.Header>
                     <p>Visit Your Email, then try again.</p>

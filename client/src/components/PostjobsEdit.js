@@ -26,11 +26,9 @@ export default function Postjobs() {
             job_title: "", location: {}, remote: "", job_type: "", salary: "", experience: "",
             apply_link: "", tags: "", description: "", discard: false
         });
-    console.log(state, isLoaded)
     useEffect(() => {
         Axios.put('/api/job/find-job-edit', { _id })
             .then((res) => {
-                console.log(res)
                 let options = []
                 res.data.companies.forEach((item, index) => {
                     options.push({ key: item._id, text: item.company_name, value: item._id })
@@ -38,7 +36,6 @@ export default function Postjobs() {
                 let { company_name } = res.data.companies.find((item) => {
                     return (item._id === res.data.jobposts.company)
                 })
-                console.log(options, res.data.jobposts, res.data.companies)
                 setState({ ...state, existing_name: options, ...res.data.jobposts, company_name });
                 setIsLoaded(true);
             })

@@ -3,8 +3,6 @@ const passport = require('passport')
 module.exports = (req, res, next) => {
     passport.authenticate('jwt', (err, user, info) => {
         if (err) {
-            console.log(info)
-            console.log(err)
             return next(err)
         }
 

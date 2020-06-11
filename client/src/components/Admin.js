@@ -10,11 +10,9 @@ const Admin = () => {
     const [dataLength, setDataLength] = useState(null);
     const [dataPerPage, setDataPerPage] = useState(10);
     const [displayNone, setDisplayNone] = useState("");
-    console.log(data, "e")
     const funcFindFeaturedPost = () => {
         Axios.get(' http://localhost:4000/api/job/find-featured-post')
             .then((res) => {
-                console.log(res.data.jobs)
                 setData(res.data.jobs)
                 setDataLength(res.data.jobs.length)
             })
@@ -29,7 +27,6 @@ const Admin = () => {
         window.alert("Are You Sure To Off Feature Of This Job")
         Axios.put('/api/job/featured-post-close', { _id })
             .then((res) => {
-                console.log(res.data.result)
                 funcFindFeaturedPost()
             })
             .catch(error => {
@@ -38,9 +35,7 @@ const Admin = () => {
     }
     const funcPageData = () => {
         let row = [];
-        console.log("va", activePage, dataPerPage)
         for (let i = (activePage - 1) * dataPerPage; i < (activePage * dataPerPage); i++) {
-            console.log("va", i)
             if (Number(i) === data.length) {
                 break;
             }
@@ -70,14 +65,11 @@ const Admin = () => {
         let page = (activePage - 2) <= 0 ? 1 : activePage - 2
         let range = Math.ceil(dataLength / dataPerPage)
         range = (range >= page + 4) ? (page + 4) : range
-        console.log(page, range, dataLength, dataPerPage)
         let list = [];
         let cls;
         for (let i = page; i <= range; i++) {
             if (activePage === i) { cls = "blue"; } else { cls = "" }
-            console.log("a", activePage, "b", i)
             list.push(<li key={i} id={i} className={"pagination" + " " + cls} onClick={() => funcPageClick(i)}>{i}</li>)
-            console.log(list)
         }
         return list
     }

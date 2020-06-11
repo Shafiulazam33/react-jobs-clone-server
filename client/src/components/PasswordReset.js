@@ -10,7 +10,6 @@ export default function PasswordReset() {
     let history = useHistory()
     const [state, setState] = useState({ newPassword: "", confirmPassword: "" });
     const [stateError, setError] = useState({});
-    console.log(stateError)
     const myChangeHandler = (event) => {
         let nam = event.target.name;
         let val = event.target.value;
@@ -34,7 +33,6 @@ export default function PasswordReset() {
         if (state.newPassword.length !== 0 && state.confirmPassword.length !== 0 && state.confirmPassword !== state.newPassword) {
             error.match = "Passwords Don't Match"
         }
-        console.log(error)
         setError({ ...error })
         if (Object.keys(error).length > 0) {
             return true
@@ -43,21 +41,17 @@ export default function PasswordReset() {
 
     const SubmitHandler = (e) => {
         e.preventDefault();
-        console.log(checkPassword())
         if (checkPassword()) {
             return;
         }
         let email = query.get("email")
         Axios.put(`/api/profile/password-reset?token=${query.get("token")}`, { email, ...state })
             .then((res) => {
-
                 history.push("/signin")
-                console.log(res)
             })
             .catch(error => {
                 setError(error.response.data)
             })
-
     }
     return (
         <div className="signin-form-wrapper">
@@ -90,3 +84,5 @@ export default function PasswordReset() {
 
     )
 }
+
+

@@ -13,17 +13,15 @@ export default function Jobdescription() {
     const [isLoaded, setIsLoaded] = useState(false);
 
     let { _id } = useParams();
-    console.log("state")
-    console.log(state)
     useEffect(() => {
         Axios.post('/api/job/jobs', { _id })
             .then((res) => {
                 let jobs = res.data.jobs[0]
-                console.log(jobs)
                 setState({ ...jobs, ...jobs.company })
                 setIsLoaded(true);
             })
             .catch(error => {
+                console.log(error)
             })
     }, []);
     function createMarkup() {

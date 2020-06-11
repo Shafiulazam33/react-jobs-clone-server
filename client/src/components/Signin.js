@@ -19,8 +19,6 @@ export default function Signin() {
         e.preventDefault();
         Axios.post('/api/profile/login', state)
             .then((res) => {
-
-                console.log(res)
                 let token = res.data.token
                 localStorage.setItem('auth_token', token)
                 setAuthToken(token)

@@ -20,9 +20,8 @@ export default function Homeform() {
     useState({
       searchword: "", remote: false, quicklocation: "", skip: true, count: 0
     })
-  console.log(state.quicklocation)
   useEffect(() => {
-    Axios.get(`https://free.ipwhois.io/json/`)
+    Axios.get(`https://api.ipgeolocationapi.com/geolocate`)
       .then(res => {
         console.log(res)
         let quicklocation
@@ -46,7 +45,6 @@ export default function Homeform() {
         else {
           Axios.post('/api/job/jobs', { "featured.isfeatured": 1 })
             .then(res => {
-              console.log(res)
               setData(res.data.jobs)
             })
             .catch(error => {
@@ -58,7 +56,6 @@ export default function Homeform() {
         console.log(error)
         Axios.post(`/api/job/jobs`, { "featured.isfeatured": 1 })
           .then(res => {
-            console.log(res)
             setData(res.data.jobs)
           })
           .catch(error => {
@@ -68,25 +65,20 @@ export default function Homeform() {
       })
   }, []);
   const onSuggestSelect = (suggest) => {
-    console.log("aqqq", suggest);
     if (!suggest) { return; }
     setData([])
     let location = {};
     let address = suggest.gmaps.address_components
-    console.log(address)
     location.location_name = suggest.description
     location.place_id = suggest.gmaps.place_id
     address.map((value, index) => {
       if (value.types[0] === "country") {
-        console.log("i", value.long_name)
         location.country = value.long_name;
       }
       else if (value.types[0] === "administrative_area_level_1") {
-        console.log("i", value.long_name)
         location.admin_area1 = value.long_name;
       }
       else if (value.types[0] === "administrative_area_level_2") {
-        console.log("i", value.long_name)
         location.admin_area2 = value.long_name;
       }
     }
@@ -98,7 +90,6 @@ export default function Homeform() {
       We are fetching that {location.location_name} for you.
     </Message.Content>
     </Message>)
-    console.log(location)
     Axios.post(`/api/job/jobs`, { "location.place_id": location.place_id })
       .then(res => {
         if (res.data.jobs.length < 1) {
@@ -117,7 +108,6 @@ export default function Homeform() {
                             </Message>)
                           }
                           else {
-                            console.log(res)
                             setMessage(<Message warning>
                               <Message.Header>Oh Sorry!</Message.Header>
                               <p>No result was found for location {location.location_name} ,so we tried for {location.country}</p>
@@ -130,7 +120,7 @@ export default function Homeform() {
                         })
                     }
                     else {
-                      console.log(res)
+
                       setMessage(<Message warning>
                         <Message.Header>Oh Sorry!</Message.Header>
                         <p>No result was found for location {location.location_name} ,so we tried for {location.admin_area2}</p>
@@ -143,7 +133,6 @@ export default function Homeform() {
                   })
               }
               else {
-                console.log(res)
                 setMessage(<Message warning>
                   <Message.Header>Oh Sorry!</Message.Header>
                   <p>No result was found for location {location.location_name} ,so we tried for {location.admin_area1}</p>
@@ -156,7 +145,6 @@ export default function Homeform() {
             })
         }
         else {
-          console.log(res)
           setMessage(null)
           setData(res.data.jobs)
         }
@@ -165,17 +153,12 @@ export default function Homeform() {
         console.log(error)
       })
   }
-  const onChange = (value) => {
-    console.log(value)
-  }
-  console.log("as")
   const funcCheckbox = (ind, val) => {
     if (val.checked === true) {
       geosuggestEl.current.update("")
       setMessage(null)
       Axios.post(`/api/job/jobs`, { remote: "Yes" })
         .then(res => {
-          console.log(res)
           setData(res.data.jobs)
         })
         .catch(error => {
@@ -201,14 +184,13 @@ export default function Homeform() {
 
     setTimeout(
       function () {
-
         let item = document.getElementsByClassName("geosuggest__item");
-        console.log(item[0])
         ReactDOM.findDOMNode(item[0]).click()
       },
       4000
     );
   }
+
   const date_diff_indays = (date1) => {
     let dt1 = new Date(date1);
     let dt2 = new Date();
@@ -233,7 +215,6 @@ export default function Homeform() {
               initialValue={(state.quicklocation) ? state.quicklocation : ""}
               queryDelay="2500"
               onSuggestSelect={onSuggestSelect}
-              onChange={onChange}
               location={new window.google.maps.LatLng(null, null)}
               radius="20" />
             <div className="remote-check"><Checkbox toggle onChange={funcCheckbox} />
@@ -266,6 +247,8 @@ export default function Homeform() {
                 <>
                   <Link className="jobs-link" onClick={(e) => e.stopPropagation()} to={{ pathname: `/job/${value._id}`, id: { _id: value._id } }}>
                     <li key={value._id} className="company-post-wrapper">
+
+                      {(value.featured.isfeatured) ? <div className="sticker">Featured Job</div> : ""}
                       <div className="company-post">
                         <img alt="" src={value.company.logo_url} />
                         <div className="job-details">
