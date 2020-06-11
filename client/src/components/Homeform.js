@@ -7,6 +7,7 @@ import Axios from 'axios';
 import { Icon, Label, Checkbox, Message } from 'semantic-ui-react'
 
 const quicklocations = ["San Francisco", "New York", "US", "London", "Berlin", "Singapore"]
+const ipApis=["https://ip-geolocation.whoisxmlapi.com/api/v1?apiKey=at_4sNpj0U2toNHNXaMJfvClmSafV5vB","https://ip-geolocation.whoisxmlapi.com/api/v1?apiKey=at_7TASe6hC7vZETVoLcZVOESgoWJJE0"]
 export default function Homeform() {
   const geosuggestEl = useRef(null);
   let { name } = useParams();
@@ -14,19 +15,19 @@ export default function Homeform() {
   const [statedata, setData] = useState([])
   const [stateError, setError] =
     useState({
-      error: false
+      error: false//vdH8KbhvFUP9hWf
     })
   const [state, setState] =
     useState({
-      searchword: "", remote: false, quicklocation: "", skip: true, count: 0
+      searchword: "", remote: false, quicklocation: ""
     })
   useEffect(() => {
-    Axios.get(`https://api.ipgeolocationapi.com/geolocate`)
+    Axios.get(ipApis[Math.floor(Math.random() * 2)])
       .then(res => {
         console.log(res)
         let quicklocation
-        if (res.data.country) {
-          quicklocation = res.data.region + "," + res.data.country
+        if (res.data.location.country) {
+          quicklocation =res.data.location.region +","+ res.data.location.region + "," + res.data.location.country
           setState({ ...state, quicklocation })
           setTimeout(
             function () {
