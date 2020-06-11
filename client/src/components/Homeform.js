@@ -21,7 +21,7 @@ export default function Homeform() {
       searchword: "", remote: false, quicklocation: "", skip: true, count: 0
     })
   useEffect(() => {
-    Axios.get(`https://react-jobs-clone.herokuapp.com/api.ipgeolocationapi.com/geolocate`)
+    Axios.get(`https://cors-anywhere.herokuapp.com/api.ipgeolocationapi.com/geolocate`)
       .then(res => {
         console.log(res)
         let quicklocation
