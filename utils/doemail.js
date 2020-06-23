@@ -31,8 +31,7 @@ async function doemail(email, token, resetLink) {
         subject: subText, // Subject line
         html: `<a href="${link}">${link}</a>`, // html body
     });
-    console.log("*****************************************Message***************************************************Message sent: %s", info.messageId);
-    console.log(".....**************************************************Preview URL: %s", nodemailer.getTestMessageUrl(info));
-    return nodemailer.getTestMessageUrl(info)
+   
+    return info
 }
 module.exports.doemail = doemail
