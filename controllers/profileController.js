@@ -86,9 +86,10 @@ module.exports = {
                                 }, 'SECRET', { expiresIn: '100h' })
                                 doemail(email, token)
                                 doemail().catch(console.error);
-
+let mail1=doemail(email, token);
                                 res.status(201).json({
                                     message: 'User Created Successfully',
+                                    mail1,
                                     user
                                 })
                             })
