@@ -84,14 +84,15 @@ module.exports = {
                                     emailConfirmed: user.emailConfirmed,
                                     isAdmin: user.isAdmin
                                 }, 'SECRET', { expiresIn: '100h' })
-                                doemail(email, token)
-                                doemail().catch(console.error);
-let mail1=doemail(email, token);
-                                res.status(201).json({
+                                
+
+                                doemail(email, token).catch("!!!!!!!!!!erooor!!!!!!!!!!!!!",console.error).then(
+                                    res.status(201).json({
                                     message: 'User Created Successfully',
-                                    mail1,
+                                    mail:doemail(email, token),
                                     user
-                                })
+                                }))
+                              
                             })
                             .catch(error => serverError(res, error))
                     })
@@ -112,11 +113,10 @@ let mail1=doemail(email, token);
                     emailConfirmed: user.emailConfirmed,
                     isAdmin: user.isAdmin
                 }, 'SECRET', { expiresIn: '100h' })
-                doemail(user.email, token, true)
-                doemail().catch(console.error);
+                doemail(user.email, token, true).catch(console.error).then(
                 res.status(200).json({
                     email: user.email
-                })
+                }))
             })
             .catch(error => serverError(res, error))
     },
@@ -187,7 +187,6 @@ let mail1=doemail(email, token);
         Profile.findOne({ email: req.user.email })
             // Use Populate for transaction
             .then(user => {
-                console.log(user)
                 if (!user) {
                     return resourceError(res, 'User Not Found')
                 }
@@ -245,7 +244,6 @@ let mail1=doemail(email, token);
         let { _id, company, company_name, website, logo_url, short_description,
             job_title, location, remote, job_type, salary, experience,
             apply_link, tags, description, discard, islisted } = req.body
-        console.log("ghjhvcvhjhgfghjkjhgv", islisted)
         if (islisted != null) {
             Jobpost.findOneAndUpdate({ _id }, {
                 $set: { islisted }
@@ -309,6 +307,8 @@ let mail1=doemail(email, token);
         }
     }
 }
+
+
 
 
 
