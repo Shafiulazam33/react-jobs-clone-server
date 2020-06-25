@@ -11,7 +11,7 @@ const Admin = () => {
     const [dataPerPage, setDataPerPage] = useState(10);
     const [displayNone, setDisplayNone] = useState("");
     const funcFindFeaturedPost = () => {
-        Axios.get('/api/job/find-featured-post')
+        Axios.post('/api/job/find-featured-post')
             .then((res) => {
                 setData(res.data.jobs)
                 setDataLength(res.data.jobs.length)
