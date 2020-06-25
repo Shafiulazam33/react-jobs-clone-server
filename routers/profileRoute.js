@@ -3,7 +3,7 @@ const { login, register, emailVerification, haveEmail, passwordReset, updateEmai
 const authenticate = require('../authenticate')
 router.post('/login', login)
 router.post('/register', register)
-router.get('/email-verification', authenticate, emailVerification)
+router.post('/email-verification', authenticate, emailVerification)
 router.put('/password-reset', authenticate, passwordReset)
 router.post('/have-email', haveEmail)
 router.put('/update-email', authenticate, updateEmail)
